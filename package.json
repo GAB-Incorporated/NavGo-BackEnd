@@ -1,0 +1,31 @@
+{
+  "name": "campus-connect",
+  "version": "1.0.0",
+  "description": "Esse é o back end do nosso projeto de TCC que possui o intuito de criar um software para trnasferência de arquivos e localização no Campus. O nome provavelmente ainda vai mudar antes dele estar finalizado.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AurorinhaBoreal/NavTec-BackEnd.git"
+  },
+  "keywords": [
+    "Node",
+    "API",
+    "File",
+    "Transfer",
+    "Localization",
+    "Map"
+  ],
+  "author": "Aurora Kruschewsky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AurorinhaBoreal/NavTec-BackEnd/issues"
+  },
+  "homepage": "https://github.com/AurorinhaBoreal/NavTec-BackEnd#readme",
+  "dependencies": {
+    "axios": "^1.7.3",
+    "express": "^4.19.2"
+  }
+}

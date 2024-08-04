@@ -29,12 +29,21 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Create and wait for database
-      run: npm run create-db
+    - name: Start MySQL and wait for health check
+      run: |
+        docker-compose up -d db
+        for i in {1..60}; do
+          if [ "$(docker inspect -f '{{.State.Health.Status}}' project-database)" == "healthy" ]; then
+            echo "MySQL container is healthy!"
+            break
+          fi
+          echo "Waiting for MySQL container to be healthy..."
+          sleep 5
+        done
 
-    - name: Wait for healthchecks
-      run: timeout 60s sh -c 'until docker ps | grep <CONTAINER_NAME> | grep -q healthy; do echo "Waiting for container to be healthy..."; sleep 2; done'
-
+    - name: Initialize database
+      run: |
+        docker-compose exec -T db mysql -uroot -p${ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};"
 
     - name: Run ESLint
       run: npm run lint

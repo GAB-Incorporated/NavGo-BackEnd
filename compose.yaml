@@ -13,9 +13,9 @@ services:
       - ./createDatabase.sql:/docker-entrypoint-initdb.d/Database.sql
 
     healthcheck:
-      test: curl --fail http://localhost/ping || exit 1
-      interval: 2s
-      retries: 10
-      start_period: 10s
-      timeout: 10s  
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
 

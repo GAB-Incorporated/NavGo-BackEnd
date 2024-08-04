@@ -29,9 +29,9 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Create and wait for database
+    - name: Start MySQL and initialize
       run: |
-        npm run create-db
+        docker-compose up -d db
         echo "Waiting for MySQL to be ready..."
         for i in {1..30}; do
           if docker-compose exec db mysql -h127.0.0.1 -uroot -p${{ env.ROOT_PASSWORD }} -e "SELECT 1" > /dev/null 2>&1; then
@@ -43,6 +43,9 @@ jobs:
             sleep 5
           fi
         done
+        # Initialize database schema
+        docker-compose exec db mysql -h127.0.0.1 -uroot -p${{ env.ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};"
+        # Run other initialization scripts or commands here if needed
 
     - name: Run ESLint
       run: npm run lint

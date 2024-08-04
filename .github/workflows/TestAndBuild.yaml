@@ -1,0 +1,45 @@
+name: Build and Check Project
+
+on: [push, pull_request]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker-compose -y
+
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Create database
+      run: npm run create-db
+      env:
+        DATABASE_URL: mysql://user:password@localhost:3306/mydatabase
+
+    - name: Wait for MySQL
+      run: |
+        until docker-compose exec mysql mysqladmin ping -h localhost -u root -proot --silent; do
+          sleep 1
+        done
+
+    - name: Run ESLint
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test
+
+    - name: Shut down services
+      run: docker-compose down
+      if: always()

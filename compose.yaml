@@ -11,3 +11,11 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./createDatabase.sql:/docker-entrypoint-initdb.d/Database.sql
+
+    healthcheck:
+      test: curl --fail http://localhost/ping || exit 1
+      interval: 2s
+      retries: 10
+      start_period: 10s
+      timeout: 10s  
+

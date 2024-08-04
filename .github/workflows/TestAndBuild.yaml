@@ -32,11 +32,16 @@ jobs:
     - name: Create and wait for database
       run: |
         npm run create-db
-        # Wait for MySQL to be ready
-        until docker-compose exec db mysql -h127.0.0.1 -uroot -p${{ env.ROOT_PASSWORD }} -e "SELECT 1" > /dev/null 2>&1; do
-          echo "Waiting for MySQL..."
-          docker-compose logs db | tail -n 10
-          sleep 5
+        echo "Waiting for MySQL to be ready..."
+        for i in {1..30}; do
+          if docker-compose exec db mysql -h127.0.0.1 -uroot -p${{ env.ROOT_PASSWORD }} -e "SELECT 1" > /dev/null 2>&1; then
+            echo "MySQL is ready!"
+            break
+          else
+            echo "MySQL not ready yet. Waiting..."
+            docker-compose logs db | tail -n 20
+            sleep 5
+          fi
         done
 
     - name: Run ESLint

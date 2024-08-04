@@ -32,7 +32,8 @@ jobs:
     - name: Create and wait for database
       run: |
         npm run create-db
-        until docker-compose exec db mysqladmin ping -h 127.0.0.1 -u root -p${{ env.ROOT_PASSWORD }} --silent; do
+        # Wait for MySQL to be ready
+        until docker-compose exec db mysql -h127.0.0.1 -uroot -p${{ env.ROOT_PASSWORD }} -e "SELECT 1" > /dev/null 2>&1; do
           echo "Waiting for MySQL..."
           docker-compose logs db | tail -n 10
           sleep 5

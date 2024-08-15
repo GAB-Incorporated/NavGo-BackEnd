@@ -1,4 +1,4 @@
-use niceDatabase;
+use navGo_DB;
 
 create table buildings(
     building_id int auto_increment primary key,

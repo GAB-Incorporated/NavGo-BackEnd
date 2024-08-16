@@ -8,7 +8,7 @@ jobs:
 
     env:
       ROOT_PASSWORD: root
-      DB_NAME: niceDatabase
+      DB_NAME: navgo_db
       DB_USER: user
       DB_PASSWORD: password
 

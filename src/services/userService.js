@@ -22,46 +22,54 @@ async function createUser(first_name, last_name, nick_name, email, password_hash
     }
 
     const conn = await database.connect();
-    
-    if (user_type === "ADMINISTRATOR") {
-        const sql = 'SELECT COUNT(*) as admin_count FROM users WHERE user_type = "ADMINISTRATOR"';
-        const [adminResult] = await conn.query(sql);
-        
-        if (adminResult[0].admin_count === 0) {
-            // Cria como administrador se não houver nenhum administrador prévio
-            const insertUserSql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            const dataUser = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
-            await conn.query(insertUserSql, dataUser);
-
-            // Se não houver nenhum administrador, gera um novo código de verificação
-            const [user] = await conn.query('SELECT LAST_INSERT_ID() as user_id');
-            const user_id = user[0].user_id;
-            const code = await generateVerificationCode(user_id);
-
-            console.log(`Código de verificação gerado: ${code}`);
-        } else {
-            // Se já houver administradores, valida o código de verificação
-            if (!verification_code) {
-                conn.end();
-                throw new Error("Código de verificação é necessário para criar um administrador.");
-            }
-
-            const verifySql = 'SELECT * FROM verification_codes WHERE code = ?';
-            const [result] = await conn.query(verifySql, [verification_code]);
+    try {
+        if (user_type === "ADMINISTRATOR") {
+            const sql = 'SELECT COUNT(*) as admin_count FROM users WHERE user_type = "ADMINISTRATOR"';
+            const [adminResult] = await conn.query(sql);
             
-            if (result.length === 0) {
-                conn.end();
-                throw new Error("Código de verificação inválido.");
+            if (adminResult[0].admin_count === 0) {
+                
+                //Cria como administrador se não houver nenhum administrador prévio
+                const sql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                const dataUser = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
+                await conn.query(sql, dataUser);
+
+                //Gera um novo código de verificação para o primeiro administrador
+                const [user] = await conn.query('SELECT LAST_INSERT_ID() as user_id');
+                const user_id = user[0].user_id;
+                const code = await generateVerificationCode(user_id);
+
+                console.log(`Código de verificação gerado: ${code}`);
+            } else {
+                //Se já houver administradores, valida o código de verificação
+                if (!verification_code) {
+                    throw new Error("Código de verificação é necessário para criar um administrador.");
+                }
+
+                const sql = 'SELECT * FROM verification_codes WHERE code = ?';
+                const [result] = await conn.query(sql, [verification_code]);
+                
+                if (result.length === 0) {
+                    throw new Error("Código de verificação inválido.");
+                } else {
+                    // Insere o novo administrador após validar o código de verificação
+                    const sql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    const dataUser = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
+                    await conn.query(sql, dataUser);
+                }
             }
+        } else {
+            // Criação de usuário normal
+            const sql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            const data = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
+            await conn.query(sql, data);
         }
-    } else {
-        // Criação de usuário normal
-        const insertUserSql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        const data = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
-        await conn.query(insertUserSql, data);
+    } catch (error) {
+        console.error("Erro ao criar usuário:", error.message);
+        throw error;
+    } finally {
+        conn.end();
     }
-    
-    conn.end();
 }
 
 async function loginUser(email, password) {

@@ -1,3 +1,4 @@
+import { userInfo } from 'os';
 import database from '../repository/mySQL.js';
 import crypto from 'crypto';
 
@@ -13,17 +14,17 @@ async function generateVerificationCode(user_id) {
     return code;
 }
 
-async function createUser(first_name, last_name, nick_name, email, password_hash, is_student, is_teacher, is_coordinator, photo_id, verification_code = null) {
+async function createUser(first_name, last_name, nick_name, email, password_hash, user_type, photo_id, verification_code = null) {
     const conn = await database.connect();
     
-    if (is_coordinator) {
-        const sql = 'SELECT COUNT(*) as admin_count FROM users WHERE is_coordinator = true';
+    if (user_type == "ADMINISTRADOR") {
+        const sql = 'SELECT COUNT(*) as admin_count FROM users WHERE user_type = "ADMINISTRATOR"';
         const [adminResult] = await conn.query(sql);
 
         if (adminResult[0].admin_count === 0) {
             //Cria como adm se não houver nenhum adm prévio
-            const insertUserSql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, is_student, is_teacher, is_coordinator, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            const dataUser = [first_name, last_name, nick_name, email, password_hash, is_student, is_teacher, is_coordinator, photo_id];
+            const insertUserSql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            const dataUser = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
             await conn.query(insertUserSql, dataUser);
 
             //Se não houver nenhum administrador, gera um novo código de verificação
@@ -49,12 +50,18 @@ async function createUser(first_name, last_name, nick_name, email, password_hash
         }
     } else {
         //Criação de usuário normal
-        const insertUserSql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, is_student, is_teacher, is_coordinator, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        const dataUser = [first_name, last_name, nick_name, email, password_hash, is_student, is_teacher, is_coordinator, photo_id];
+        const insertUserSql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        const dataUser = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
         await conn.query(insertUserSql, dataUser);
     }
     
     conn.end();
+}
+
+async function loginUser(params) {
+    async (params) => {
+        
+    }
 }
 
 export default { createUser };

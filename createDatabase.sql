@@ -43,9 +43,7 @@ create table users(
     nick_name varchar(50),
     email varchar(200) unique,
     password_hash varchar(255),
-    is_student bool default true,
-    is_teacher bool default false,
-    is_coordinator bool default false,
+    user_type varchar(50),
     photo_id varchar(255),
     soft_delete bool default false
 );

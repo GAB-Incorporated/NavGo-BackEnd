@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Esse é o back end do nosso projeto de TCC que possui o intuito de criar um software para trnasferência de arquivos e localização no Campus. O nome provavelmente ainda vai mudar antes dele estar finalizado.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "create-db": "docker compose up -d",
@@ -28,7 +29,9 @@
   "homepage": "https://github.com/AurorinhaBoreal/NavTec-BackEnd#readme",
   "dependencies": {
     "axios": "^1.7.3",
-    "express": "^4.19.2"
+    "crypto": "^1.0.1",
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0"
   },
   "devDependencies": {
     "eslint": "^9.8.0",

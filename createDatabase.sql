@@ -117,3 +117,10 @@ create table student_info(
     foreign key (student_id) references students(student_id),
     foreign key (relation_id) references class_info(relation_id)
 );
+
+create table verification_codes (
+    id int auto_increment primary key,
+    code varchar(10) not null,
+    user_id int not null,
+    foreign key (user_id) references users(user_id)
+);

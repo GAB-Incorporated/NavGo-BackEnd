@@ -1,6 +1,6 @@
-import { Console } from 'console';
 import database from '../repository/mySQL.js';
 import crypto from 'crypto';
+import jwt from '../middleware/jwt.js';
 
 // Função para gerar um código de verificação
 async function generateVerificationCode(user_id) {
@@ -16,8 +16,6 @@ async function generateVerificationCode(user_id) {
 
 // Função para criar um novo usuário (incluindo administradores)
 async function createUser(first_name, last_name, nick_name, email, password_hash, user_type, photo_id, verification_code = null) {
-
-    console.log(user_type);
 
     if (!user_type) {
         throw new Error("O tipo de usuário é obrigatório.");
@@ -66,4 +64,40 @@ async function createUser(first_name, last_name, nick_name, email, password_hash
     conn.end();
 }
 
-export default { createUser };
+async function loginUser(email, password) {
+    const conn = await database.connect();
+    
+    // Verifique se o usuário existe
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    const [users] = await conn.query(sql, [email]);
+    
+    if (users.length === 0) {
+        conn.end();
+        throw new Error('Usuário não encontrado.');
+    }
+    
+    const user = users[0];
+
+    console.log(password);
+    console.log(user.password_hash);
+
+    
+    //Comparação de senha correta    
+    if (password != user.password_hash) {
+        conn.end();
+        throw new Error('Senha incorreta.');
+    }
+    
+    //Cria o token JWT
+    const token = jwt.createTokenJWT({
+        id_usuario: user.id_usuario,
+        nome: user.first_name,
+        email: user.email,
+        user_type: user.user_type
+    });
+    
+    conn.end();
+    return { token, user: { id_usuario: user.id_usuario, nome: user.first_name, email: user.email, user_type: user.user_type }};
+}
+
+export default { createUser, loginUser };

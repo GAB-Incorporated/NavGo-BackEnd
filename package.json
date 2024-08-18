@@ -29,6 +29,7 @@
   "homepage": "https://github.com/AurorinhaBoreal/NavTec-BackEnd#readme",
   "dependencies": {
     "axios": "^1.7.3",
+    "bcrypt": "^5.1.1",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",

@@ -1,20 +1,23 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 function createTokenJWT({id_usuario, nome, email, user_type}) {
     
-    const securityKey = "etecembu@123"
+    const securityKey = process.env.SECURITY_KEY;
 
     const token = jwt.sign(
-        {id_usuario, nome, email, user_type},
+        {id_usuario, nome, email, user_type},   
         securityKey,
-        {expiresIn: 3600}
+        {expiresIn: 3600 * 8}
     )
 
     return token;
 }
 
 function verifyToken() {
-    const securityKey = "etecembu@123"
+    const securityKey = process.env.SECURITY_KEY;
 
     const token = request.headers.authorization
 
@@ -22,9 +25,7 @@ function verifyToken() {
         if (err){
             return response.status(401).send({message: "Token inválido", err})
         }
-
         next();
-
     })
 }
 

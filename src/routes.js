@@ -1,8 +1,8 @@
 import express from "express";
-import admUserService from "./services/admUserService";
+import userController from './controllers/userController.js'
 
 const routes = express();
 
-routes.use('/adm', admUserService);
+routes.use('/user', userController);
 
 export default routes;

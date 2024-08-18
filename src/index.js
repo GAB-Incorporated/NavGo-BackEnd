@@ -1,11 +1,11 @@
 import express from 'express';
-import admController from './controllers/admUserController.js';
+import routes from './routes.js';
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/user', admController);
+app.use('/', routes);
 
 app.listen(3333, () => {
     console.log('Servidor rodando na porta 3000 😎😎');

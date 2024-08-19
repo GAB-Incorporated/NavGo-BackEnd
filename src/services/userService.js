@@ -41,7 +41,7 @@ async function createUser(first_name, last_name, nick_name, email, password_hash
 
                 console.log(`Código de verificação gerado: ${code}`);
             } else {
-                //Se já houver administradores, valida o código de verificação
+                //Se já houver administradores, pede o código de verificação
                 if (!verification_code) {
                     throw new Error("Código de verificação é necessário para criar um administrador.");
                 }
@@ -52,14 +52,14 @@ async function createUser(first_name, last_name, nick_name, email, password_hash
                 if (result.length === 0) {
                     throw new Error("Código de verificação inválido.");
                 } else {
-                    // Insere o novo administrador após validar o código de verificação
+                    //Insere o novo administrador após validar o código de verificação
                     const sql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
                     const dataUser = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
                     await conn.query(sql, dataUser);
                 }
             }
         } else {
-            // Criação de usuário normal
+            //Criação de usuário normal, ou não administrador
             const sql = "INSERT INTO users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
             const data = [first_name, last_name, nick_name, email, password_hash, user_type, photo_id];
             await conn.query(sql, data);
@@ -75,7 +75,8 @@ async function createUser(first_name, last_name, nick_name, email, password_hash
 async function loginUser(email, password) {
     const conn = await database.connect();
     
-    // Verifique se o usuário existe
+    //Verifica se o usuário existe
+    //Retorna que não existe
     const sql = 'SELECT * FROM users WHERE email = ?';
     const [users] = await conn.query(sql, [email]);
     
@@ -90,13 +91,15 @@ async function loginUser(email, password) {
     console.log(user.password_hash);
 
     
-    //Comparação de senha correta    
+    //Comparação de senha correta
+    //Sepa a comparação de senha mais bosta que já fiz, mas n consigo pensar em algo melhor    
     if (password != user.password_hash) {
         conn.end();
         throw new Error('Senha incorreta.');
     }
-    
+
     //Cria o token JWT
+    //Apenas informações relevantas para autorização de rota, sem senhas ou dados sensíveis!
     const token = jwt.createTokenJWT({
         id_usuario: user.id_usuario,
         nome: user.first_name,
@@ -105,7 +108,7 @@ async function loginUser(email, password) {
     });
     
     conn.end();
-    return { token, user: { id_usuario: user.id_usuario, nome: user.first_name, email: user.email, user_type: user.user_type }};
+    return { token };
 }
 
 export default { createUser, loginUser };

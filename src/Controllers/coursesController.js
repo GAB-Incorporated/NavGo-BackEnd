@@ -26,18 +26,19 @@ routes.post('/', async (req, res) => {
     try {
 
         const isCoordinator = await coursesService.validateCoordinator(coordinatorId);
-
-        if(courseName.length < 1){
-            return res.status(400).send({ message: 'O nome do curso não pode ser nulo.'})
-        }
-
-        if(moduleQnt === 0){
-            return res.status(400).send({ message: 'O curso precisa ter ao menos um módulo.'})
-        }
-
+        
         if(!isCoordinator){
             return res.status(403).send({ message: 'Somente coordenadores podem criar cursos.'});
         }
+
+        if(!courseName || courseName.length < 1){
+            return res.status(400).send({ message: 'O nome do curso não pode ser nulo.'})
+        }
+
+        if(moduleQnt === undefined || moduleQnt === null || moduleQnt <= 0){
+            return res.status(400).send({ message: 'O curso precisa ter ao menos um módulo.'})
+        }
+
         
         const createCourseRes = await coursesService.createCourse(courseName, moduleQnt, coordinatorId);
         if(!createCourseRes.success){
@@ -52,7 +53,7 @@ routes.post('/', async (req, res) => {
 });
 
 routes.put('/', async (req, res) => {
-    const {courseId, courseName, moduleQnt, coordinatorId } = req.body;
+    const {courseId, courseName, moduleQnt, coordinatorId} = req.body;
 
     try {
 

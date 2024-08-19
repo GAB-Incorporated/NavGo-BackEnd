@@ -4,15 +4,15 @@ async function createCourse(courseName, moduleQnt, coordinatorId){
     const conn = await database.connect();
 
     try{
-        const [rows] = await conn.query('select is_coordinator from users where user_id = ?', [coordinatorId]);
+        const [rows] = await conn.query('select user_type from users where user_id = ?', [coordinatorId]);
         
         if (rows.length === 0){
             throw new Error('Coordenador não encontrado');
         }
         
-        const {is_coordinator} = rows[0];
+        const {user_type} = rows[0];
         
-        if(!is_coordinator){
+        if(user_type != 'ADMINISTRATOR'){
             throw new Error('Somente coordenadores podem criar cursos');
         }
 
@@ -70,11 +70,11 @@ async function deleteCourse(idCourse, coordinatorId){
     const conn = await database.connect();
 
     try{
-        const [rows] = await conn.query('select is_coordinator from users where user_id = ?', [coordinatorId]);
+        const [rows] = await conn.query('select user_type from users where user_id = ?', [coordinatorId]);
 
-        const {is_coordinator} = rows[0];
+        const {user_type} = rows[0];
 
-        if(!is_coordinator){
+        if(user_type != 'ADMINISTRATOR'){
             throw new Error('Somente coordenadores podem realizar essa ação.')
         }
         const sql = 'update courses set soft_delete = 1 where course_id = ?'
@@ -90,17 +90,23 @@ async function deleteCourse(idCourse, coordinatorId){
 }
 
 async function validateCoordinator(userId) {
-    const sql = 'SELECT is_coordinator FROM users WHERE user_id = ?';
+    const sql = 'SELECT user_type FROM users WHERE user_id = ?';
 
     const conn = await database.connect();
     try {
         const [rows] = await conn.query(sql, [userId]);
 
         if (rows.length === 0) {
-            throw new Error('Coordenador não encontrado.');
+            throw new Error('Usuário não encontrado.');
         }
 
-        return rows[0].is_coordinator === 1; 
+        const {user_type} = rows[0];
+
+        if(user_type != 'ADMINISTRATOR'){
+            throw new Error('Somente coordenadores podem realizar essa ação.');
+        }
+
+        return rows[0].user_type === 'ADMINISTRATOR';
     } catch (error) {
         console.error('Erro na validação do coordenador:', error);
         throw error;

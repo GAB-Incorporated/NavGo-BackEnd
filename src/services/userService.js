@@ -1,4 +1,4 @@
-import database from '../repository/mysql.js';
+import database from '../repository/mySQL.js';
 import crypto from 'crypto';
 import jwt from '../middleware/jwt.js';
 

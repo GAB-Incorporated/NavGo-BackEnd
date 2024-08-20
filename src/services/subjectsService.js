@@ -21,7 +21,7 @@ async function createSubjects(subject_name, module){
 
 async function deleteSubject(idSubject){
 
-    const sql = "DELETE FROM subjects WHERE subject_id = ?";
+    const sql = "UPDATE subjects SET soft_delete=1 WHERE subject_id = ?";
 
     const conn = await database.connect();
     await conn.query(sql, [idSubject]);
@@ -51,7 +51,7 @@ async function getSubject(subject_id) {
 // LIST ALL SUBJECTS
 
 async function getAllSubjects(){
-    const sql = "SELECT * FROM subjects";
+    const sql = "SELECT * FROM subjects WHERE soft_delete = 0";
     const conn = await database.connect();
     const [rows] = await conn.query(sql);
     conn.end();

@@ -9,7 +9,6 @@ routes.post('/', async (request,response) => {
 
     console.log(">>>>> Materia = ", subject_name)
     console.log(">>>>> modulo = ", module)
-
     await service.createSubjects(subject_name,module);
 
     return response.status(201).send({

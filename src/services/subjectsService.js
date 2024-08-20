@@ -4,7 +4,7 @@ import database from '../repository/mysql.js';
 // CREATE
 async function createSubjects(subject_name, module){
     // Consulta SQL
-    const typeSubjects = "INSERT INTO subjects(subject_name, module) VALUES (?,?)";
+    const typeSubjects = "INSERT INTO subjects(subject_name, module_id) VALUES (?,?)";
 
     const dataSubjects = [subject_name, module];
 
@@ -30,7 +30,7 @@ async function deleteSubject(idSubject){
 
 // UPDATE
 async function updateSubject(subject_id, subject_name, module) {
-    const sql = "UPDATE subjects SET subject_name = ?, module = ? WHERE subject_id = ?";
+    const sql = "UPDATE subjects SET subject_name = ?, module_id = ? WHERE subject_id = ?";
     const dataSubjects = [subject_name, module, subject_id];
 
     const conn = await database.connect();

@@ -1,0 +1,21 @@
+services:
+  db: 
+    image: mysql:latest
+    container_name: project-database
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./createDatabase.sql:/docker-entrypoint-initdb.d/Database.sql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${ROOT_PASSWORD}"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+

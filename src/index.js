@@ -1,14 +1,15 @@
 import express from 'express';
 import routes from './routes.js';
+import cors from 'cors';
 
-const server = express();
+const app = express();
 
-server.use(express.json());
+app.use(cors());
 
-server.use('/', routes);
+app.use(express.json());
 
-server.listen(3334, () => {
-    
-    console.log("Servidor está rodando....")
-    
+app.use('/', routes);
+
+app.listen(3333, () => {
+    console.log('Servidor rodando na porta 3333 😎😎');
 });

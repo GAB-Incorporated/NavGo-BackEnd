@@ -43,9 +43,7 @@ create table users(
     nick_name varchar(50),
     email varchar(200) unique,
     password_hash varchar(255),
-    is_student bool default true,
-    is_teacher bool default false,
-    is_coordinator bool default false,
+    user_type varchar(50),
     photo_id varchar(255),
     soft_delete bool default false
 );
@@ -116,4 +114,11 @@ create table student_info(
     primary key (student_id, relation_id),
     foreign key (student_id) references students(student_id),
     foreign key (relation_id) references class_info(relation_id)
+);
+
+create table verification_codes (
+    id int auto_increment primary key,
+    code varchar(10) not null,
+    user_id int not null,
+    foreign key (user_id) references users(user_id)
 );

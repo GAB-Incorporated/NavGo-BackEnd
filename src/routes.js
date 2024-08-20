@@ -7,6 +7,6 @@ const routes = express();
 
 routes.use('/subjects', subjectsController);
 routes.use('/user', userController);
-routes.use('/cursos', coursesController);
+routes.use('/courses', coursesController);
 
 export default routes;

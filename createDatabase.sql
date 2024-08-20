@@ -142,8 +142,3 @@ create table if not exists student_modules(
     foreign key (student_id) references students(student_id),
     foreign key (module_id) references modules(module_id)
 );
-
-#Duas tabelas novas adicionadas, e tabelas antigas alteradas. Apenas a lógica de modules foi afetada
-#pois na base antiga module era citado em 2 lugares diferentes, e mesmo assim não era atrelaçado ao usuário
-#e a inserção de módulo em matéria só não fazia sentido, o back não irá mudar muito pois o campo "modules" ainda existe
-#em subjects, mas agora é uma chave estrangeira. 

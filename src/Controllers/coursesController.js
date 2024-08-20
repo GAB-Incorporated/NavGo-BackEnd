@@ -1,5 +1,5 @@
 import express from 'express';
-import coursesService from '../Services/coursesService.js';
+import coursesService from '../services/coursesService.js';
 
 const routes = express.Router(); // Cria um roteador para definir as rotas
 

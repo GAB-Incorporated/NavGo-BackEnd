@@ -1,5 +1,4 @@
-import database from '../repository/mysql.js';
-
+import database from '../repository/mySQL.js';
 
 // CREATE
 async function createSubjects(subject_name, module){

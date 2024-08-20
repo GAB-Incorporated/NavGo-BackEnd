@@ -19,8 +19,6 @@ routes.post('/register', async (req, res) => {
 routes.post('/login', async (req, res) => {
     const { email, password } = req.body;
     
-    console.log("Requisição recebida", req.body);
-
     try {
         const { token, user } = await userService.loginUser(email, password);
         res.status(200).send({ message: 'Login bem-sucedido!', token, user });

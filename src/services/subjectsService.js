@@ -1,4 +1,4 @@
-import database from '../Repository/mysql.js';
+import database from '../repository/mysql.js';
 
 
 // CREATE

@@ -116,12 +116,12 @@ create table if not exists class_info(
 create table if not exists student_info(
     student_id int,
     relation_id int,
-	module_id int,
+	  module_id int,
     soft_delete bool default false,
     primary key (student_id, relation_id),
     foreign key (student_id) references students(student_id),
     foreign key (relation_id) references class_info(relation_id),
-	foreign key (module_id) references modules(module_id)
+	  foreign key (module_id) references modules(module_id)
 
 );
 

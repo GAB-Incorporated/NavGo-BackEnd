@@ -1,0 +1,6 @@
+{
+    "watch": ["src"],
+    "ext": "js,json",
+    "ignore": ["tests/*"],
+    "exec": "node --inspect=0.0.0.0:9229 src/index.js"
+}

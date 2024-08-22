@@ -19,7 +19,7 @@ routes.get('/', async (req, res) => {
 
 routes.post('/', async (req, res) => {
 
-    const {courseName, moduleQnt, coordinatorId} = req.body;
+    const {courseName, coordinatorId} = req.body;
 
     try {
         const isCoordinator = await coursesService.validateCoordinator(coordinatorId);
@@ -32,11 +32,7 @@ routes.post('/', async (req, res) => {
             return res.status(400).send({ message: 'O nome do curso não pode ser nulo.'});
         }
 
-        if(moduleQnt === undefined || moduleQnt === null || moduleQnt <= 0){
-            return res.status(400).send({ message: 'O curso precisa ter ao menos um módulo.'});
-        }
-
-        const createCourseRes = await coursesService.createCourse(courseName, moduleQnt, coordinatorId);
+        const createCourseRes = await coursesService.createCourse(courseName, coordinatorId);
         if(!createCourseRes.success){
             return res.status(400).send({ message: createCourseRes.message, data: createCourseRes.data }); 
         }
@@ -48,7 +44,7 @@ routes.post('/', async (req, res) => {
 });
 
 routes.put('/', async (req, res) => {
-    const {courseId, courseName, moduleQnt, coordinatorId} = req.body;
+    const {courseId, courseName, coordinatorId} = req.body;
 
     try {
         const isCoordinator = await coursesService.validateCoordinator(coordinatorId);
@@ -57,7 +53,7 @@ routes.put('/', async (req, res) => {
             return res.status(isCoordinator.status).send({ message: isCoordinator.message });
         }
         
-        const result = await coursesService.updateCourse(courseId, courseName, moduleQnt, coordinatorId);
+        const result = await coursesService.updateCourse(courseId, courseName, coordinatorId);
         if(!result.success){
             return res.status(400).send({ message: result.message });
         }

@@ -43,30 +43,10 @@ create table if not exists users(
     soft_delete bool default false
 );
 
-create table if not exists courses(
-    course_id int auto_increment primary key,
-    course_name varchar(100),
-    module_qnt int,
-    coordinator_id int,
-    soft_delete bool default false,
-    foreign key (coordinator_id) references users(user_id)
-);
-
-create table if not exists modules(
-    module_id int auto_increment primary key,
-    course_id int,
-    module_number int, 
-    module_name varchar(5),
-    soft_delete bool default false,
-    foreign key (course_id) references courses(course_id)
-);
-
 create table if not exists subjects(
     subject_id int auto_increment primary key,
     subject_name varchar(100),
-    module_id int,
-    soft_delete bool default false,
-    foreign key (module_id) references modules(module_id)
+    soft_delete bool default false
 );
 
 create table if not exists classes(
@@ -89,6 +69,23 @@ create table if not exists periods(
     soft_delete bool default false
 );
 
+create table if not exists courses(
+    course_id int auto_increment primary key,
+    course_name varchar(100),
+    coordinator_id int,
+    soft_delete bool default false,
+    foreign key (coordinator_id) references users(user_id)
+);
+
+create table if not exists modules(
+    module_id int auto_increment primary key,
+    module_number int,
+    course_id int,
+    module_name varchar(5),
+    soft_delete bool default false,
+    foreign key (course_id) references courses(course_id)
+);
+
 create table if not exists course_periods(
     course_id int,
     period_id int,
@@ -101,10 +98,8 @@ create table if not exists course_periods(
 create table if not exists students(
     student_id int auto_increment primary key,
     user_id int,
-    course_id int,
     soft_delete bool default false,
-    foreign key (user_id) references users(user_id),
-    foreign key (course_id) references courses(course_id)
+    foreign key (user_id) references users(user_id)
 );
 
 create table if not exists class_info(
@@ -121,10 +116,13 @@ create table if not exists class_info(
 create table if not exists student_info(
     student_id int,
     relation_id int,
+	module_id int,
     soft_delete bool default false,
     primary key (student_id, relation_id),
     foreign key (student_id) references students(student_id),
-    foreign key (relation_id) references class_info(relation_id)
+    foreign key (relation_id) references class_info(relation_id),
+	foreign key (module_id) references modules(module_id)
+
 );
 
 create table if not exists verification_codes(
@@ -134,11 +132,3 @@ create table if not exists verification_codes(
     foreign key (user_id) references users(user_id)
 );
 
-create table if not exists student_modules(
-    student_id int,
-    module_id int,
-    soft_delete bool default false,
-    primary key (student_id, module_id),
-    foreign key (student_id) references students(student_id),
-    foreign key (module_id) references modules(module_id)
-);

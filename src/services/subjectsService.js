@@ -47,4 +47,13 @@ async function getAllSubjects(){
     return rows;
 
 }
-export default {createSubjects, deleteSubject, updateSubject, getSubject, getAllSubjects};
+
+async function findSubjectByName(subject_name) {
+    const sql = "SELECT * FROM subjects WHERE subject_name = ? AND soft_delete = 0";
+    const conn = await database.connect();
+    const [rows] = await conn.query(sql, [subject_name]);
+    conn.end();
+    return rows.length > 0 ? rows[0] : null;
+}
+
+export default {createSubjects, deleteSubject, updateSubject, getSubject, getAllSubjects, findSubjectByName};

@@ -35,24 +35,69 @@ routes.post('/', async (request, response) => {
     }
 });
 
-routes.delete('/:idSubject', async (request, response) =>{
-    const {idSubject} = request.params;
+routes.delete('/:idSubject', async (request, response) => {
+    const { idSubject } = request.params;
 
-    await service.deleteSubject(idSubject)
-    return response.status(200).send({
-        message: "Materia deletada com sucesso!"
-    })
-});
+    try {
+        if (!idSubject || isNaN(idSubject)) {
+            return response.status(400).send({
+                message: "ID inválido ou não fornecido."
+            });
+        }
+
+        const result = await service.deleteSubject(idSubject);
+
+        if (result.affectedRows === 0) {
+            return response.status(404).send({
+                message: "Matéria não encontrada."
+            });
+        }
+
+        return response.status(200).send({
+            message: "Matéria deletada com sucesso!"
+        });
+    } catch (error) {
+        return response.status(500).send({
+            message: "Erro ao deletar a matéria.",
+            error: error.message
+        });
+    }
+})
 
 routes.put('/:id', async (request, response) => {
     const { id } = request.params;
     const { subject_name } = request.body;
 
-    await service.updateSubject(id, subject_name );
+    try {
+        if (!id || isNaN(id)) {
+            return response.status(400).send({
+                message: "Matéria inválida ou não fornecida."
+            });
+        }
 
-    return response.status(200).send({
-        message: 'Materia atualizada com sucesso!'
-    });
+        if (!subject_name || subject_name.trim().length === 0) {
+            return response.status(400).send({
+                message: "Nome da matéria não fornecido ou inválido."
+            });
+        }
+
+        const result = await service.updateSubject(id, subject_name);
+
+        if (result.affectedRows === 0) {
+            return response.status(404).send({
+                message: "Matéria não encontrada."
+            });
+        }
+
+        return response.status(200).send({
+            message: "Matéria atualizada com sucesso!"
+        });
+    } catch (error) {
+        return response.status(500).send({
+            message: "Erro ao atualizar a matéria.",
+            error: error.message
+        });
+    }
 });
 
 routes.get('/:id', async (request, response) => {

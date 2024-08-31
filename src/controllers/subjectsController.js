@@ -71,11 +71,11 @@ routes.put('/:id', async (request, response) => {
     try {
         if (!id || isNaN(id)) {
             return response.status(400).send({
-                message: "Matéria inválida ou não fornecida."
+                message: "ID inválido ou não fornecido."
             });
         }
 
-        if (!subject_name || subject_name.trim().length === 0) {
+        if (!subject_name ) {
             return response.status(400).send({
                 message: "Nome da matéria não fornecido ou inválido."
             });

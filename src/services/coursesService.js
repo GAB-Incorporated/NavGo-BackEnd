@@ -99,7 +99,7 @@ async function validateCoordinator(userId) {
         const [rows] = await conn.query(sql, [userId]);
 
         if (rows.length === 0) {
-            return {success: false, status: 404, message:'Usuário não encontrado.'};
+            return {success: false, status: 404, message:'Coordenador não encontrado.'};
         }
 
         const {user_type} = rows[0];

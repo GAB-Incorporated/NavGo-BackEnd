@@ -21,6 +21,7 @@ routes.post('/', async (req, res) => {
 
     const {courseName, coordinatorId} = req.body;
 
+    console.log("TUDO CERTO!"+courseName+" E "+coordinatorId)
     try {
         const isCoordinator = await coursesService.validateCoordinator(coordinatorId);
         

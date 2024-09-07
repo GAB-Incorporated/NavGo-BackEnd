@@ -24,7 +24,7 @@ async function createCourse(courseName, coordinatorId){
         
         const courseData = 'insert into courses (course_name, coordinator_id) values (?, ?)';
         const dataCourse = [courseName, coordinatorId];
-
+      
         await conn.query(courseData, dataCourse); 
         return { success: true, message: `Curso ${courseName} criado com sucesso.`}
     } catch (error) {

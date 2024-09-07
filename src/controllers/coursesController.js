@@ -22,6 +22,7 @@ routes.post('/', async (req, res) => {
     const {courseName, coordinatorId} = req.body;
 
     console.log("TUDO CERTO!"+courseName+" E "+coordinatorId)
+
     try {
         const isCoordinator = await coursesService.validateCoordinator(coordinatorId);
         
@@ -34,6 +35,7 @@ routes.post('/', async (req, res) => {
         }
 
         const createCourseRes = await coursesService.createCourse(courseName, coordinatorId);
+
         if(!createCourseRes.success){
             return res.status(400).send({ message: createCourseRes.message, data: createCourseRes.data }); 
         }
@@ -55,6 +57,7 @@ routes.put('/', async (req, res) => {
         }
         
         const result = await coursesService.updateCourse(courseId, courseName, coordinatorId);
+
         if(!result.success){
             return res.status(400).send({ message: result.message });
         }

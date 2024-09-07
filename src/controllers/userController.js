@@ -1,4 +1,5 @@
 import express from 'express';
+import admService from '../services/userService.js';
 import userService from '../services/userService.js';
 
 const routes = express.Router();
@@ -26,5 +27,15 @@ routes.post('/login', async (req, res) => {
         res.status(401).send({ message: err.message });
     }
 });
+
+routes.get('/coordinators', async (req, res) => {
+    try {
+        const user = await userService.getCoordinators();
+        res.status(200).send(user);
+    } catch (err) {
+        console.log(err)
+        res.status(400).send(err)
+    }
+})
 
 export default routes;

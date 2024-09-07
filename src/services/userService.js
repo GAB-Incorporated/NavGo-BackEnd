@@ -92,4 +92,25 @@ async function loginUser(email, password) {
     return { token };
 }
 
-export default { createUser, loginUser };
+async function getCoordinators() {
+    const conn = await database.connect();
+    try {
+
+        const getCoordinators = 'SELECT * FROM users WHERE user_type = "ADMINISTRATOR"'
+        const [coordinators] = await conn.query(getCoordinators)
+
+        if (coordinators.length === 0) {
+            throw new Error("Não existem administradores cadastrados!")
+        }
+
+        return coordinators
+    } catch (error) {
+        console.log("Error Pegando Coordenadores: "+error)
+    } finally {
+        if (conn) {
+            conn.end();
+        }
+    }
+}
+
+export default { createUser, getCoordinators, loginUser };

@@ -8,11 +8,15 @@ routes.post('/', async (req, res) => {
 
     try {
         if (!campus || !building_id || !floor_number || !location_type_id || !location_name || !description) {
-            return res.status(400).send({ message: 'Por favor, preencha todos os campos obrigatórios.' });
+            return res.status(400).send({ success: false, message: 'Por favor, preencha todos os campos obrigatórios.' });
         }
 
-        if (campus.length > 100 || location_name.length > 50) {
-            return res.status(400).send({ success: false, message: 'O nome do campus não pode ter mais que 100 caracteres e o nome do local não pode ter mais que 50 caracteres.' });
+        if (campus.length > 100) {
+            return res.status(400).send({ success: false, message: 'O nome do campus não pode ter mais que 100 caracteres.' });
+        }
+
+        if(location_name.length > 50){
+            return res.status(400).send({ success: false, message: 'O nome do local não pode conter mais que 50 caracteres'})
         }
 
         if(description.length > 200){

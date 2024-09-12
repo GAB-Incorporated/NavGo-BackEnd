@@ -1,29 +1,75 @@
 import express from 'express';
-import 
+import service from '../services/buildingsService.js'
 
 const routes = express.Router();
 
-routes.post('/register', async (req, res) => {
-    const { first_name, last_name, nick_name, email, password_hash, user_type, photo_id, verification_code } = req.body;
+routes.post('/', async (req, res) => {
+    const { building_name, description } = req.body;
 
     try {
-
-        await userService.createUser(first_name, last_name, nick_name, email, password_hash, user_type, photo_id, verification_code);
-        
-        return res.status(201).send({ message: 'Usuário criado com sucesso' });
+        const building = await service.listBuildingByName(building_name);
+        if (building){
+            return res.status(400).send({message: 'Prédio já existe!'})
+        }
+        if (!building_name) {
+            return response.status(400).send({ message: 'O prédio precisa de um nome!' });
+        }
+        if (!description) {
+            return response.status(400).send({ message: 'O prédio precisa de uma descrição!' });
+        }
+        await service.createBuilding(building_name, description);
+        return res.status(201).send({ message: 'Prédio criado com sucesso!' });
     } catch (err) {
         return res.status(400).send({ message: err.message });
     }
 });
 
-routes.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    
+routes.get('/', async (req, res) => {
     try {
-        const { token, user } = await userService.loginUser(email, password);
-        res.status(200).send({ message: 'Login bem-sucedido!', token, user });
+        const buildings = await service.listAllBuildings();
+        return res.status(200).send(buildings);
     } catch (err) {
-        res.status(401).send({ message: err.message });
+        return res.status(404).send({ message: err.message });
+    }
+});
+
+routes.get('/:building_id', async (req, res) => {
+    const { building_id } = req.params;
+
+    try {
+        const building = await service.listOneBuilding(building_id);
+        return res.status(200).send(building);
+    } catch (err) {
+        return res.status(404).send({ message: err.message });
+    }
+});
+
+routes.put('/:building_id', async (req, res) => {
+    const { building_id } = req.params;
+    const { building_name, description } = req.body;
+
+    try {
+        if (!building_name) {
+            return response.status(400).send({ message: 'O prédio precisa de um nome!' });
+        }
+        if (!description) {
+            return response.status(400).send({ message: 'O prédio precisa de uma descrição!' });
+        }
+        await service.updateBuilding(building_name, description, building_id);
+        return res.status(200).send({ message: 'Prédio atualizado com sucesso!' });
+    } catch (err) {
+        return res.status(400).send({ message: err.message });
+    }
+});
+
+routes.delete('/:building_id', async (req, res) => {
+    const { building_id } = req.params;
+
+    try {
+        await service.deleteBuilding(building_id);
+        return res.status(200).send({ message: 'Prédio excluído com sucesso!' });
+    } catch (err) {
+        return res.status(404).send({ message: err.message });
     }
 });
 

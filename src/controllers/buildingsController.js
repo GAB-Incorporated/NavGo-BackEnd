@@ -12,10 +12,10 @@ routes.post('/', async (req, res) => {
             return res.status(400).send({message: 'Prédio já existe!'})
         }
         if (!building_name) {
-            return response.status(400).send({ message: 'O prédio precisa de um nome!' });
+            return response.status(400).send({ message: 'O Prédio precisa de um nome!' });
         }
         if (!description) {
-            return response.status(400).send({ message: 'O prédio precisa de uma descrição!' });
+            return response.status(400).send({ message: 'O Prédio precisa de uma descrição!' });
         }
         await service.createBuilding(building_name, description);
         return res.status(201).send({ message: 'Prédio criado com sucesso!' });
@@ -50,10 +50,10 @@ routes.put('/:building_id', async (req, res) => {
 
     try {
         if (!building_name) {
-            return response.status(400).send({ message: 'O prédio precisa de um nome!' });
+            return response.status(400).send({ message: 'O Prédio precisa de um nome!' });
         }
         if (!description) {
-            return response.status(400).send({ message: 'O prédio precisa de uma descrição!' });
+            return response.status(400).send({ message: 'O Prédio precisa de uma descrição!' });
         }
         await service.updateBuilding(building_name, description, building_id);
         return res.status(200).send({ message: 'Prédio atualizado com sucesso!' });

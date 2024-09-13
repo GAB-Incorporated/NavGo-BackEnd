@@ -7,22 +7,25 @@ routes.post('/', async (req, res) => {
     const { building_name, description } = req.body;
 
     try {
-        const building = await service.listBuildingByName(building_name);
-        if (building){
-            return res.status(400).send({message: 'Prédio já existe!'})
-        }
         if (!building_name) {
-            return response.status(400).send({ message: 'O Prédio precisa de um nome!' });
+            return res.status(400).send({ message: 'O Prédio precisa de um nome!' });
         }
         if (!description) {
-            return response.status(400).send({ message: 'O Prédio precisa de uma descrição!' });
+            return res.status(400).send({ message: 'O Prédio precisa de uma descrição!' });
         }
+
         await service.createBuilding(building_name, description);
         return res.status(201).send({ message: 'Prédio criado com sucesso!' });
+
     } catch (err) {
+        if (err.message === 'Esse Prédio já existe') {
+            return res.status(409).send({ message: err.message });
+        }
+
         return res.status(400).send({ message: err.message });
     }
 });
+
 
 routes.get('/', async (req, res) => {
     try {

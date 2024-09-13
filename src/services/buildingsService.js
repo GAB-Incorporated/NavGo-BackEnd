@@ -9,18 +9,19 @@ async function createBuilding(building_name, description) {
         }
 
         const building = await listBuildingByName(building_name);
-        
+
         if (building) {
             throw new Error('Esse Prédio já existe');
         }
 
-        const data = [building_name, description];
         const sql = 'INSERT INTO buildings (building_name, description) VALUES (?, ?)';
+        const data = [building_name, description];
         await conn.query(sql, data);
+
     } catch (error) {
-        throw new Error('Prédio não criado');
+        throw new Error(error.message || 'Erro ao criar prédio');
     } finally {
-        conn.end();
+        conn.end();  
     }
 }
 
@@ -106,7 +107,7 @@ async function listBuildingByName(building_name) {
     try {
         const sql = 'SELECT * FROM buildings WHERE building_name = ?';
         const [rows] = await conn.query(sql, building_name);
-        return rows;
+        return rows[0];
     } catch (error) {
         throw new Error('Prédio não encontrado por nome');
     } finally {

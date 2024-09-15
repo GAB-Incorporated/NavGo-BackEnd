@@ -40,7 +40,7 @@ routes.post('/', async (req, res) => {
     const { campus, building_id, floor_number, location_type_id, location_name, description } = req.body;
 
     try {
-
+      
         if (!campus || !building_id || !floor_number || !location_type_id || !location_name || !description) {
             return res.status(400).send({ success: false, message: 'Por favor, preencha todos os campos obrigatórios.' });
         }
@@ -50,6 +50,7 @@ routes.post('/', async (req, res) => {
         }
 
         if(location_name.length > 50){
+
             return res.status(400).send({ success: false, message: 'O nome do local não pode conter mais que 50 caracteres.' })
         }
 
@@ -64,7 +65,6 @@ routes.post('/', async (req, res) => {
         }
 
         res.status(201).send({ success: true, message: result.message });
-
     } catch (error) {
         return res.status(500).send({ success: false, message: 'Erro interno do servidor.', error: error.message });
     }
@@ -122,7 +122,6 @@ routes.delete('/:id', async (req, res) => {
         res.status(200).send({ success: true, message: result.message})
 
     } catch (error) {
-        console.error("Erro no delete:", error);
         res.status(500).send({ success: false, message: 'Erro interno ao remover a localização.' });
     }
 });

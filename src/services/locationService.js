@@ -102,7 +102,7 @@ async function getLocation(location_id){
         const [rows] = await conn.query(sql, [location_id]);
         
         if(rows.length > 0){
-            return { success: true, data: rows };
+            return { rows };
         } else{
             return { success: false, message: 'Nenhuma localização encontrada com esse ID.' }
         }

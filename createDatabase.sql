@@ -122,7 +122,6 @@ create table if not exists student_info(
     foreign key (student_id) references students(student_id),
     foreign key (relation_id) references class_info(relation_id),
 	  foreign key (module_id) references modules(module_id)
-
 );
 
 create table if not exists verification_codes(
@@ -204,4 +203,3 @@ insert into verification_codes (code, user_id) values
 ('ABC123SP', 1),
 ('DEF456SP', 2),
 ('GHI789SP', 3);
-

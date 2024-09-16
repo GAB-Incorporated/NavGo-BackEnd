@@ -43,10 +43,20 @@ create table if not exists users(
     soft_delete bool default false
 );
 
+create table if not exists courses(
+    course_id int auto_increment primary key,
+    course_name varchar(100),
+    coordinator_id int,
+    soft_delete bool default false,
+    foreign key (coordinator_id) references users(user_id)
+);
+
 create table if not exists subjects(
     subject_id int auto_increment primary key,
     subject_name varchar(100),
-    soft_delete bool default false
+    course_id int,
+    soft_delete bool default false,
+    foreign key (course_id) references courses(course_id)
 );
 
 create table if not exists classes(
@@ -67,14 +77,6 @@ create table if not exists periods(
     end_hour time,
     day_time varchar(20),
     soft_delete bool default false
-);
-
-create table if not exists courses(
-    course_id int auto_increment primary key,
-    course_name varchar(100),
-    coordinator_id int,
-    soft_delete bool default false,
-    foreign key (coordinator_id) references users(user_id)
 );
 
 create table if not exists modules(
@@ -122,6 +124,7 @@ create table if not exists student_info(
     foreign key (student_id) references students(student_id),
     foreign key (relation_id) references class_info(relation_id),
 	  foreign key (module_id) references modules(module_id)
+
 );
 
 create table if not exists verification_codes(
@@ -164,10 +167,10 @@ insert into modules (course_id, module_number, module_name) values
 (1, 2, 'M2'),
 (2, 1, 'M1');
 
-insert into subjects (subject_name) values 
-('Programming 101'),
-('Business Law'),
-('Thermodynamics');
+insert into subjects (subject_name, course_id) values 
+('Programming 101', 1),
+('Business Law', 2),
+('Thermodynamics', 3);
 
 insert into classes (subject_id, start_hour, end_hour, week_day, teacher_id) values 
 (1, '08:00:00', '09:30:00', 1, 2),

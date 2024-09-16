@@ -1,6 +1,6 @@
 import database from '../repository/mySQL.js';
 
-async function createCourse(courseName, moduleQnt, coordinatorId){
+async function createCourse(courseName, coordinatorId){
     const conn = await database.connect();
 
     try{        
@@ -22,9 +22,9 @@ async function createCourse(courseName, moduleQnt, coordinatorId){
             return { success: false, message:'Já existe um curso com esse nome.', data: existingCourses } 
         }
         
-        const courseData = 'insert into courses (course_name, module_qnt, coordinator_id) values (?, ?, ?)';
-        const dataCourse = [courseName, moduleQnt, coordinatorId];
-
+        const courseData = 'insert into courses (course_name, coordinator_id) values (?, ?)';
+        const dataCourse = [courseName, coordinatorId];
+      
         await conn.query(courseData, dataCourse); 
         return { success: true, message: `Curso ${courseName} criado com sucesso.`}
     } catch (error) {
@@ -44,7 +44,7 @@ async function listCourse(){
     return rows;
 }
 
-async function updateCourse(courseId, courseName, moduleQnt, coordinatorId){
+async function updateCourse(courseId, courseName, coordinatorId){
     const conn = await database.connect();
 
     try{
@@ -55,8 +55,8 @@ async function updateCourse(courseId, courseName, moduleQnt, coordinatorId){
             
         }
 
-        const sql = "update courses set course_name = ?, module_qnt = ?, coordinator_id = ? where course_id = ?"
-        const dataCourse = [courseName, moduleQnt, coordinatorId, courseId];
+        const sql = "update courses set course_name = ?, coordinator_id = ? where course_id = ?"
+        const dataCourse = [courseName, coordinatorId, courseId];
 
         await conn.query(sql, dataCourse);
         return { success: true, message: `Curso ${courseName} atualizado com sucesso.` }
@@ -99,7 +99,7 @@ async function validateCoordinator(userId) {
         const [rows] = await conn.query(sql, [userId]);
 
         if (rows.length === 0) {
-            return {success: false, status: 404, message:'Usuário não encontrado.'};
+            return {success: false, status: 404, message:'Coordenador não encontrado.'};
         }
 
         const {user_type} = rows[0];

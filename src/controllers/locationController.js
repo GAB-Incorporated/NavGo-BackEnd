@@ -12,7 +12,7 @@ routes.get('/', async (req, res) => {
             return res.status(204).end();
         }
 
-        res.status(200).json({ message: locations });
+        res.status(200).json(locations);
 
     } catch (error) {
         res.status(500).json({ success: false, message: 'Erro interno ao buscar as localizações.'});

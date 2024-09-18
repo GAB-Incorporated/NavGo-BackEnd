@@ -1,30 +1,31 @@
 import database from '../repository/mySQL.js';
 
-async function createSubjects(subject_name, module){
-
-    const typeSubjects = "INSERT INTO subjects(subject_name) VALUES (?)";
-    const dataSubjects = [subject_name, module];
+async function createSubjects(subject_name, course_id) {
+    const sql = "INSERT INTO subjects(subject_name, course_id) VALUES (?, ?)";
+    const data = [subject_name, course_id];
 
     const conn = await database.connect();
-    await conn.query(typeSubjects, dataSubjects);
+    await conn.query(sql, data);
     conn.end();
 }
 
-async function deleteSubject(idSubject){
 
-    const sql = "UPDATE subjects SET soft_delete= 1 WHERE subject_id = ?";
-
+async function deleteSubject(idSubject) {
+    const sql = "UPDATE subjects SET soft_delete = 1 WHERE subject_id = ?";
+    
     const conn = await database.connect();
-    await conn.query(sql, [idSubject]);
+    const [rows] = await conn.query(sql, [idSubject]); 
     conn.end();
+    
+    return rows; 
 }
 
-async function updateSubject(subject_id, subject_name) {
-    const sql = "UPDATE subjects SET subject_name = ? WHERE subject_id = ?";
-    const dataSubjects = [subject_name, subject_id];
+async function updateSubject(subject_id, subject_name, course_id) {
+    const sql = "UPDATE subjects SET subject_name = ?, course_id = ? WHERE subject_id = ?";
+    const data = [subject_name, course_id, subject_id];
 
     const conn = await database.connect();
-    const [rows] = await conn.query(sql, dataSubjects);
+    const [rows] = await conn.query(sql, data);
     conn.end();
     return(rows);
 }

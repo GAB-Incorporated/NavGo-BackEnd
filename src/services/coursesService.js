@@ -35,7 +35,7 @@ async function createCourse(courseName, coordinatorId){
 }
 
 async function listCourse(){
-    const sql = "select * from courses";
+    const sql = "select * from courses where soft_delete = false";
 
     const conn = await database.connect();
     const [rows] = await conn.query(sql);
@@ -67,17 +67,10 @@ async function updateCourse(courseId, courseName, coordinatorId){
     }
 }
 
-async function deleteCourse(idCourse, coordinatorId){
+async function deleteCourse(idCourse){
     const conn = await database.connect();
 
     try{
-        const [rows] = await conn.query('select user_type from users where user_id = ?', [coordinatorId]);
-
-        const {user_type} = rows[0];
-
-        if(user_type != 'ADMINISTRATOR'){
-            throw new Error('Somente coordenadores podem realizar essa ação.')
-        }
 
         const sql = 'update courses set soft_delete = 1 where course_id = ?'
         const dataCourse = [idCourse];

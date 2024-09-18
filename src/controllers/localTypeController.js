@@ -78,7 +78,7 @@ routes.delete('/:id', async (request, response) => {
 
         return response.status(200).send({ message: "Deletado com sucesso" });
     } catch (error) {
-        return response.status(500).send({ message: "Erro no servidor ao tentar deletar o tipo de local", error: error.message });
+        return response.status(500).send({ message: "Delete os locais que usam esse tipo primeiro!", error: error.message });
     }
 });
 

@@ -67,16 +67,11 @@ routes.put('/', async (req, res) => {
     }
 })
 
-routes.put('/:idCourse', async (req, res) => {
+routes.delete('/:idCourse', async (req, res) => {
     const courseId = parseInt(req.params.idCourse, 10); 
     const {coordinatorId} = req.body; 
 
     try {
-        const isCoordinator = await coursesService.validateCoordinator(coordinatorId);
-        
-        if(!isCoordinator.success){
-            return res.status(isCoordinator.status).send({ message: isCoordinator.message });
-        }
 
         const result = await coursesService.deleteCourse(courseId, coordinatorId);
 

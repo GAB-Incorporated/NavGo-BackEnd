@@ -1,0 +1,5 @@
+# PACKAGES
+node_modules/
+
+# CONFIGURATION
+.env

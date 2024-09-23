@@ -5,7 +5,7 @@ dotenv.config();
 
 async function connect(){ 
     return await mysql.createConnection({ 
-        host: 'localhost',
+        host: process.env.DB_URL,
         port: 3306,
         database: process.env.DB_NAME,
         user: process.env.DB_USER,

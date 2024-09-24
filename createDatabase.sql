@@ -1,3 +1,4 @@
+-- Active: 1726496730791@@127.0.0.1@3306@navgo_db
 create database if not exists navgo_db;
 
 use navgo_db;
@@ -97,13 +98,6 @@ create table if not exists course_periods(
     foreign key (period_id) references periods(period_id)
 );
 
-create table if not exists students(
-    student_id int auto_increment primary key,
-    user_id int,
-    soft_delete bool default false,
-    foreign key (user_id) references users(user_id)
-);
-
 create table if not exists class_info(
     relation_id int auto_increment primary key,
     course_id int,
@@ -115,16 +109,17 @@ create table if not exists class_info(
     foreign key (location_id) references locations(location_id)
 );
 
-create table if not exists student_info(
-    student_id int,
-    relation_id int,
-	  module_id int,
+create table if not exists students(
+    student_id int auto_increment primary key,
+    relation_id int,    
+    course_id int,
+    user_id int,
+	module_id int,
     soft_delete bool default false,
-    primary key (student_id, relation_id),
-    foreign key (student_id) references students(student_id),
     foreign key (relation_id) references class_info(relation_id),
-	  foreign key (module_id) references modules(module_id)
-
+    foreign key (course_id) references courses(course_id),
+    foreign key (user_id) references users(user_id),
+    foreign key (module_id) references modules(module_id)
 );
 
 create table if not exists verification_codes(
@@ -187,22 +182,17 @@ insert into course_periods (course_id, period_id) values
 (2, 2),
 (3, 3);
 
-insert into students (user_id) values 
-(1),
-(4),
-(5);
-
 insert into class_info (course_id, class_id, location_id) values 
 (1, 1, 1),
 (2, 2, 2),
 (3, 3, 3);
 
-insert into student_info (student_id, relation_id) values 
-(1, 1),
-(1, 2),
-(1, 3);
+insert into students (relation_id, course_id ,user_id ,module_id) values 
+(1, 1, 1, 1),
+(2, 2, 2, 2),
+(3, 3, 3, 3);
 
 insert into verification_codes (code, user_id) values 
 ('ABC123SP', 1),
-('DEF456SP', 2),
-('GHI789SP', 3);
+('DEF456SP', 1),
+('GHI789SP', 1);

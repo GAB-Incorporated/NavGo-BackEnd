@@ -1,5 +1,4 @@
 import express from 'express';
-import admService from '../services/userService.js';
 import userService from '../services/userService.js';
 
 const routes = express.Router();
@@ -35,6 +34,57 @@ routes.get('/coordinators', async (req, res) => {
     } catch (err) {
         console.log(err)
         res.status(400).send(err)
+    }
+})
+
+routes.get('/users', async (req, res) => {
+    try {
+
+        const users = await userService.getUsers();
+
+        res.status(200).json(users);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+})
+
+routes.get('/users/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+
+        const user = await userService.getOneUser(id);
+
+        res.status(200).send(user);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+})
+
+routes.get('/students', async (req, res) => {
+
+    try {
+        const students = await userService.getStudents();
+
+        res.status(200).send(students);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err.message);
+    }   
+});
+
+routes.get('/students/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const student = await userService.getOneStudent(id);
+
+        res.status(200).send(student);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err.message);
     }
 })
 

@@ -180,24 +180,46 @@ async function createStudent(relation_id, course_id, user_id, module_id) {
 
 async function getStudents() {
     const conn = await database.connect();
-    const sql = "select * from students where soft_delete = 0";
-    
-    try {
-        const [students] = await conn.query(sql);
+    const sql = `
+    SELECT 
+        s.student_id,
+        u.first_name, u.last_name, u.nick_name, u.email,
+        c.course_name,
+        m.module_number
+    FROM students s
+    JOIN users u ON s.user_id = u.user_id
+    JOIN courses c ON s.course_id = c.course_id
+    JOIN modules m ON s.module_id = m.module_id
+    WHERE s.soft_delete = 0
+`;
 
-        return students;
-    } catch (error) {
-        throw error;
-    } finally {
-        if (conn) {
-            conn.end();  
-        }
+try {
+    const [students] = await conn.query(sql);
+
+    return students;
+
+} catch (error) {
+    throw error;
+} finally {
+    if (conn) {
+        conn.end();  
     }
+}
 }
 
 async function getOneStudent(id) {
     const conn = await database.connect();
-    const sql = "select * from students where soft_delete = 0 and student_id = ?";
+    const sql = `    
+    SELECT 
+        s.student_id,
+        u.first_name, u.last_name, u.nick_name, u.email,
+        c.course_name,
+        m.module_number
+    FROM students s
+    JOIN users u ON s.user_id = u.user_id
+    JOIN courses c ON s.course_id = c.course_id
+    JOIN modules m ON s.module_id = m.module_id
+    WHERE s.soft_delete = 0 and s.student_id = ?`;
 
     try {
 

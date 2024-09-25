@@ -135,13 +135,13 @@ async function getUsers() {
     }
 }
 
-async function getOneUser(id) {
+async function getOneUser(user_id) {
     const conn = await database.connect();
     const sql = "select * from users where soft_delete = 0 and user_id = ?";
 
     try {
 
-        const [users] = await conn.query(sql, id);
+        const [users] = await conn.query(sql, user_id);
 
         if (users.length === 0) {
             throw new Error("Usuário não encontrado");
@@ -166,7 +166,7 @@ async function createStudent(relation_id, course_id, user_id, module_id) {
         const [user] = await conn.query("select * from students where user_id = ?", user_id);
 
         if(user.length > 0) {
-            throw new Error("Usuário já foi cadastrado");
+            throw new Error("Usuário já foi cadastrado como estudante");
         }
         await conn.query(sql, data);
     } catch (error) {

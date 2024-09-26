@@ -1,6 +1,6 @@
 function verifyProfessor(req, res, next) {
 
-    if (req.user.user_type !== 'professor') {
+    if (req.user.user_type !== 'TEACHER') {
         return res.status(403).send({ message: 'Acesso negado: apenas professores podem realizar esta ação.' });
     }
     next();
@@ -8,7 +8,7 @@ function verifyProfessor(req, res, next) {
 
 function verifyStudent(req, res, next) {
 
-    if (req.user.user_type !== 'student') {
+    if (req.user.user_type !== 'STUDENT') {
         return res.status(403).send({ message: 'Acesso negado: apenas estudantes podem realizar esta ação.' });
     }
     next();

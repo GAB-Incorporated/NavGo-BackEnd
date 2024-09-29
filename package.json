@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/AurorinhaBoreal/NavTec-BackEnd#readme",
   "dependencies": {
+    "@google-cloud/storage": "^7.13.0",
     "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

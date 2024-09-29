@@ -106,6 +106,7 @@ create table if not exists class_info(
     teacher_id int,
     course_id int,
     location_id int,
+    bucket varchar(255),
     soft_delete bool default false,
     foreign key (teacher_id) references users(user_id),
     foreign key (subject_id) references subjects(subject_id),
@@ -116,12 +117,10 @@ create table if not exists class_info(
 
 create table if not exists students(
     student_id int auto_increment primary key,
-    relation_id int,    
     course_id int,
     user_id int,
 	module_id int,
     soft_delete bool default false,
-    foreign key (relation_id) references class_info(relation_id),
     foreign key (course_id) references courses(course_id),
     foreign key (user_id) references users(user_id),
     foreign key (module_id) references modules(module_id)
@@ -183,14 +182,14 @@ insert into course_periods (course_id, period_id) values
 (3, 3);
 
 insert into class_info (subject_id, period_id, week_day, teacher_id, course_id, location_id) values 
-(2, 1, 2, 2, 1, 2),,
-(3, 1, 2, 1, 1, 2),,
-(1, 3, 1, 3, 1, 2),;
+(2, 1, 2, 2, 1, 2),
+(3, 1, 2, 1, 1, 2),
+(1, 3, 1, 3, 1, 2);
 
-insert into students (relation_id, course_id ,user_id ,module_id) values 
-(1, 1, 1, 1),
-(2, 2, 2, 2),
-(3, 3, 3, 3);
+insert into students (course_id ,user_id ,module_id) values 
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3);
 
 insert into verification_codes (code, user_id) values 
 ('ABC123SP', 1),

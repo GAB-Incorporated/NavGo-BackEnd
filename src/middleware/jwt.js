@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const securityKey = process.env.SECURITY_KEY;
+
 function createTokenJWT({id_usuario, nome, email, user_type}) {
-    
-    const securityKey = process.env.SECURITY_KEY;
 
     const token = jwt.sign(
         {id_usuario, nome, email, user_type},   
@@ -17,7 +17,6 @@ function createTokenJWT({id_usuario, nome, email, user_type}) {
 }
 
 function verifyToken(req, res, next) {
-    const securityKey = process.env.SECURITY_KEY;
 
     const token = req.headers.authorization;
 

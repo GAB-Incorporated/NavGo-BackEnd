@@ -1,14 +1,32 @@
 import database from '../repository/mySQL.js';
+import { Storage } from '@google-cloud/storage';
+
+const storage = new Storage();
+
+async function createBucket(bucketName) {
+    try {
+        // Cria o bucket no GCP com o nome especificado
+        await storage.createBucket(bucketName);
+        console.log(`Bucket ${bucketName} criado com sucesso.`);
+    } catch (error) {
+        throw new Error(`Erro ao criar bucket: ${error.message}`);
+    }
+}
 
 async function createClassInfo(subject_id, period_id, week_day, teacher_id, course_id, location_id) {
     const conn = await database.connect();
 
     try {
+        const bucketName = `class-${subject_id}-${course_id}-${new Date().getTime()}`;
+        
         const sql = `INSERT INTO class_info 
-                     (subject_id, period_id, week_day, teacher_id, course_id, location_id) 
-                     VALUES (?, ?, ?, ?, ?, ?)`;
-        const data = [subject_id, period_id, week_day, teacher_id, course_id, location_id];
+                     (subject_id, period_id, week_day, teacher_id, course_id, location_id, bucket) 
+                     VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        const data = [subject_id, period_id, week_day, teacher_id, course_id, location_id, bucketName];
         await conn.query(sql, data);
+
+        await createBucket(bucketName);
+
     } catch (error) {
         throw new Error(error.message || 'Erro ao criar informações da aula');
     } finally {

@@ -3,7 +3,6 @@ import service from '../services/classInfoService.js';
 
 const routes = express.Router();
 
-// Criar uma nova aula
 routes.post('/', async (req, res) => {
     const { subject_id, period_id, week_day, teacher_id, course_id, location_id } = req.body;
 
@@ -13,14 +12,13 @@ routes.post('/', async (req, res) => {
         }
 
         await service.createClassInfo(subject_id, period_id, week_day, teacher_id, course_id, location_id);
-        return res.status(201).send({ message: 'Aula criada com sucesso!' });
+        return res.status(201).send({ message: 'Aula e bucket criados com sucesso!' });
 
     } catch (err) {
         return res.status(400).send({ message: err.message });
     }
 });
 
-// Listar todas as aulas
 routes.get('/', async (req, res) => {
     try {
         const classes = await service.listAllClasses();
@@ -30,7 +28,6 @@ routes.get('/', async (req, res) => {
     }
 });
 
-// Listar uma aula específica
 routes.get('/:class_id', async (req, res) => {
     const { class_id } = req.params;
 
@@ -42,7 +39,6 @@ routes.get('/:class_id', async (req, res) => {
     }
 });
 
-// Atualizar uma aula
 routes.put('/:class_id', async (req, res) => {
     const { class_id } = req.params;
     const { subject_id, period_id, week_day, teacher_id, course_id, location_id } = req.body;
@@ -59,7 +55,6 @@ routes.put('/:class_id', async (req, res) => {
     }
 });
 
-// Deletar uma aula
 routes.delete('/:class_id', async (req, res) => {
     const { class_id } = req.params;
 

@@ -238,4 +238,21 @@ async function getOneStudent(id) {
     }
 }
 
-export default { createUser, getCoordinators, loginUser, getUsers, getOneUser, createStudent, getStudents, getOneStudent };
+async function verifyClass(userId, classId) {
+    const sql = "SELECT bucket FROM class_info WHERE class_id = ? AND teacher_id = ? AND soft_delete = false";
+
+    try {
+        const [rows] = await conn.query(sql, [classId, userId]);
+
+        // Se encontrar a turma e o professor, retorna o bucket
+        if (rows.length > 0) {
+            return rows[0].bucket;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export default { createUser, getCoordinators, loginUser, getUsers, getOneUser, createStudent, getStudents, getOneStudent, verifyClass };

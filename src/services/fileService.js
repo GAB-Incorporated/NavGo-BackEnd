@@ -3,11 +3,10 @@ import path from "path";
 import dotenv from "dotenv";
 
 dotenv.config();
-// Inicializa o cliente do Storage
-// com .env
+
 const storage = new Storage({
     projectId: process.env.PROJECT_ID,
-    keyFilename: process.env.PATH_TO_ACCOUNT 
+    keyFilename: path.resolve(process.env.GOOGLE_APPLICATION_CREDENTIALS_PATH) 
 });
 
 async function uploadFile(bucketName, file) {

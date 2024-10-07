@@ -1,7 +1,6 @@
 import database from '../repository/mySQL.js';
 import crypto from 'crypto';
 import jwt from '../middleware/jwt.js';
-import { get } from 'http';
 
 async function generateVerificationCode(user_id) {
     const code = crypto.randomBytes(4).toString('hex');
@@ -83,7 +82,7 @@ async function loginUser(email, password) {
     }
 
     const token = jwt.createTokenJWT({
-        id_usuario: user.id_usuario,
+        id_usuario: user.user_id,
         nome: user.first_name,
         email: user.email,
         user_type: user.user_type
@@ -241,10 +240,11 @@ async function getOneStudent(id) {
 async function verifyClass(userId, classId) {
     const sql = "SELECT bucket FROM class_info WHERE class_id = ? AND teacher_id = ? AND soft_delete = false";
 
+    const conn = await database.connect();
+
     try {
         const [rows] = await conn.query(sql, [classId, userId]);
 
-        // Se encontrar a turma e o professor, retorna o bucket
         if (rows.length > 0) {
             return rows[0].bucket;
         } else {

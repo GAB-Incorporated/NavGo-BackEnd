@@ -1,31 +1,21 @@
 import database from '../repository/mySQL.js';
-import { Storage } from '@google-cloud/storage';
 
-const storage = new Storage();
-
-async function createBucket(bucketName) {
-    try {
-        // Cria o bucket no GCP com o nome especificado
-        await storage.createBucket(bucketName);
-        console.log(`Bucket ${bucketName} criado com sucesso.`);
-    } catch (error) {
-        throw new Error(`Erro ao criar bucket: ${error.message}`);
-    }
-}
+const BUCKET_NAME = 'navgo-etec-bucket'; 
 
 async function createClassInfo(subject_id, period_id, week_day, teacher_id, course_id, location_id) {
     const conn = await database.connect();
 
     try {
-        const bucketName = `class-${subject_id}-${course_id}-${new Date().getTime()}`;
+        const classDirectory = `class/${subject_id}/${course_id}/${new Date().getTime()}`;
         
         const sql = `INSERT INTO class_info 
                      (subject_id, period_id, week_day, teacher_id, course_id, location_id, bucket) 
                      VALUES (?, ?, ?, ?, ?, ?, ?)`;
-        const data = [subject_id, period_id, week_day, teacher_id, course_id, location_id, bucketName];
-        await conn.query(sql, data);
+        const data = [subject_id, period_id, week_day, teacher_id, course_id, location_id, classDirectory];
 
-        await createBucket(bucketName);
+        await conn.query(sql, data);
+        
+        console.log(`Subdiretório ${classDirectory} criado para a turma no bucket ${BUCKET_NAME}.`);
 
     } catch (error) {
         throw new Error(error.message || 'Erro ao criar informações da aula');

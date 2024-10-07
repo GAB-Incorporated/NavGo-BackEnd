@@ -12,6 +12,7 @@ routes.post('/', async (req, res) => {
         }
 
         await service.createClassInfo(subject_id, period_id, week_day, teacher_id, course_id, location_id);
+
         return res.status(201).send({ message: 'Aula e bucket criados com sucesso!' });
 
     } catch (err) {

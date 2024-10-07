@@ -1,15 +1,23 @@
 import express from "express";
 import fileService from "../services/fileService.js";
+import userService from "../services/userService.js";
+import multer from 'multer';
+import jwt from "../middleware/jwt.js";
+
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage: storage });
 
 const routes = express.Router();
 
-routes.post('/upload', async (req, res) => {
-    const { file, classId } = req.body;
-    const userId = req.user.id_usuario;  
+routes.post('/upload', jwt.verifyToken, upload.single('file'), async (req, res) => {
+    const classId = req.body.classId;
+    const userId = req.user.id_usuario; 
+    const file = req.file; 
+    // Objeto file é criado pelo multer, a partir da 'file' no body da req
 
     try {
-        // Verifica se o user é professor da turma
-        const bucketName = await classInfoService.verifyClass(userId, classId);
+
+        const bucketName = await userService.verifyClass(userId, classId);
 
         if (!bucketName) {
             return res.status(403).send({ message: 'Acesso negado à turma' });
@@ -22,10 +30,10 @@ routes.post('/upload', async (req, res) => {
     }
 });
 
+// Completamente quebrado
 routes.get('/download', async (req, res) => {
 
-    //Passar na URL, ex: /download?fileName=meuarquivo.txt&turmaBucket=nome-do-bucket
-    const { fileName, turmaBucket } = req.query;  
+    const { fileName, turmaBucket } = req.query;
     try {
         const filePath = await fileService.downloadFile(turmaBucket, fileName);
         res.download(filePath);

@@ -17,21 +17,23 @@ function createTokenJWT({id_usuario, nome, email, user_type}) {
 }
 
 function verifyToken(req, res, next) {
-
     const token = req.headers.authorization;
 
     if (!token) {
         return res.status(401).send({ message: "Token não fornecido." });
     }
 
-    jwt.verify(token, securityKey, (err, decoded) => {
+    const tokenWithoutBearer = token.split(' ')[1];
+
+    jwt.verify(tokenWithoutBearer, securityKey, (err, decoded) => {
         if (err) {
             return res.status(401).send({ message: "Token inválido", err });
         }
-        
-        req.user = decoded;
-        next();
+
+        req.user = decoded; 
+        next(); 
     });
 }
+
 
 export default {createTokenJWT, verifyToken};

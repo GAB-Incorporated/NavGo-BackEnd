@@ -40,7 +40,24 @@ async function uploadFile(classDirectory, file) {
     }
 }
 
+async function listFiles(subject_id, course_id) {
+    try {
+        const classDirectoryPrefix = `class/${subject_id}/${course_id}/`;
 
+        const [files] = await storage.bucket(BUCKET_NAME).getFiles({
+            prefix: classDirectoryPrefix, // Prefixo que define o diretório
+        });
+
+        return files.map(file => ({
+            name: file.name.replace(classDirectoryPrefix, ''), // Remove o prefixo do nome exibido
+            url: `https://storage.googleapis.com/${BUCKET_NAME}/${file.name}`
+        }));
+    } catch (error) {
+        throw new Error(`Erro ao listar arquivos no diretório ${classDirectoryPrefix}: ${error.message}`);
+    }
+}
+
+//QUEBRADO TAMBÉM
 // async function downloadFile(bucketName, fileName) {
 //     const bucket = storage.bucket(bucketName);
 //     const destination = path.join(__dirname, '..', 'downloads', fileName);
@@ -53,4 +70,4 @@ async function uploadFile(classDirectory, file) {
 //     }
 // }
 
-export default { uploadFile };
+export default { uploadFile, listFiles };

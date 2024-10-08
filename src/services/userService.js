@@ -237,18 +237,46 @@ async function getOneStudent(id) {
     }
 }
 
-async function verifyClass(userId, classId) {
+async function verifyClass(userId, classId, user_type) {
     const sql = "SELECT bucket FROM class_info WHERE class_id = ? AND teacher_id = ? AND soft_delete = false";
 
     const conn = await database.connect();
 
     try {
-        const [rows] = await conn.query(sql, [classId, userId]);
 
-        if (rows.length > 0) {
-            return rows[0].bucket;
+        if(user_type == 'TEACHER'){
+
+            const [rows] = await conn.query(sql, [classId, userId]);
+
+            if (rows.length > 0) {
+                return rows[0].bucket;
+            } else {
+                return null;
+            }
+        } else if (user_type === 'STUDENT') {
+            const sqlStudent = `
+                SELECT ci.bucket 
+                FROM students s
+                INNER JOIN class_info ci 
+                    ON ci.course_id = s.course_id 
+                    AND ci.module_id = s.module_id
+                WHERE s.user_id = ? 
+                AND ci.class_id = ?
+                AND s.soft_delete = false
+                AND ci.soft_delete = false
+            `;
+            const [rows] = await conn.query(sqlStudent, [userId, classId]);
+        
+            return rows.length > 0 ? rows[0].bucket : null;
         } else {
-            return null;
+            const [rows] = await conn.query("SELECT bucket FROM class_info WHERE class_id = ? AND soft_delete = false", [classId]);
+
+            if (rows.length > 0) {
+                return rows[0].bucket;
+            } else {
+                return null;
+            }
+
         }
     } catch (error) {
         throw new Error(error.message);

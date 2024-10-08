@@ -11,7 +11,7 @@ async function createType(type_name, description){
 }
 
 async function deleteType(id) {
-    const sql = "DELETE FROM location_types WHERE type_id = ?";
+    const sql = "UPDATE location_types SET soft_delete = true WHERE type_id = ?";
 
     const conn = await database.connect();
     const [rows] = await conn.query(sql, [id]);

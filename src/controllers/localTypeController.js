@@ -73,13 +73,14 @@ routes.delete('/:id', async (request, response) => {
         const deleteResult = await service.deleteType(id);
 
         if (deleteResult.affectedRows === 0) {
-            return response.status(500).send({ message: "Falha ao deletar o tipo de local. Já está deletado." });
+            return response.status(500).send({ message: "Falha ao desativar o tipo de local." });
         }
 
-        return response.status(200).send({ message: "Deletado com sucesso" });
+        return response.status(200).send({ message: "Desativado com sucesso" });
     } catch (error) {
-        return response.status(500).send({ message: "Delete os locais que usam esse tipo primeiro!", error: error.message });
+        return response.status(500).send({ message: "Erro interno.", error: error.message });
     }
 });
+
 
 export default routes;

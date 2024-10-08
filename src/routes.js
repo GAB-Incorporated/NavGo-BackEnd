@@ -5,7 +5,7 @@ import coursesController from './controllers/coursesController.js';
 import locationController from './controllers/locationController.js';
 import localTypeController from './controllers/localTypeController.js'
 import buildingsController from './controllers/buildingsController.js'
-import periodsController from './controllers/periodController.js'
+import periodsController from './controllers/periodsController.js'
 
 const routes = express();
 

@@ -24,27 +24,42 @@ routes.get('/:id', async (req, res) => {
         const period = await periodsService.getPeriod(periodId);
 
         if (!period) {
-            return res.status(404).json({ success: false, message: 'Período não encontrado.' });
+            return res.status(404).json({ message: 'Período não encontrado.' });
         }
 
         res.status(200).json(period);
 
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Erro interno ao buscar o período.' });
+        res.status(500).json({ message: 'Erro interno ao buscar o período.' });
     }
 });
 
 
 routes.post('/', async (req, res) => {
-    const { start_hour, end_hour, day_time } = req.body;
+    const { start_hour, end_hour } = req.body;
 
     try {
-        if (!start_hour || !end_hour || !day_time) {
+        if (!start_hour || !end_hour) {
             return res.status(400).send({ message: 'Por favor, preencha todos os campos obrigatórios.' });
         }
 
-        if (day_time.length > 20) {
-            return res.status(400).send({ message: 'O campo "day_time" não pode ter mais que 20 caracteres.' });
+        const startTime = new Date(`1970-01-01T${start_hour}Z`);
+        const endTime = new Date(`1970-01-01T${end_hour}Z`);
+
+        if (startTime >= endTime) {
+            return res.status(400).send({ message: 'A hora de início deve ser anterior à hora de fim.' });
+        }
+
+        let day_time;
+        const morningEnd = new Date('1970-01-01T12:00:00Z');
+        const afternoonEnd = new Date('1970-01-01T18:00:00Z');
+
+        if (startTime < morningEnd) {
+            day_time = 'Manhã'; 
+        } else if (startTime < afternoonEnd) {
+            day_time = 'Tarde';  
+        } else {
+            day_time = 'Noite'; 
         }
 
         const result = await periodsService.createPeriod(start_hour, end_hour, day_time);
@@ -53,11 +68,12 @@ routes.post('/', async (req, res) => {
             return res.status(400).send(result);
         }
 
-        res.status(201).send({ success: true, message: result.message });
+        return res.status(201).send({ message: result.message });
     } catch (error) {
         return res.status(500).send({ message: 'Erro interno do servidor.', error: error.message });
     }
 });
+
 
 routes.put('/:id', async (req, res) => {
     const periodId = parseInt(req.params.id, 10);
@@ -78,7 +94,7 @@ routes.put('/:id', async (req, res) => {
             return res.status(400).send({ message: result.message });
         }
 
-        res.status(200).send({ success: true, message: result.message });
+        res.status(200).send({ message: result.message });
     } catch (error) {
         res.status(500).send({ message: 'Erro interno ao atualizar o período.' });
     }
@@ -96,7 +112,7 @@ routes.delete('/:id', async (req, res) => {
 
         const result = await periodsService.deletePeriod(periodId);
 
-        res.status(200).send({ success: true, message: result.message });
+        res.status(200).send({ message: result.message });
     } catch (error) {
         res.status(500).send({ message: 'Erro interno ao remover o período.' });
     }

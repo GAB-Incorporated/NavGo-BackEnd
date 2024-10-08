@@ -105,6 +105,7 @@ create table if not exists class_info(
     week_day int,
     teacher_id int,
     course_id int,
+    module_id int,
     location_id int,
     bucket varchar(255),
     soft_delete bool default false,
@@ -112,6 +113,7 @@ create table if not exists class_info(
     foreign key (subject_id) references subjects(subject_id),
     foreign key (period_id) references periods(period_id),
     foreign key (course_id) references courses(course_id),
+    foreign key (module_id) references modules(module_id),
     foreign key (location_id) references locations(location_id)
 );
 

@@ -60,18 +60,6 @@ create table if not exists subjects(
     foreign key (course_id) references courses(course_id)
 );
 
-create table if not exists classes(
-    class_id int auto_increment primary key,
-    subject_id int,
-    start_hour time,
-    end_hour time,
-    week_day int,
-    teacher_id int,
-    soft_delete bool default false,
-    foreign key (teacher_id) references users(user_id),
-    foreign key (subject_id) references subjects(subject_id)
-);
-
 create table if not exists periods(
     period_id int auto_increment primary key,
     start_hour time,

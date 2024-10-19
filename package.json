@@ -1,5 +1,5 @@
 {
-  "name": "campus-connect",
+  "name": "nav-go",
   "version": "1.0.0",
   "description": "Esse é o back end do nosso projeto de TCC que possui o intuito de criar um software para trnasferência de arquivos e localização no Campus. O nome provavelmente ainda vai mudar antes dele estar finalizado.",
   "main": "index.js",

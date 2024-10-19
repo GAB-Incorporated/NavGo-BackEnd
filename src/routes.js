@@ -7,6 +7,7 @@ import localTypeController from './controllers/localTypeController.js'
 import buildingsController from './controllers/buildingsController.js'
 import fileController from './controllers/fileController.js'
 import classController from './controllers/classInfoController.js'
+import periodsController from './controllers/periodsController.js'
 
 const routes = express();
 
@@ -18,5 +19,6 @@ routes.use('/local-type', localTypeController);
 routes.use('/buildings', buildingsController);
 routes.use('/files', fileController);
 routes.use('/classes', classController);
+routes.use('/periods', periodsController);
 
 export default routes;

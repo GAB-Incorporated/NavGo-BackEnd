@@ -40,20 +40,19 @@ async function uploadFile(classDirectory, file) {
     }
 }
 
-async function listFiles(subject_id, course_id) {
+async function listFiles(dirName) {
     try {
-        const classDirectoryPrefix = `class/${subject_id}/${course_id}/`;
 
         const [files] = await storage.bucket(BUCKET_NAME).getFiles({
-            prefix: classDirectoryPrefix, // Prefixo que define o diretório
+            prefix: dirName, // Prefixo que define o diretório
         });
 
         return files.map(file => ({
-            name: file.name.replace(classDirectoryPrefix, ''), // Remove o prefixo do nome exibido
+            name: file.name.replace(dirName, ''), // Remove o prefixo do nome exibido
             url: `https://storage.googleapis.com/${BUCKET_NAME}/${file.name}`
         }));
     } catch (error) {
-        throw new Error(`Erro ao listar arquivos no diretório ${classDirectoryPrefix}: ${error.message}`);
+        throw new Error(`Erro ao listar arquivos no diretório ${dirName}: ${error.message}`);
     }
 }
 

@@ -44,8 +44,8 @@ routes.get('/:classId', jwt.verifyToken, async (req, res) => {
             return res.status(403).send({ message: 'Acesso negado à turma' });
         }
 
-        const [files] = await fileService.listFiles(bucketName);
-        res.status(200).send({ files });
+        const files = await fileService.listFiles(bucketName);
+        res.status(200).send( files );
     } catch (error) {
         res.status(500).send({ message: 'Erro ao listar arquivos', error: error.message });
     }

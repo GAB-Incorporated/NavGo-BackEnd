@@ -1,6 +1,6 @@
 import database from '../repository/mySQL.js';
 
-const BUCKET_NAME = 'navgo-etec-bucket'; 
+const BUCKET_NAME = 'navgo-etec-bucket';
 
 async function createClassInfo(subject_id, period_id, week_day, teacher_id, course_id, location_id) {
     const conn = await database.connect();
@@ -87,4 +87,31 @@ async function deleteClass(class_id) {
     }
 }
 
-export default { createClassInfo, listAllClasses, listOneClass, updateClassInfo, deleteClass };
+async function getClassesByStudent(userId) {
+    const conn = await database.connect();
+
+    try {
+        const sql = `
+            SELECT DISTINCT ci.class_id, ci.subject_id, ci.module_id, ci.location_id
+            FROM class_info ci
+            JOIN students s ON ci.course_id = s.course_id
+            WHERE s.user_id = ?
+              AND ci.soft_delete = false
+              AND s.soft_delete = false;
+        `;
+
+        const [rows] = await conn.query(sql, [userId]);
+
+        if (rows.length === 0) {
+            throw new Error('Nenhuma classe encontrada para este estudante.');
+        }
+
+        return rows;
+    } catch (error) {
+        throw new Error('Nenhuma classe encontrada para este estudante.');
+    } finally {
+        conn.end();
+    }
+}
+
+export default { createClassInfo, listAllClasses, listOneClass, updateClassInfo, deleteClass, getClassesByStudent };

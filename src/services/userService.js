@@ -1,6 +1,7 @@
 import database from '../repository/mySQL.js';
 import crypto from 'crypto';
 import jwt from '../middleware/jwt.js';
+import { get } from 'http';
 
 async function generateVerificationCode(user_id) {
     const code = crypto.randomBytes(4).toString('hex');
@@ -113,4 +114,128 @@ async function getCoordinators() {
     }
 }
 
-export default { createUser, getCoordinators, loginUser };
+async function getUsers() {
+    const conn = await database.connect();
+    const sql = "select * from users where soft_delete = 0";
+
+    try {
+
+        const [users] = await conn.query(sql);
+
+        if (users.length === 0) {
+            throw new Error("Não existem usuários cadastrados!");
+        }
+        return users;
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        if (conn) {
+            conn.end();
+        }
+    }
+}
+
+async function getOneUser(user_id) {
+    const conn = await database.connect();
+    const sql = "select * from users where soft_delete = 0 and user_id = ?";
+
+    try {
+
+        const [users] = await conn.query(sql, user_id);
+
+        if (users.length === 0) {
+            throw new Error("Usuário não encontrado");
+        }
+        return users[0];
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        if (conn) {
+            conn.end();
+        }
+    }
+}
+
+async function createStudent(relation_id, course_id, user_id, module_id) {
+    const conn = await database.connect();
+    const sql = "insert into students (relation_id, course_id, user_id, module_id) values (?, ?, ?, ?)";
+    const data = [relation_id, course_id, user_id, module_id];
+
+    try {
+
+        const [user] = await conn.query("select * from students where user_id = ?", user_id);
+
+        if(user.length > 0) {
+            throw new Error("Usuário já foi cadastrado como estudante");
+        }
+        await conn.query(sql, data);
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        if (conn) {
+            conn.end();
+        }
+    }
+}
+
+async function getStudents() {
+    const conn = await database.connect();
+    const sql = `
+    SELECT 
+        s.student_id,
+        u.first_name, u.last_name, u.nick_name, u.email,
+        c.course_name,
+        m.module_number
+    FROM students s
+    JOIN users u ON s.user_id = u.user_id
+    JOIN courses c ON s.course_id = c.course_id
+    JOIN modules m ON s.module_id = m.module_id
+    WHERE s.soft_delete = 0
+`;
+
+try {
+    const [students] = await conn.query(sql);
+
+    return students;
+
+} catch (error) {
+    throw error;
+} finally {
+    if (conn) {
+        conn.end();  
+    }
+}
+}
+
+async function getOneStudent(id) {
+    const conn = await database.connect();
+    const sql = `    
+    SELECT 
+        s.student_id,
+        u.first_name, u.last_name, u.nick_name, u.email,
+        c.course_name,
+        m.module_number
+    FROM students s
+    JOIN users u ON s.user_id = u.user_id
+    JOIN courses c ON s.course_id = c.course_id
+    JOIN modules m ON s.module_id = m.module_id
+    WHERE s.soft_delete = 0 and s.student_id = ?`;
+
+    try {
+
+        const [students] = await conn.query(sql, id);
+
+        if (students.length === 0) {
+            throw new Error("Usuário não encontrado");
+        }
+        return students[0];
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        if (conn) {
+            conn.end();
+        }
+    }
+}
+
+export default { createUser, getCoordinators, loginUser, getUsers, getOneUser, createStudent, getStudents, getOneStudent };

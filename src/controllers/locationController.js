@@ -19,6 +19,20 @@ routes.get('/', async (req, res) => {
     }
 });
 
+routes.get('/coordinates', async (req, res) => {
+    try {
+        const locationsWithCoordinates = await locationService.getAllLocationsWithCoordinates();
+
+        if (locationsWithCoordinates.length < 1) {
+            return res.status(204).end();
+        }
+
+        res.status(200).json(locationsWithCoordinates);
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Erro ao buscar as localizações com coordenadas.' });
+    }
+});
+
 routes.get('/:id', async (req, res) => {
     const locationId = parseInt(req.params.id, 10);
 
@@ -37,7 +51,7 @@ routes.get('/:id', async (req, res) => {
 });
 
 routes.post('/', async (req, res) => {
-    const { campus, building_id, floor_number, location_type_id, location_name, description } = req.body;
+    const { campus, building_id, floor_number, location_type_id, location_name, description, coordinates } = req.body;
 
     try {
       
@@ -58,7 +72,7 @@ routes.post('/', async (req, res) => {
             return res.status(400).send({ success: false, message: 'A descrição não pode conter mais que 200 caracteres.' });
         }
 
-        const result = await locationService.createLocation(campus, building_id, floor_number, location_type_id, location_name, description);
+        const result = await locationService.createLocation(campus, building_id, floor_number, location_type_id, location_name, description, coordinates);
 
         if (!result.success) {
             return res.status(400).send(result);
@@ -72,7 +86,7 @@ routes.post('/', async (req, res) => {
 
 routes.put('/:id', async (req, res) => {
     const locationId = parseInt(req.params.id, 10);
-    const { campus, building_id, floor_number, location_type_id, location_name, description } = req.body;
+    const { campus, building_id, floor_number, location_type_id, location_name, description, coordinates } = req.body;
 
     try {
 
@@ -92,7 +106,7 @@ routes.put('/:id', async (req, res) => {
             return res.status(400).send({ success: false, message: 'A descrição não pode conter mais que 200 caracteres.' });
         }
         
-        const result = await locationService.updateLocation(locationId, campus, building_id, floor_number, location_type_id, location_name, description);
+        const result = await locationService.updateLocation(locationId, campus, building_id, floor_number, location_type_id, location_name, description, coordinates);
 
         if (!result.success) {
             return res.status(400).send({ message: result.message });

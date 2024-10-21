@@ -60,18 +60,6 @@ create table if not exists subjects(
     foreign key (course_id) references courses(course_id)
 );
 
-create table if not exists classes(
-    class_id int auto_increment primary key,
-    subject_id int,
-    start_hour time,
-    end_hour time,
-    week_day int,
-    teacher_id int,
-    soft_delete bool default false,
-    foreign key (teacher_id) references users(user_id),
-    foreign key (subject_id) references subjects(subject_id)
-);
-
 create table if not exists periods(
     period_id int auto_increment primary key,
     start_hour time,
@@ -99,24 +87,30 @@ create table if not exists course_periods(
 );
 
 create table if not exists class_info(
-    relation_id int auto_increment primary key,
+    class_id int auto_increment primary key,
+    subject_id int,
+    period_id int,
+    week_day int,
+    teacher_id int,
     course_id int,
-    class_id int,
+    module_id int,
     location_id int,
+    bucket varchar(255),
     soft_delete bool default false,
+    foreign key (teacher_id) references users(user_id),
+    foreign key (subject_id) references subjects(subject_id),
+    foreign key (period_id) references periods(period_id),
     foreign key (course_id) references courses(course_id),
-    foreign key (class_id) references classes(class_id),
+    foreign key (module_id) references modules(module_id),
     foreign key (location_id) references locations(location_id)
 );
 
 create table if not exists students(
     student_id int auto_increment primary key,
-    relation_id int,    
     course_id int,
     user_id int,
 	module_id int,
     soft_delete bool default false,
-    foreign key (relation_id) references class_info(relation_id),
     foreign key (course_id) references courses(course_id),
     foreign key (user_id) references users(user_id),
     foreign key (module_id) references modules(module_id)
@@ -167,11 +161,6 @@ insert into subjects (subject_name, course_id) values
 ('Business Law', 2),
 ('Thermodynamics', 3);
 
-insert into classes (subject_id, start_hour, end_hour, week_day, teacher_id) values 
-(1, '08:00:00', '09:30:00', 1, 2),
-(2, '10:00:00', '11:30:00', 2, 2),
-(3, '13:00:00', '14:30:00', 3, 2);
-
 insert into periods (start_hour, end_hour, day_time) values 
 ('08:00:00', '12:00:00', 'Morning'),
 ('13:00:00', '17:00:00', 'Afternoon'),
@@ -182,15 +171,15 @@ insert into course_periods (course_id, period_id) values
 (2, 2),
 (3, 3);
 
-insert into class_info (course_id, class_id, location_id) values 
+insert into class_info (subject_id, period_id, week_day, teacher_id, course_id, location_id) values 
+(2, 1, 2, 2, 1, 2),
+(3, 1, 2, 1, 1, 2),
+(1, 3, 1, 3, 1, 2);
+
+insert into students (course_id ,user_id ,module_id) values 
 (1, 1, 1),
 (2, 2, 2),
 (3, 3, 3);
-
-insert into students (relation_id, course_id ,user_id ,module_id) values 
-(1, 1, 1, 1),
-(2, 2, 2, 2),
-(3, 3, 3, 3);
 
 insert into verification_codes (code, user_id) values 
 ('ABC123SP', 1),

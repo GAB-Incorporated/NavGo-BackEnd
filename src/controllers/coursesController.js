@@ -17,6 +17,40 @@ routes.get('/', async (req, res) => {
     }
 });
 
+routes.get('/modules/:courseId', async (req, res) => {  
+    const { courseId } = req.params;
+
+    try {
+        const courseData = await coursesService.getCourseModule(courseId);
+
+        if (courseData.length < 1) {
+            return res.status(204).end();
+        }
+
+        res.status(200).send({ modules: courseData }); 
+
+    } catch (error) {
+        res.status(500).send(error.message); 
+    }
+});
+
+routes.get('/teachers/:courseId', async (req, res) => {  
+    const { courseId } = req.params;
+
+    try {
+        const courseData = await coursesService.getTeachersByCourse(courseId);
+
+        if (courseData.length < 1) {
+            return res.status(204).end();
+        }
+
+        res.status(200).send({ modules: courseData }); 
+
+    } catch (error) {
+        res.status(500).send(error.message); 
+    }
+});
+
 routes.post('/', async (req, res) => {
 
     const {courseName, coordinatorId} = req.body;

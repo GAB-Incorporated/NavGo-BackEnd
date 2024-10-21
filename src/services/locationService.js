@@ -98,11 +98,25 @@ async function getLocation(location_id){
 
     try{
     
-        const sql = "SELECT * FROM locations WHERE location_id = ? AND soft_delete = 0";
+        const sql = `
+            SELECT 
+                l.location_id, 
+                l.campus, 
+                l.floor_number, 
+                l.location_name, 
+                l.description, 
+                l.open_time, 
+                l.closing_time, 
+                l.soft_delete, 
+                b.building_name
+            FROM locations l
+            JOIN buildings b ON l.building_id = b.building_id
+            WHERE l.location_id = ? AND l.soft_delete = 0;
+        `;        
         const [rows] = await conn.query(sql, [location_id]);
         
         if(rows.length > 0){
-            return { rows };
+            return rows;
         } else{
             return { success: false, message: 'Nenhuma localização encontrada com esse ID.' }
         }
@@ -117,7 +131,22 @@ async function getLocation(location_id){
 async function getAllLocation(){
     const conn = await database.connect();
 
-    const sql = "SELECT * FROM locations WHERE soft_delete = 0";
+    const sql = `
+        SELECT 
+            l.location_id, 
+            l.campus, 
+            l.floor_number, 
+            l.location_name, 
+            l.description, 
+            l.open_time, 
+            l.closing_time, 
+            l.soft_delete,
+            l.building_id,
+            b.building_name
+        FROM locations l
+        JOIN buildings b ON l.building_id = b.building_id
+        WHERE l.soft_delete = 0;
+    `;    
     const [rows] = await conn.query(sql);
     conn.end();
     return rows;

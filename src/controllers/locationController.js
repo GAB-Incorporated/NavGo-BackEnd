@@ -30,7 +30,7 @@ routes.get('/:id', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Localização não encontrada.' });
         }
 
-        res.status(200).json({ location });
+        res.status(200).json(location);
     } catch (error) {
         res.status(500).json({ success: false, message: 'Erro interno ao buscar a localização.' });
     }

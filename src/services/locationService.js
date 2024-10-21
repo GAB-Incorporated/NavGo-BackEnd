@@ -1,6 +1,6 @@
 import database from '../repository/mySQL.js';
 
-async function createLocation(campus, building_id, floor_number, location_type_id, location_name, description){
+async function createLocation(campus, building_id, floor_number, location_type_id, location_name, description, coordinates){
     const conn = await database.connect();
 
     try {
@@ -23,9 +23,9 @@ async function createLocation(campus, building_id, floor_number, location_type_i
             return { success: false, message: 'Já existe uma localização com esse nome neste prédio.', data: existingLocations };
         }
 
-        const locationData = 'INSERT INTO locations (campus, building_id, floor_number, location_type_id, location_name, description) VALUES (?, ?, ?, ?, ?, ?);';
+        const locationData = 'INSERT INTO locations (campus, building_id, floor_number, location_type_id, location_name, description, coordinates) VALUES (?, ?, ?, ?, ?, ?, ?);';
 
-        const dataLocation = [campus, building_id, floor_number, location_type_id, location_name, description];
+        const dataLocation = [campus, building_id, floor_number, location_type_id, location_name, description, JSON.stringify(coordinates)];
 
         await conn.query(locationData, dataLocation);
 
@@ -36,7 +36,6 @@ async function createLocation(campus, building_id, floor_number, location_type_i
     } finally {
         conn.end();
     }
-
 }
 
 async function deleteLocation(location_id) {
@@ -55,7 +54,7 @@ async function deleteLocation(location_id) {
     }
 }
 
-async function updateLocation(location_id, campus, building_id, floor_number, location_type_id, location_name, description){
+async function updateLocation(location_id, campus, building_id, floor_number, location_type_id, location_name, description, coordinates){
     const conn = await database.connect();
 
     try {
@@ -78,7 +77,7 @@ async function updateLocation(location_id, campus, building_id, floor_number, lo
             return { success: false, message: 'Já existe uma localização com esse nome neste prédio.', data: existingLocations };
         }
 
-        const locationData = 'UPDATE locations SET campus = ?, building_id = ?, floor_number = ?, location_type_id = ?, location_name = ?, description = ? WHERE location_id = ? AND soft_delete = 0';
+        const locationData = 'UPDATE locations SET campus = ?, building_id = ?, floor_number = ?, location_type_id = ?, location_name = ?, description = ?, coordinates = ? WHERE location_id = ? AND soft_delete = 0';
 
         const dataLocation = [campus, building_id, floor_number, location_type_id, location_name, description, location_id];
 
@@ -114,6 +113,15 @@ async function getLocation(location_id){
     }
 }
 
+async function getAllLocationsWithCoordinates() {
+    const conn = await database.connect();
+    const sql = "SELECT location_id, location_name, coordinates FROM locations WHERE soft_delete = 0";
+    const [rows] = await conn.query(sql);
+    conn.end();
+    return rows;
+}
+
+
 async function getAllLocation(){
     const conn = await database.connect();
 
@@ -123,4 +131,4 @@ async function getAllLocation(){
     return rows;
 }
 
-export default {createLocation, deleteLocation, updateLocation, getLocation, getAllLocation}
+export default {createLocation, deleteLocation, updateLocation, getLocation, getAllLocation, getAllLocationsWithCoordinates}

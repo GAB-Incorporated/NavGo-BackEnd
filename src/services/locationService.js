@@ -127,15 +127,6 @@ async function getLocation(location_id){
     }
 }
 
-async function getAllLocationsWithCoordinates() {
-    const conn = await database.connect();
-    const sql = "SELECT location_id, location_name, coordinates FROM locations WHERE soft_delete = 0";
-    const [rows] = await conn.query(sql);
-    conn.end();
-    return rows;
-}
-
-
 async function getAllLocation(){
     const conn = await database.connect();
 

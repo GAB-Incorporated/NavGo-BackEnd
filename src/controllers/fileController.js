@@ -31,13 +31,13 @@ routes.post('/upload', jwt.verifyToken, upload.single('file'), async (req, res) 
     }
 });
 
-
 routes.get('/:classId', jwt.verifyToken, async (req, res) => {
     const classId = req.params.classId;
     const userId = req.user.id_usuario;
     const userType = req.user.user_type;
 
     try {
+
         const bucketName = await userService.verifyClass(userId, classId, userType);
 
         if (!bucketName) {

@@ -42,19 +42,25 @@ async function uploadFile(classDirectory, file) {
 
 async function listFiles(dirName) {
     try {
-
         const [files] = await storage.bucket(BUCKET_NAME).getFiles({
-            prefix: dirName, // Prefixo que define o diretório
+            prefix: dirName,
         });
 
-        return files.map(file => ({
-            name: file.name.replace(dirName, ''), // Remove o prefixo do nome exibido
-            url: `https://storage.googleapis.com/${BUCKET_NAME}/${file.name}`
+        // Cria url de leitura
+        const signedFiles = await Promise.all(files.map(async (file) => {
+            const signedUrl = await generateSignedUrl(file.name); 
+            return {
+                name: file.name.replace(dirName, ''), 
+                url: signedUrl 
+            };
         }));
+
+        return signedFiles;
     } catch (error) {
         throw new Error(`Erro ao listar arquivos no diretório ${dirName}: ${error.message}`);
     }
 }
+
 
 //QUEBRADO TAMBÉM
 // async function downloadFile(bucketName, fileName) {

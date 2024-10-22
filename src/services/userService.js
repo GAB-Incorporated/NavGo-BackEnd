@@ -155,10 +155,10 @@ async function getOneUser(user_id) {
     }
 }
 
-async function createStudent(relation_id, course_id, user_id, module_id) {
+async function createStudent(course_id, user_id, module_id) {
     const conn = await database.connect();
-    const sql = "insert into students (relation_id, course_id, user_id, module_id) values (?, ?, ?, ?)";
-    const data = [relation_id, course_id, user_id, module_id];
+    const sql = "insert into students (course_id, user_id, module_id) values (?, ?, ?)";
+    const data = [course_id, user_id, module_id];
 
     try {
 
@@ -238,13 +238,14 @@ async function getOneStudent(id) {
 }
 
 async function verifyClass(userId, classId, user_type) {
-    const sql = "SELECT bucket FROM class_info WHERE class_id = ? AND teacher_id = ? AND soft_delete = false";
 
     const conn = await database.connect();
 
     try {
 
         if(user_type == 'TEACHER'){
+
+            const sql = "SELECT bucket FROM class_info WHERE class_id = ? AND teacher_id = ? AND soft_delete = false";
 
             const [rows] = await conn.query(sql, [classId, userId]);
 
@@ -253,6 +254,7 @@ async function verifyClass(userId, classId, user_type) {
             } else {
                 return null;
             }
+            
         } else if (user_type === 'STUDENT') {
             const sqlStudent = `
                 SELECT ci.bucket 

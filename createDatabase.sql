@@ -172,10 +172,10 @@ insert into course_periods (course_id, period_id) values
 (2, 2),
 (3, 3);
 
-insert into class_info (subject_id, period_id, week_day, teacher_id, course_id, location_id) values 
-(2, 1, 2, 2, 1, 2),
-(3, 1, 2, 1, 1, 2),
-(1, 3, 1, 3, 1, 2);
+insert into class_info (subject_id, period_id, week_day, teacher_id, course_id, location_id, bucket) values 
+(2, 1, 2, 2, 1, 2, 'class/1/1/1728335520514'),
+(3, 1, 2, 1, 1, 2, 'class/2/1/1729377180853'),
+(1, 3, 1, 3, 1, 2, 'class/1/1/1729607863992');
 
 insert into students (course_id ,user_id ,module_id) values 
 (1, 1, 1),

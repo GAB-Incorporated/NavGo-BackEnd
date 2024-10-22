@@ -25,6 +25,7 @@ create table if not exists locations(
     location_type_id int,
     location_name varchar(50),
     description varchar(200),
+    coordinates JSON,
     open_time timestamp default current_timestamp,
     closing_time timestamp default current_timestamp,
     soft_delete bool default false,

@@ -52,15 +52,15 @@ routes.get('/:classId', jwt.verifyToken, async (req, res) => {
 });
 
 // Completamente quebrado
-routes.get('/download', async (req, res) => {
+// routes.get('/download', async (req, res) => {
 
-    const { fileName, turmaBucket } = req.query;
-    try {
-        const filePath = await fileService.downloadFile(turmaBucket, fileName);
-        res.download(filePath);
-    } catch (error) {
-        return res.status(500).send({ message: 'Erro ao fazer download do arquivo', error: error.message });
-    }
-});
+//     const { fileName, turmaBucket } = req.query;
+//     try {
+//         const filePath = await fileService.downloadFile(turmaBucket, fileName);
+//         res.download(filePath);
+//     } catch (error) {
+//         return res.status(500).send({ message: 'Erro ao fazer download do arquivo', error: error.message });
+//     }
+// });
 
 export default routes;

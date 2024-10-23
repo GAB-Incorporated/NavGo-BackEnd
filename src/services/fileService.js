@@ -40,6 +40,21 @@ async function uploadFile(classDirectory, file) {
     }
 }
 
+async function generateSignedUrl(fileName) {
+    const options = {
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 60 * 60 * 1000, // 60 min
+    };
+
+    const [url] = await storage
+        .bucket(BUCKET_NAME)
+        .file(fileName)
+        .getSignedUrl(options);
+
+    return url;
+}
+
 async function listFiles(dirName) {
     try {
         const [files] = await storage.bucket(BUCKET_NAME).getFiles({
@@ -62,7 +77,8 @@ async function listFiles(dirName) {
 }
 
 
-//QUEBRADO TAMBÉM
+// Implementar talvez para download sem intermédio?
+//
 // async function downloadFile(bucketName, fileName) {
 //     const bucket = storage.bucket(bucketName);
 //     const destination = path.join(__dirname, '..', 'downloads', fileName);
@@ -75,4 +91,4 @@ async function listFiles(dirName) {
 //     }
 // }
 
-export default { uploadFile, listFiles };
+export default { uploadFile, listFiles, generateSignedUrl };

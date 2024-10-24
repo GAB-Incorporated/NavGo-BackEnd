@@ -92,13 +92,29 @@ async function getClassesByStudent(userId) {
 
     try {
         const sql = `
-            SELECT DISTINCT ci.class_id, ci.subject_id, ci.module_id, ci.location_id
-            FROM class_info ci
-            JOIN students s ON ci.course_id = s.course_id
-            WHERE s.user_id = ?
-              AND ci.soft_delete = false
-              AND s.soft_delete = false;
-        `;
+            SELECT DISTINCT 
+                ci.class_id, 
+                sub.subject_name, 
+                t.first_name AS first_name, 
+                t.last_name AS last_name,
+                ci.module_id, 
+                l.location_name,
+                l.description
+            FROM 
+                class_info ci
+            JOIN 
+                students s ON ci.course_id = s.course_id
+            JOIN 
+                subjects sub ON ci.subject_id = sub.subject_id
+            JOIN 
+                users t ON ci.teacher_id = t.user_id
+            JOIN
+                locations l ON ci.location_id = l.location_id 
+            WHERE 
+                s.user_id = ?
+                AND ci.soft_delete = false
+                AND s.soft_delete = false;
+            `;
 
         const [rows] = await conn.query(sql, [userId]);
 

@@ -40,6 +40,29 @@ async function uploadFile(classDirectory, file) {
     }
 }
 
+async function getLastFileForClass(dirName) {
+    try {
+        const files = await listFiles(dirName);
+        if (files.length === 0) {
+            return null;
+        }
+
+        const lastFile = files.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))[0];
+
+        const formattedFileName = lastFile.name.startsWith('/') ? lastFile.name.substring(1) : lastFile.name;
+
+        const formattedFileTime = new Date(lastFile.uploadDate).toISOString().slice(0, 16).replace('T', ' '); // Até os minutos
+
+        return {
+            lastFileName: formattedFileName,
+            lastFileTime: formattedFileTime
+        };
+    } catch (error) {
+        throw new Error(`Erro ao buscar o último arquivo para a turma ${dirName}: ${error.message}`);
+    }
+}
+
+
 async function generateSignedUrl(fileName) {
     const options = {
         version: 'v4',
@@ -61,12 +84,16 @@ async function listFiles(dirName) {
             prefix: dirName,
         });
 
-        // Cria url de leitura
         const signedFiles = await Promise.all(files.map(async (file) => {
             const signedUrl = await generateSignedUrl(file.name); 
+
+            const [metadata] = await file.getMetadata(); 
+            const uploadDate = metadata.timeCreated; 
+
             return {
                 name: file.name.replace(dirName, ''), 
-                url: signedUrl 
+                url: signedUrl,
+                uploadDate: uploadDate 
             };
         }));
 
@@ -75,6 +102,7 @@ async function listFiles(dirName) {
         throw new Error(`Erro ao listar arquivos no diretório ${dirName}: ${error.message}`);
     }
 }
+
 
 
 // Implementar talvez para download sem intermédio?
@@ -91,4 +119,4 @@ async function listFiles(dirName) {
 //     }
 // }
 
-export default { uploadFile, listFiles, generateSignedUrl };
+export default { uploadFile, listFiles, generateSignedUrl, getLastFileForClass };

@@ -51,7 +51,16 @@ async function getLastFileForClass(dirName) {
 
         const formattedFileName = lastFile.name.startsWith('/') ? lastFile.name.substring(1) : lastFile.name;
 
-        const formattedFileTime = new Date(lastFile.uploadDate).toISOString().slice(0, 16).replace('T', ' '); // Até os minutos
+        const formattedFileTime = new Date(lastFile.uploadDate)
+            .toLocaleString('pt-BR', {
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            })
+            .replace(',', '');
+
 
         return {
             lastFileName: formattedFileName,

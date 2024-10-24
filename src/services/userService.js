@@ -261,7 +261,6 @@ async function verifyClass(userId, classId, user_type) {
                 FROM students s
                 INNER JOIN class_info ci 
                     ON ci.course_id = s.course_id 
-                    AND ci.module_id = s.module_id
                 WHERE s.user_id = ? 
                 AND ci.class_id = ?
                 AND s.soft_delete = false

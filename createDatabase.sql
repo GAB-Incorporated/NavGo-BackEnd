@@ -144,7 +144,8 @@ insert into users (first_name, last_name, nick_name, email, password_hash, user_
 ('Jane', 'Smith', 'Jsmith', 'janesmith@example.com', 'hashed_password_2', 'TEACHER', 'link-photo_2'),
 ('Marcos', 'Costa', 'Marcao', 'marcos@example.com', 'hashed_password_3', 'ADMINISTRATOR', 'link-photo_3'),
 ('Albert', 'Einstein', 'Beto', 'albert@example.com', 'hashed_password_4', 'STUDENT', 'link-photo_4'),
-('Nikola', 'Tesla', 'Nicolas', 'nikolas@example.com', 'hashed_password_5', 'STUDENT', 'link-photo_5');
+('Nikola', 'Tesla', 'Nicolas', 'nikolas@example.com', 'hashed_password_5', 'STUDENT', 'link-photo_5'),
+('José', 'da Silva', 'Zé', 'estudante@gmail.com', 'HASHPASS', 'STUDENT', 'link232')
 
 
 insert into courses (course_name, coordinator_id) values 
@@ -172,15 +173,16 @@ insert into course_periods (course_id, period_id) values
 (2, 2),
 (3, 3);
 
-insert into class_info (subject_id, period_id, week_day, teacher_id, course_id, location_id, bucket) values 
-(2, 1, 2, 2, 1, 2, 'class/1/1/1728335520514'),
-(3, 1, 2, 1, 1, 2, 'class/2/1/1729377180853'),
-(1, 3, 1, 3, 1, 2, 'class/1/1/1729607863992');
+insert into class_info (subject_id, period_id, week_day, teacher_id, course_id, module_id, location_id, bucket) values
+(2, 1, 2, 2, 1, 1, 2, 'class/1/1/1728335520514'),
+(3, 1, 2, 1, 1, 1, 2, 'class/2/1/1729377180853'),
+(1, 3, 1, 3, 1, 1, 2, 'class/1/1/1729607863992');
 
 insert into students (course_id ,user_id ,module_id) values 
 (1, 1, 1),
 (2, 2, 2),
-(3, 3, 3);
+(3, 3, 3),
+(1, 6, 2);
 
 insert into verification_codes (code, user_id) values 
 ('ABC123SP', 1),

@@ -72,11 +72,12 @@ async function getLastFileForClass(dirName) {
 }
 
 
-async function generateSignedUrl(fileName) {
+async function generateSignedUrl(fileName, download = false) {
     const options = {
         version: 'v4',
         action: 'read',
         expires: Date.now() + 60 * 60 * 1000, // 60 min
+        responseDisposition: download ? `attachment; filename="${fileName}"` : undefined,
     };
 
     const [url] = await storage
@@ -94,14 +95,16 @@ async function listFiles(dirName) {
         });
 
         const signedFiles = await Promise.all(files.map(async (file) => {
-            const signedUrl = await generateSignedUrl(file.name); 
+            const viewUrl = await generateSignedUrl(file.name, false); 
+            const downloadUrl = await generateSignedUrl(file.name, true); 
 
             const [metadata] = await file.getMetadata(); 
             const uploadDate = metadata.timeCreated; 
 
             return {
                 name: file.name.replace(dirName, ''), 
-                url: signedUrl,
+                url: viewUrl,
+                downloadUrl: downloadUrl,
                 uploadDate: uploadDate 
             };
         }));
@@ -111,8 +114,6 @@ async function listFiles(dirName) {
         throw new Error(`Erro ao listar arquivos no diretório ${dirName}: ${error.message}`);
     }
 }
-
-
 
 // Implementar talvez para download sem intermédio?
 //

@@ -10,15 +10,22 @@ const upload = multer({ storage: storage });
 const routes = express.Router();
 
 routes.post('/upload', jwt.verifyToken, upload.single('file'), async (req, res) => {
-    const classId = req.body.classId;
+    const {classId} = req.body;
     const userId = req.user.id_usuario; 
     const userType = req.user.user_type;
-    const file = req.file; 
+    const file = req.file;
+
+    console.log(classId)
+    console.log(userId)
+    console.log(userType)
+
     // Objeto file é criado pelo multer, a partir da 'file' no body da req
 
     try {
 
         const bucketName = await userService.verifyClass(userId, classId, userType);
+
+        console.log(bucketName);
 
         if (!bucketName) {
             return res.status(403).send({ message: 'Acesso negado à turma' });

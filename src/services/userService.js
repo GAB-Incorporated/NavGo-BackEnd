@@ -245,9 +245,9 @@ async function verifyClass(userId, classId, user_type) {
 
         if(user_type == 'TEACHER'){
 
-            const sql = "SELECT bucket FROM class_info WHERE class_id = ? AND teacher_id = ? AND soft_delete = false";
+            const sql = "SELECT bucket FROM class_info WHERE class_id = ? AND soft_delete = false";
 
-            const [rows] = await conn.query(sql, [classId, userId]);
+            const [rows] = await conn.query(sql, [classId]);
 
             if (rows.length > 0) {
                 return rows[0].bucket;

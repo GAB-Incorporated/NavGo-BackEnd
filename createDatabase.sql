@@ -140,13 +140,13 @@ insert into locations (campus, building_id, floor_number, location_type_id, loca
 ('Main Campus', 3, 3, 3, 'Office 301', 'Administration Office');
 
 insert into users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) values 
-('John', 'Doe', 'Dudo', 'johndoe@example.com', 'hashed_password_1', 'STUDENT', 'link-photo_1'),
-('Jane', 'Smith', 'Jsmith', 'janesmith@example.com', 'hashed_password_2', 'TEACHER', 'link-photo_2'),
-('Marcos', 'Costa', 'Marcao', 'marcos@example.com', 'hashed_password_3', 'ADMINISTRATOR', 'link-photo_3'),
-('Albert', 'Einstein', 'Beto', 'albert@example.com', 'hashed_password_4', 'STUDENT', 'link-photo_4'),
-('Nikola', 'Tesla', 'Nicolas', 'nikolas@example.com', 'hashed_password_5', 'STUDENT', 'link-photo_5'),
-('José', 'da Silva', 'Zé', 'estudante@gmail.com', 'HASHPASS', 'STUDENT', 'link232')
-
+('John', 'Doe', 'Dudo', 'johndoe@example.com', 'HASHPASS', 'STUDENT', 'link-photo_1'),
+('Jane', 'Smith', 'Jsmith', 'janesmith@example.com', 'HASHPASS', 'TEACHER', 'link-photo_2'),
+('Marcos', 'Costa', 'Marcao', 'marcos@example.com', 'HASHPASS', 'ADMINISTRATOR', 'link-photo_3'),
+('Albert', 'Einstein', 'Beto', 'albert@example.com', 'HASHPASS', 'STUDENT', 'link-photo_4'),
+('Nikola', 'Tesla', 'Nicolas', 'nikolas@example.com', 'HASHPASS', 'STUDENT', 'link-photo_5'),
+('José', 'da Silva', 'Zé', 'estudante@gmail.com', 'HASHPASS', 'STUDENT', 'link232'),
+('João', 'da Silva', 'Jão', 'professor@gmail.com', 'HASHPASS', 'TEACHER', 'link232')
 
 insert into courses (course_name, coordinator_id) values 
 ('Computer Science', 3),

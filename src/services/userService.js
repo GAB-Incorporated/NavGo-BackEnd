@@ -281,6 +281,8 @@ async function verifyClass(userId, classId, user_type) {
         }
     } catch (error) {
         throw new Error(error.message);
+    } finally {
+        conn.end();
     }
 }
 

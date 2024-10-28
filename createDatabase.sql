@@ -182,7 +182,8 @@ insert into students (course_id ,user_id ,module_id) values
 (1, 1, 1),
 (2, 2, 2),
 (3, 3, 3),
-(1, 6, 2);
+(1, 6, 2),
+(1, 7, 2);
 
 insert into verification_codes (code, user_id) values 
 ('ABC123SP', 1),

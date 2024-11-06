@@ -158,7 +158,9 @@ INSERT INTO locations (campus, building_id, floor_number, location_type_id, loca
 ('Main Campus', 1, 1, 2, 'Laboratório 1', 'Laboratório equipado para aulas com computadores', 
     JSON_ARRAY(JSON_ARRAY(2, 0), JSON_ARRAY(10, 0), JSON_ARRAY(10, 6), JSON_ARRAY(2, 6))),
 ('Main Campus', 1, 1, 2, 'Laboratório 2', 'Laboratório equipado para aulas com computadores', 
-    JSON_ARRAY(JSON_ARRAY(60, 0), JSON_ARRAY(68, 0), JSON_ARRAY(68, 6), JSON_ARRAY(60, 6)));
+    JSON_ARRAY(JSON_ARRAY(60, 0), JSON_ARRAY(68, 0), JSON_ARRAY(68, 6), JSON_ARRAY(60, 6))),
+('Main Campus', 1, 0, 2, 'Pátio', 'Pátio da escola', 
+    JSON_ARRAY(JSON_ARRAY(0,0), JSON_ARRAY(72, 0), JSON_ARRAY(72, 20), JSON_ARRAY(0, 20)));
 
 
 insert into users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) values 

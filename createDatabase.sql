@@ -134,10 +134,32 @@ insert into location_types (type_name, description) values
 ('Laboratory', 'Room equipped for experiments and research'),
 ('Office', 'Room used for administrative purposes');
 
-insert into locations (campus, building_id, floor_number, location_type_id, location_name, description) values 
-('Main Campus', 1, 1, 1, 'Room 101', 'Main Classroom'),
-('Main Campus', 2, 2, 2, 'Lab 202', 'Computer Science Lab'),
-('Main Campus', 3, 3, 3, 'Office 301', 'Administration Office');
+INSERT INTO locations (campus, building_id, floor_number, location_type_id, location_name, description, coordinates) VALUES
+('Main Campus', 1, 0, 3, 'Area da Instituição', 'The area of the institution', 
+    JSON_ARRAY(JSON_ARRAY(-23.641745, -46.836244), JSON_ARRAY(-23.641423, -46.836757), JSON_ARRAY(-23.640949, -46.836323), JSON_ARRAY(-23.640958, -46.836029), JSON_ARRAY(-23.641084, -46.835416))),
+('Main Campus', 1, 0, 3, 'Main Building', 'The main building of ETEC', 
+    JSON_ARRAY(JSON_ARRAY(-23.641008, -46.836329), JSON_ARRAY(-23.641190, -46.836365), JSON_ARRAY(-23.641292, -46.835695), JSON_ARRAY(-23.641119, -46.835665))),
+('Main Campus', 1, 0, 3, 'Main Entrance', 'The main entrance hallway', 
+    JSON_ARRAY(JSON_ARRAY(-23.6415495, -46.835993), JSON_ARRAY(-23.641523, -46.836090), JSON_ARRAY(-23.641453, -46.836110), JSON_ARRAY(-23.641361, -46.836120), JSON_ARRAY(-23.641303, -46.836173), JSON_ARRAY(-23.641239, -46.836469))),
+('Main Campus', 1, 0, 3, 'Biblioteca', 'A biblioteca da etec, onde está disponível diversos livros, trabalhos de conclusão de cursos anteriores e computadores para acesso a internet', 
+    JSON_ARRAY(JSON_ARRAY(72, 8), JSON_ARRAY(72, 20), JSON_ARRAY(64, 20), JSON_ARRAY(64, 8))),
+('Main Campus', 1, 0, 3, 'CPD', 'Sala do suporte técnico da escola', 
+    JSON_ARRAY(JSON_ARRAY(72, 0), JSON_ARRAY(72, 8), JSON_ARRAY(61, 8), JSON_ARRAY(61, 0))),
+('Main Campus', 1, 0, 3, 'Secretaria', 'Secretaria e corpo adminsitrativo da escola, aqui você pode tirar dúvidas especifícas e verificar o estado dos seus cartões de ônibus escolares', 
+    JSON_ARRAY(JSON_ARRAY(64, 13), JSON_ARRAY(64, 20), JSON_ARRAY(52, 20), JSON_ARRAY(52, 13))),
+('Main Campus', 1, 0, 3, 'Diretoria', 'Sala exclusiva para a diretoria', 
+    JSON_ARRAY(JSON_ARRAY(52, 13), JSON_ARRAY(52, 20), JSON_ARRAY(46, 20), JSON_ARRAY(46, 13))),
+('Main Campus', 1, 0, 3, 'Cozinha', 'Sala exclusiva para a cozinha', 
+    JSON_ARRAY(JSON_ARRAY(46, 13), JSON_ARRAY(46, 20), JSON_ARRAY(38, 20), JSON_ARRAY(38, 13))),
+('Main Campus', 1, 0, 3, 'Laboratório Maker', 'Laboratório com notebooks, impressora 3d e equipado para aulas de sistemas embarcados', 
+    JSON_ARRAY(JSON_ARRAY(20, 14), JSON_ARRAY(10, 14), JSON_ARRAY(10, 20), JSON_ARRAY(20, 20))),
+('Main Campus', 1, 0, 3, 'Auditório', 'Auditório para palestras e apresentações', 
+    JSON_ARRAY(JSON_ARRAY(0, 14), JSON_ARRAY(10, 14), JSON_ARRAY(10, 20), JSON_ARRAY(0, 20))),
+('Main Campus', 1, 1, 2, 'Laboratório 1', 'Laboratório equipado para aulas com computadores', 
+    JSON_ARRAY(JSON_ARRAY(2, 0), JSON_ARRAY(10, 0), JSON_ARRAY(10, 6), JSON_ARRAY(2, 6))),
+('Main Campus', 1, 1, 2, 'Laboratório 2', 'Laboratório equipado para aulas com computadores', 
+    JSON_ARRAY(JSON_ARRAY(60, 0), JSON_ARRAY(68, 0), JSON_ARRAY(68, 6), JSON_ARRAY(60, 6)));
+
 
 insert into users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) values 
 ('John', 'Doe', 'Dudo', 'johndoe@example.com', 'HASHPASS', 'STUDENT', 'link-photo_1'),

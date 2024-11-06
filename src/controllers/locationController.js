@@ -19,20 +19,6 @@ routes.get('/', async (req, res) => {
     }
 });
 
-routes.get('/coordinates', async (req, res) => {
-    try {
-        const locationsWithCoordinates = await locationService.getAllLocationsWithCoordinates();
-
-        if (locationsWithCoordinates.length < 1) {
-            return res.status(204).end();
-        }
-
-        res.status(200).json(locationsWithCoordinates);
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Erro ao buscar as localizações com coordenadas.' });
-    }
-});
-
 routes.get('/:id', async (req, res) => {
     const locationId = parseInt(req.params.id, 10);
 

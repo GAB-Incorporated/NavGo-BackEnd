@@ -50,15 +50,9 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-    - name: Authenticate Docker to Google Container Registry
+    - name: Get GCR Access Token
       run: |
-        echo "Authenticating Docker with GCR"
-        gcloud auth configure-docker gcr.io
-
-    - name: Debug Authentication
-      run: |
-        echo "Current Docker Auth Info"
-        cat ~/.docker/config.json
+        gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io
 
     - name: Push image to Google Container Registry
       run: |

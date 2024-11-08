@@ -10,7 +10,6 @@ env:
   PROJECT: vital-domain-436623-b8
   REPO: navgo
   IMAGE: navgo-api
-  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
 
 jobs: 
   build-push:
@@ -25,7 +24,7 @@ jobs:
       - name: Google Cloud Auth
         uses: google-github-actions/auth@v1
         with:
-          credentials_json: "${{ secrets.GC_IMAGE_MANAGER_KEY }}"
+          credentials_json: ${{ secrets.GC_IMAGE_MANAGER_KEY }}
 
       - name: Setup Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -40,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-            push: true
-            tags: ${{ env.IMAGE_TAG }}
-            cache-from: type=gha
-            cache-to: type=gha,mode=max
+          push: true
+          tags: ${{ env.IMAGE_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -52,6 +52,11 @@ jobs:
 
     - name: Authenticate Docker to Google Container Registry
       run: gcloud auth configure-docker
+    
+    - name: Enable Artifact Registry API
+      run: |
+        gcloud services enable artifactregistry.googleapis.com
+        echo "Artifact Registry API enabled"
 
     - name: Push image to Google Container Registry
       run: |

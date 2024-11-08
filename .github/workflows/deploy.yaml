@@ -29,9 +29,11 @@ jobs:
         push: true
         tags: guilherm124/navgo-api:latest
 
+    - name: List Docker images (Debug)
+      run: docker images
+
     - name: Verify Docker image exists
       run: |
-        docker images
         if ! docker images guilherm124/navgo-api:latest | grep -q 'latest'; then
           echo "Docker image guilherm124/navgo-api:latest not found"
           exit 1

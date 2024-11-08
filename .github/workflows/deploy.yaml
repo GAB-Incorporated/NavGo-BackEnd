@@ -53,11 +53,6 @@ jobs:
     - name: Authenticate Docker to Google Container Registry
       run: gcloud auth configure-docker
     
-    - name: Enable Artifact Registry API
-      run: |
-        gcloud services enable artifactregistry.googleapis.com
-        echo "Artifact Registry API enabled"
-
     - name: Push image to Google Container Registry
       run: |
         docker tag guilherm124/navgo-api:latest gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest

@@ -52,17 +52,15 @@ jobs:
 
     - name: Authenticate Docker to Google Container Registry
       run: |
+        echo "Authenticating Docker with GCR"
         gcloud auth configure-docker gcr.io
+
+    - name: Debug Authentication
+      run: |
+        echo "Current Docker Auth Info"
+        cat ~/.docker/config.json
 
     - name: Push image to Google Container Registry
       run: |
         docker tag guilherm124/navgo-api:latest gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest
-
-    - name: Deploy to Google Cloud Run
-      run: |
-        gcloud run deploy navgo-api-service \
-          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest \
-          --region us-central1 \
-          --platform managed \
-          --allow-unauthenticated

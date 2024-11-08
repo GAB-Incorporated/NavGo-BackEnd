@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set variables
-        run: echo "IMAGE_TAG=$REGION-docker.pkg.dev/$PROJECT/$REPO/$IMAGE" >> $GITHUB_ENV
+        run: echo "IMAGE_TAG=$REGION-docker.pkg.dev/$PROJECT/$REPO/$IMAGE:latest" >> $GITHUB_ENV
       
       - name: Google Cloud Auth
         uses: google-github-actions/auth@v1
@@ -43,3 +43,11 @@ jobs:
           tags: ${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      
+      - name: Deploy to Google Cloud Run
+        run: |
+          gcloud run deploy ${IMAGE} \
+            --image ${{ env.IMAGE_TAG }} \
+            --region ${{ env.REGION }} \
+            --platform managed \
+            --allow-unauthenticated

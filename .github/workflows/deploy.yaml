@@ -44,11 +44,10 @@ jobs:
         docker tag guilherm124/navgo-api:latest gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest
 
-  - name: Deploy to Google Cloud Run
-    run: |
-      gcloud run deploy navgo-api-service \
-        --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest \
-        --region us-central1 \
-        --platform managed \
-        --allow-unauthenticated
-
+    - name: Deploy to Google Cloud Run
+      run: |
+        gcloud run deploy navgo-api-service \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest \
+          --region us-central1 \
+          --platform managed \
+          --allow-unauthenticated

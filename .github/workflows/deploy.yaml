@@ -51,8 +51,9 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
     - name: Authenticate Docker to Google Container Registry
-      run: gcloud auth configure-docker
-    
+      run: |
+        gcloud auth configure-docker gcr.io
+
     - name: Push image to Google Container Registry
       run: |
         docker tag guilherm124/navgo-api:latest gcr.io/${{ secrets.GCP_PROJECT_ID }}/navgo-api:latest

@@ -47,13 +47,12 @@ jobs:
       uses: google-github-actions/setup-gcloud@v1
       with:
         version: 'latest'
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        service_account_key: ${{ secrets.GCP_SA_KEY_ARTIFACT_REGISTRY }}
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
     - name: Authenticate Docker to Google Container Registry
       run: |
         echo "Authenticating Docker with GCR"
-        gcloud auth activate-service-account --key-file="${{ secrets.GCP_SA_KEY }}"
         gcloud auth configure-docker gcr.io
 
     - name: Debug Authentication

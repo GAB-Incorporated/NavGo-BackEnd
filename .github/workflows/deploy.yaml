@@ -21,7 +21,7 @@ jobs:
       - name: Set variables
         run: echo "IMAGE_TAG=$REGION-docker.pkg.dev/$PROJECT/$REPO/$IMAGE:latest" >> $GITHUB_ENV
       
-      - name: Google Cloud Auth
+      - name: Google Cloud Auth for Build and Push
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GC_IMAGE_MANAGER_KEY }}
@@ -43,6 +43,11 @@ jobs:
           tags: ${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Google Cloud Auth for Deployment
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GC_DEPLOYER_KEY }}
       
       - name: Deploy to Google Cloud Run
         run: |

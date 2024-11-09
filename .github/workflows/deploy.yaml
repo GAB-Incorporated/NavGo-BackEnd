@@ -50,9 +50,9 @@ jobs:
       - name: Deploy to Google Cloud Run
         run: |
           gcloud run deploy ${IMAGE} \
-            --image ${{ env.IMAGE_TAG }} \
-            --region ${{ env.REGION }} \
+            --image "${{ env.IMAGE_TAG }}" \
+            --region "${{ env.REGION }}" \
             --platform managed \
             --allow-unauthenticated \
             --port 3333 \
-            --set-env-vars ROOT_PASSWORD=${{ secrets.ROOT_PASSWORD }},DB_NAME=${{ secrets.DB_NAME }},DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},SECURITY_KEY=${{ secrets.SECURITY_KEY }},DB_URL=${{ secrets.DB_URL }},PROJECT_ID=${{ secrets.PROJECT_ID }},GOOGLE_APPLICATION_CREDENTIALS_PATH=./gcp-credentials.json
+            --set-env-vars "ROOT_PASSWORD=${{ secrets.ROOT_PASSWORD }},DB_NAME=${{ secrets.DB_NAME }},DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},SECURITY_KEY=${{ secrets.SECURITY_KEY }},DB_URL=${{ secrets.DB_URL }},PROJECT_ID=${{ secrets.PROJECT_ID }},GOOGLE_APPLICATION_CREDENTIALS_PATH=./gcp-credentials.json"

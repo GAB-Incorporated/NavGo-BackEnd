@@ -21,6 +21,9 @@ jobs:
       - name: Set variables
         run: echo "IMAGE_TAG=$REGION-docker.pkg.dev/$PROJECT/$REPO/$IMAGE:latest" >> $GITHUB_ENV
       
+      - name: Create gcp-credentials.json env file
+        run: echo "${{ secrets.GCP_CREDENTIALS_JSON }}" > ./gcp-credentials.json
+
       - name: Google Cloud Auth
         uses: google-github-actions/auth@v1
         with:
@@ -43,11 +46,13 @@ jobs:
           tags: ${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      
+
       - name: Deploy to Google Cloud Run
         run: |
           gcloud run deploy ${IMAGE} \
             --image ${{ env.IMAGE_TAG }} \
             --region ${{ env.REGION }} \
             --platform managed \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --port 3333 \
+            --set-env-vars ROOT_PASSWORD=${{ secrets.ROOT_PASSWORD }},DB_NAME=${{ secrets.DB_NAME }},DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},SECURITY_KEY=${{ secrets.SECURITY_KEY }},DB_URL=${{ secrets.DB_URL }},PROJECT_ID=${{ secrets.PROJECT_ID }},GOOGLE_APPLICATION_CREDENTIALS_PATH=./gcp-credentials.json

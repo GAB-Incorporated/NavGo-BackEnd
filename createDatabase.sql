@@ -33,6 +33,17 @@ create table if not exists locations(
     foreign key (location_type_id) references location_types(type_id)
 );
 
+create table if not exists nodes (
+    node_id int auto_increment primary key,
+    building_id INT,
+    floor_number INT,
+    x DECIMAL(10, 8),
+    y DECIMAL(10, 8),
+    description VARCHAR(100),
+    node_type ENUM('regular', 'stair') default 'regular',
+    foreign key (building_id) references buildings(building_id)
+);
+
 create table if not exists users(
     user_id int auto_increment primary key,
     first_name varchar(50),
@@ -161,6 +172,50 @@ INSERT INTO locations (campus, building_id, floor_number, location_type_id, loca
     JSON_ARRAY(JSON_ARRAY(60, 0), JSON_ARRAY(68, 0), JSON_ARRAY(68, 6), JSON_ARRAY(60, 6))),
 ('Main Campus', 1, 0, 2, 'Pátio', 'Pátio da escola', 
     JSON_ARRAY(JSON_ARRAY(0,0), JSON_ARRAY(72, 0), JSON_ARRAY(72, 20), JSON_ARRAY(0, 20)));
+
+INSERT INTO nodes (building_id, floor_number, x, y, description, node_type) VALUES
+(1, 0, 72, 8, 'Biblioteca Entrance 1', 'regular'),
+(1, 0, 72, 20, 'Biblioteca Entrance 2', 'regular'),
+(1, 0, 64, 20, 'Biblioteca Rear 1', 'regular'),
+(1, 0, 64, 8, 'Biblioteca Rear 2', 'regular'),
+(1, 0, 72, 0, 'CPD Entrance 1', 'regular'),
+(1, 0, 72, 8, 'CPD Entrance 2', 'regular'),
+(1, 0, 61, 8, 'CPD Rear 1', 'regular'),
+(1, 0, 61, 0, 'CPD Rear 2', 'regular'),
+(1, 0, 64, 13, 'Secretaria Entrance 1', 'regular'),
+(1, 0, 64, 20, 'Secretaria Entrance 2', 'regular'),
+(1, 0, 52, 20, 'Secretaria Rear 1', 'regular'),
+(1, 0, 52, 13, 'Secretaria Rear 2', 'regular'),
+(1, 0, 52, 13, 'Diretoria Entrance 1', 'regular'),
+(1, 0, 52, 20, 'Diretoria Entrance 2', 'regular'),
+(1, 0, 46, 20, 'Diretoria Rear 1', 'regular'),
+(1, 0, 46, 13, 'Diretoria Rear 2', 'regular'),
+(1, 0, 46, 13, 'Cozinha Entrance 1', 'regular'),
+(1, 0, 46, 20, 'Cozinha Entrance 2', 'regular'),
+(1, 0, 38, 20, 'Cozinha Rear 1', 'regular'),
+(1, 0, 38, 13, 'Cozinha Rear 2', 'regular'),
+(1, 0, 20, 14, 'Laboratório Maker Entrance 1', 'regular'),
+(1, 0, 10, 14, 'Laboratório Maker Entrance 2', 'regular'),
+(1, 0, 10, 20, 'Laboratório Maker Rear 1', 'regular'),
+(1, 0, 20, 20, 'Laboratório Maker Rear 2', 'regular'),
+(1, 0, 0, 14, 'Auditório Entrance 1', 'regular'),
+(1, 0, 10, 14, 'Auditório Entrance 2', 'regular'),
+(1, 0, 10, 20, 'Auditório Rear 1', 'regular'),
+(1, 0, 0, 20, 'Auditório Rear 2', 'regular'),
+(1, 1, 2, 0, 'Laboratório 1 Entrance 1', 'regular'),
+(1, 1, 10, 0, 'Laboratório 1 Entrance 2', 'regular'),
+(1, 1, 10, 6, 'Laboratório 1 Rear 1', 'regular'),
+(1, 1, 2, 6, 'Laboratório 1 Rear 2', 'regular'),
+(1, 1, 60, 0, 'Laboratório 2 Entrance 1', 'regular'),
+(1, 1, 68, 0, 'Laboratório 2 Entrance 2', 'regular'),
+(1, 1, 68, 6, 'Laboratório 2 Rear 1', 'regular'),
+(1, 1, 60, 6, 'Laboratório 2 Rear 2', 'regular'),
+(1, 0, 0, 0, 'Pátio Entrance 1', 'regular'),
+(1, 0, 72, 0, 'Pátio Entrance 2', 'regular'),
+(1, 0, 72, 20, 'Pátio Rear 1', 'regular'),
+(1, 0, 0, 20, 'Pátio Rear 2', 'regular'),
+(1, 0, 25.25, 9.5, 'Staircase Bottom', 'stair'),
+(1, 1, 25.25, 9.5, 'Staircase Top', 'stair');
 
 
 insert into users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) values 

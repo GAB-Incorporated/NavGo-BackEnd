@@ -8,6 +8,7 @@ import buildingsController from './controllers/buildingsController.js'
 import fileController from './controllers/fileController.js'
 import classController from './controllers/classInfoController.js'
 import periodsController from './controllers/periodsController.js'
+import routingController from './controllers/routingController.js'
 
 const routes = express();
 
@@ -20,5 +21,6 @@ routes.use('/buildings', buildingsController);
 routes.use('/files', fileController);
 routes.use('/classes', classController);
 routes.use('/periods', periodsController);
+routes.use('/routing', routingController);
 
 export default routes;

@@ -16,40 +16,63 @@ function heuristic(a, b) {
 }
 
 function findNeighbors(node, nodes) {
-    const threshold = 15;
+    const threshold = 12;
 
     const neighbors = nodes.filter(n => {
         const distance = Math.sqrt(Math.pow(n.x - node.x, 2) + Math.pow(n.y - node.y, 2));
         console.log(`Checking node at (${n.x}, ${n.y}, floor ${n.floor}) with distance ${distance}`);
         
-        // Regular nodes on the same floor within a certain distance
+        // Regular nodes
         if (n.floor === node.floor && distance <= threshold) {
             console.log(`Neighbor found at (${n.x}, ${n.y}, floor ${n.floor})`);
             return true;
         }
         
-        // Stair nodes linking different floors
-        if (node.type === 'stair' && n.type === 'stair' && n.x === node.x && n.y === node.y) {
-            console.log(`Stair node connection found at (${n.x}, ${n.y}, floor ${n.floor})`);
-            return true;
+        // Stair nodes
+        if (node.type === 'stair' || n.type === 'stair') {
+            if (n.x === node.x && n.y === node.y) {
+                console.log(`Stair node connection found at (${n.x}, ${n.y}, floor ${n.floor})`);
+                return true;
+            }
         }
         
         return false;
-    });
-
-    neighbors.forEach(neighbor => {
-        console.log(`Neighbor at (${neighbor.x}, ${neighbor.y}, floor ${neighbor.floor}) with type ${neighbor.type}`);
     });
 
     return neighbors;
 }
 
 function aStar(start, end, nodes) {
+    //Checa se estão no mesmo andar
+    if (start.floor === end.floor) {
+        return aStarPathfinding(start, end, nodes);
+    } else {
+        //Caminho inicial
+        const stairNodes = nodes.filter(node => node.type === 'stair' && node.floor === start.floor);
+        let nearestStairNode = stairNodes.reduce((prev, curr) => (heuristic(start, curr) < heuristic(start, prev) ? curr : prev));
+        
+        let pathToStair = aStarPathfinding(start, nearestStairNode, nodes);
+        
+        //Caminho pós chegar na escada
+        const newStartNode = nodes.find(node => node.x === nearestStairNode.x && node.y === nearestStairNode.y && node.floor === end.floor && node.type === 'stair');
+        console.log(`NEW START NODE: FLOOR - ${newStartNode.floor}`);
+        console.log(`NEW START NODE: X - ${newStartNode.x}`);
+        console.log(`NEW START NODE: Y - ${newStartNode.y}`);
+        console.log(`NEW END NODE: Y - ${end.floor}`);
+        console.log(`NEW END NODE: Y - ${end.x}`);
+        console.log(`NEW END NODE: Y - ${end.y}`);
+        
+        
+        let pathFromStairToEnd = aStarPathfinding(newStartNode, end, nodes);
+
+        return pathToStair.concat(pathFromStairToEnd);
+    }
+}
+
+function aStarPathfinding(start, end, nodes) {
     let openSet = [];
     let closedSet = [];
     openSet.push(start);
-
-    console.log('Initial Open Set:', openSet);
 
     while (openSet.length > 0) {
         let current = openSet.reduce((prev, curr) => (prev.f < curr.f ? prev : curr));
@@ -68,11 +91,12 @@ function aStar(start, end, nodes) {
         closedSet.push(current);
 
         let neighbors = findNeighbors(current, nodes);
-        console.log('Current Node:', current);
-        console.log('Neighbors:', neighbors);
         neighbors.forEach(neighbor => {
             if (closedSet.includes(neighbor)) return;
             let gScore = current.g + 1;
+            if (neighbor.type === 'stair' && neighbor.floor !== current.floor) {
+                gScore += 10; // Custo de subir/descer escada
+            }
             if (!openSet.includes(neighbor) || gScore < neighbor.g) {
                 neighbor.g = gScore;
                 neighbor.h = heuristic(neighbor, end);

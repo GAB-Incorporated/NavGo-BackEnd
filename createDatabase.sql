@@ -233,16 +233,16 @@ INSERT INTO nodes (building_id, floor_number, x, y, description, node_type) VALU
 (1, 0, 64, 11, 'Biblioteca', 'regular'),
 (1, 0, 61, 9, 'RH e CPD', 'regular'),
 (1, 0, 57, 8, 'Escadas', 'stair'),
+(1, 1, 57, 8, 'Escadas', 'stair'),
 (1, 0, 3, 9, 'Cafeteria', 'regular'),
 (1, 0, 36, 1, 'Refeitório', 'regular'),
 (1, 0, 13, 1, 'Refeitório Ala-direita', 'regular'),
 (1, 0, 46, 1, 'Refeitório Ala-esquerda', 'regular'),
-(1, 1, 9, 61, 'Laboratório 3', 'regular'),
-(1, 1, 9, 64, 'Laboratório 1', 'regular'),
-(1, 1, 11, 64, 'Laboratório 4', 'regular'),
-(1, 1, 11, 61, 'Laboratório 5', 'regular'),
-(1, 1, 11, 54, 'Laboratório 5', 'regular'),
-(1, 1, 9, 57, 'Laboratório 5', 'regular');
+(1, 1, 61, 9, 'Laboratório 3', 'regular'),
+(1, 1, 61, 9, 'Laboratório 1', 'regular'),
+(1, 1, 64, 11, 'Laboratório 4', 'regular'),
+(1, 1, 64, 11, 'Laboratório 5', 'regular'),
+(1, 1, 57, 9, 'Laboratório 7', 'regular');
 
 insert into users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) values 
 ('John', 'Doe', 'Dudo', 'johndoe@example.com', 'HASHPASS', 'STUDENT', 'link-photo_1'),

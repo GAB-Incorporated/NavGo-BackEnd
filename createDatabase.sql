@@ -242,7 +242,7 @@ INSERT INTO nodes (building_id, floor_number, x, y, description, node_type) VALU
 (1, 1, 61, 9, 'Laboratório 1', 'regular'),
 (1, 1, 64, 11, 'Laboratório 4', 'regular'),
 (1, 1, 64, 11, 'Laboratório 5', 'regular'),
-(1, 1, 57, 9, 'Laboratório 7', 'regular');
+(1, 1, 57, 11, 'Laboratório 7', 'regular');
 
 insert into users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) values 
 ('John', 'Doe', 'Dudo', 'johndoe@example.com', 'HASHPASS', 'STUDENT', 'link-photo_1'),

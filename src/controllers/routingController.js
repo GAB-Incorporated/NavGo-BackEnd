@@ -14,19 +14,15 @@ router.post('/route', async (req, res) => {
 
         const nodes = rows.map(row => new Node(row.x, row.y, row.floor_number, row.node_type));
 
-        // Create start and end nodes
         const startNode = new Node(start.x, start.y, start.floor);
         const endNode = new Node(end.x, end.y, end.floor);
 
-        // Calculate the path
+        // Calcula de fato
         const path = aStar(startNode, endNode, nodes);
-
-        console.log('Path:', path);
 
         res.json(path);
     } catch (error) {
-        console.error('Error calculating route:', error);
-        res.status(500).json({ message: 'Failed to calculate the route', error: error.message });
+        res.status(500).json({ message: 'Falha no cálculo da rota', error: error.message });
     }
 });
 

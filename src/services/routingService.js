@@ -20,18 +20,16 @@ function findNeighbors(node, nodes) {
 
     const neighbors = nodes.filter(n => {
         const distance = Math.sqrt(Math.pow(n.x - node.x, 2) + Math.pow(n.y - node.y, 2));
-        console.log(`Checking node at (${n.x}, ${n.y}, floor ${n.floor}) with distance ${distance}`);
         
         // Regular nodes
         if (n.floor === node.floor && distance <= threshold) {
-            console.log(`Neighbor found at (${n.x}, ${n.y}, floor ${n.floor})`);
             return true;
         }
         
         // Stair nodes
         if (node.type === 'stair' || n.type === 'stair') {
             if (n.x === node.x && n.y === node.y) {
-                console.log(`Stair node connection found at (${n.x}, ${n.y}, floor ${n.floor})`);
+                
                 return true;
             }
         }
@@ -43,31 +41,47 @@ function findNeighbors(node, nodes) {
 }
 
 function aStar(start, end, nodes) {
-    //Checa se estão no mesmo andar
+    // Verifica se o ponto inicial e o final estão no mesmo andar
     if (start.floor === end.floor) {
         return aStarPathfinding(start, end, nodes);
     } else {
-        //Caminho inicial
-        const stairNodes = nodes.filter(node => node.type === 'stair' && node.floor === start.floor);
-        let nearestStairNode = stairNodes.reduce((prev, curr) => (heuristic(start, curr) < heuristic(start, prev) ? curr : prev));
-        
-        let pathToStair = aStarPathfinding(start, nearestStairNode, nodes);
-        
-        //Caminho pós chegar na escada
-        const newStartNode = nodes.find(node => node.x === nearestStairNode.x && node.y === nearestStairNode.y && node.floor === end.floor && node.type === 'stair');
-        console.log(`NEW START NODE: FLOOR - ${newStartNode.floor}`);
-        console.log(`NEW START NODE: X - ${newStartNode.x}`);
-        console.log(`NEW START NODE: Y - ${newStartNode.y}`);
-        console.log(`NEW END NODE: Y - ${end.floor}`);
-        console.log(`NEW END NODE: Y - ${end.x}`);
-        console.log(`NEW END NODE: Y - ${end.y}`);
-        
-        
-        let pathFromStairToEnd = aStarPathfinding(newStartNode, end, nodes);
+        // Caminho inicial até a primeira escada
+        let path = [];
+        let currentFloor = start.floor;
+        let currentStart = start;
 
-        return pathToStair.concat(pathFromStairToEnd);
+        while (currentFloor !== end.floor) {
+            // Encontra o nó de escada mais próximo no andar atual
+            const stairNodes = nodes.filter(node => node.type === 'stair' && node.floor === currentFloor);
+            let nearestStairNode = stairNodes.reduce((prev, curr) => (heuristic(currentStart, curr) < heuristic(currentStart, prev) ? curr : prev));
+
+            // Caminho até a escada no andar atual
+            let pathToStair = aStarPathfinding(currentStart, nearestStairNode, nodes);
+            path = path.concat(pathToStair);
+
+            // Adiciona explicitamente o nó da escada no andar superior ao caminho
+            currentFloor = currentFloor < end.floor ? currentFloor + 1 : currentFloor - 1;
+            let upperStairNode = nodes.find(node => node.x === nearestStairNode.x && node.y === nearestStairNode.y && node.floor === currentFloor && node.type === 'stair');
+            
+            if (!upperStairNode) {
+                throw new Error("Não há escadas conectando andares corretamente")
+            }
+
+            path.push(upperStairNode); // Adiciona o nó da escada do novo andar ao caminho
+
+            // Define o próximo ponto de partida como a escada no andar atual
+            currentStart = upperStairNode;
+        }
+
+        // Caminho final do último ponto de escada até o destino
+        let pathFromStairToEnd = aStarPathfinding(currentStart, end, nodes);
+        path = path.concat(pathFromStairToEnd);
+
+        return path;
     }
 }
+
+
 
 function aStarPathfinding(start, end, nodes) {
     let openSet = [];
@@ -83,7 +97,6 @@ function aStarPathfinding(start, end, nodes) {
                 path.push(current);
                 current = current.parent;
             }
-            console.log('Found Path:', path.reverse());
             return path.reverse();
         }
 
@@ -94,9 +107,12 @@ function aStarPathfinding(start, end, nodes) {
         neighbors.forEach(neighbor => {
             if (closedSet.includes(neighbor)) return;
             let gScore = current.g + 1;
+
+            // Custo de subir/descer escada
             if (neighbor.type === 'stair' && neighbor.floor !== current.floor) {
-                gScore += 10; // Custo de subir/descer escada
+                gScore += 10; 
             }
+            
             if (!openSet.includes(neighbor) || gScore < neighbor.g) {
                 neighbor.g = gScore;
                 neighbor.h = heuristic(neighbor, end);
@@ -107,8 +123,7 @@ function aStarPathfinding(start, end, nodes) {
         });
     }
 
-    console.log('No Path Found');
-    return [];
+    throw new Error("Nenhuma rota foi encontrada");
 }
 
 export { aStar, Node };

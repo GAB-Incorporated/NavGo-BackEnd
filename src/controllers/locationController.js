@@ -5,19 +5,26 @@ const routes = express.Router();
 
 routes.get('/', async (req, res) => {
     try {
-
         const locations = await locationService.getAllLocation();
 
         if (locations.length < 1) {
             return res.status(204).end();
         }
 
-        res.status(200).json(locations);
+        // Verifica e converte coordinates em array, se necessário
+        const locationsWithParsedCoordinates = locations.map(location => ({
+            ...location,
+            coordinates: Array.isArray(location.coordinates) ? location.coordinates : JSON.parse(location.coordinates)
+        }));
+
+        res.status(200).json(locationsWithParsedCoordinates);
 
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Erro interno ao buscar as localizações.'});
+        res.status(500).json({ success: false, message: 'Erro interno ao buscar as localizações.' });
     }
 });
+
+
 
 routes.get('/:id', async (req, res) => {
     const locationId = parseInt(req.params.id, 10);

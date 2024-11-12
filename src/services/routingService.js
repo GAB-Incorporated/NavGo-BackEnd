@@ -41,7 +41,6 @@ function findNeighbors(node, nodes) {
 }
 
 function aStar(start, end, nodes) {
-    // Verifica se o ponto inicial e o final estão no mesmo andar
     if (start.floor === end.floor) {
         return aStarPathfinding(start, end, nodes);
     } else {
@@ -51,7 +50,6 @@ function aStar(start, end, nodes) {
         let currentStart = start;
 
         while (currentFloor !== end.floor) {
-            // Encontra o nó de escada mais próximo no andar atual
             const stairNodes = nodes.filter(node => node.type === 'stair' && node.floor === currentFloor);
             let nearestStairNode = stairNodes.reduce((prev, curr) => (heuristic(currentStart, curr) < heuristic(currentStart, prev) ? curr : prev));
 
@@ -59,7 +57,6 @@ function aStar(start, end, nodes) {
             let pathToStair = aStarPathfinding(currentStart, nearestStairNode, nodes);
             path = path.concat(pathToStair);
 
-            // Adiciona explicitamente o nó da escada no andar superior ao caminho
             currentFloor = currentFloor < end.floor ? currentFloor + 1 : currentFloor - 1;
             let upperStairNode = nodes.find(node => node.x === nearestStairNode.x && node.y === nearestStairNode.y && node.floor === currentFloor && node.type === 'stair');
             
@@ -67,7 +64,7 @@ function aStar(start, end, nodes) {
                 throw new Error("Não há escadas conectando andares corretamente")
             }
 
-            path.push(upperStairNode); // Adiciona o nó da escada do novo andar ao caminho
+            path.push(upperStairNode);
 
             // Define o próximo ponto de partida como a escada no andar atual
             currentStart = upperStairNode;
@@ -97,7 +94,8 @@ function aStarPathfinding(start, end, nodes) {
                 path.push(current);
                 current = current.parent;
             }
-            return path.reverse();
+            path.push(start);
+            return path.reverse(); 
         }
 
         openSet = openSet.filter(node => node !== current);
@@ -112,7 +110,7 @@ function aStarPathfinding(start, end, nodes) {
             if (neighbor.type === 'stair' && neighbor.floor !== current.floor) {
                 gScore += 10; 
             }
-            
+
             if (!openSet.includes(neighbor) || gScore < neighbor.g) {
                 neighbor.g = gScore;
                 neighbor.h = heuristic(neighbor, end);
@@ -125,5 +123,6 @@ function aStarPathfinding(start, end, nodes) {
 
     throw new Error("Nenhuma rota foi encontrada");
 }
+
 
 export { aStar, Node };

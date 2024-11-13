@@ -5,19 +5,26 @@ const routes = express.Router();
 
 routes.get('/', async (req, res) => {
     try {
-
         const locations = await locationService.getAllLocation();
 
         if (locations.length < 1) {
             return res.status(204).end();
         }
 
-        res.status(200).json(locations);
+        // Verifica e converte coordinates em array, se necessário
+        const locationsWithParsedCoordinates = locations.map(location => ({
+            ...location,
+            coordinates: Array.isArray(location.coordinates) ? location.coordinates : JSON.parse(location.coordinates)
+        }));
+
+        res.status(200).json(locationsWithParsedCoordinates);
 
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Erro interno ao buscar as localizações.'});
+        res.status(500).json({ success: false, message: 'Erro interno ao buscar as localizações.' });
     }
 });
+
+
 
 routes.get('/:id', async (req, res) => {
     const locationId = parseInt(req.params.id, 10);
@@ -30,14 +37,14 @@ routes.get('/:id', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Localização não encontrada.' });
         }
 
-        res.status(200).json({ location });
+        res.status(200).json(location);
     } catch (error) {
         res.status(500).json({ success: false, message: 'Erro interno ao buscar a localização.' });
     }
 });
 
 routes.post('/', async (req, res) => {
-    const { campus, building_id, floor_number, location_type_id, location_name, description } = req.body;
+    const { campus, building_id, floor_number, location_type_id, location_name, description, coordinates } = req.body;
 
     try {
       
@@ -58,7 +65,7 @@ routes.post('/', async (req, res) => {
             return res.status(400).send({ success: false, message: 'A descrição não pode conter mais que 200 caracteres.' });
         }
 
-        const result = await locationService.createLocation(campus, building_id, floor_number, location_type_id, location_name, description);
+        const result = await locationService.createLocation(campus, building_id, floor_number, location_type_id, location_name, description, coordinates);
 
         if (!result.success) {
             return res.status(400).send(result);
@@ -72,7 +79,7 @@ routes.post('/', async (req, res) => {
 
 routes.put('/:id', async (req, res) => {
     const locationId = parseInt(req.params.id, 10);
-    const { campus, building_id, floor_number, location_type_id, location_name, description } = req.body;
+    const { campus, building_id, floor_number, location_type_id, location_name, description, coordinates } = req.body;
 
     try {
 
@@ -92,7 +99,7 @@ routes.put('/:id', async (req, res) => {
             return res.status(400).send({ success: false, message: 'A descrição não pode conter mais que 200 caracteres.' });
         }
         
-        const result = await locationService.updateLocation(locationId, campus, building_id, floor_number, location_type_id, location_name, description);
+        const result = await locationService.updateLocation(locationId, campus, building_id, floor_number, location_type_id, location_name, description, coordinates);
 
         if (!result.success) {
             return res.status(400).send({ message: result.message });

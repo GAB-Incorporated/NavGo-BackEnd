@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const securityKey = process.env.SECURITY_KEY;
+
 function createTokenJWT({id_usuario, nome, email, user_type}) {
-    
-    const securityKey = process.env.SECURITY_KEY;
 
     const token = jwt.sign(
         {id_usuario, nome, email, user_type},   
@@ -16,17 +16,24 @@ function createTokenJWT({id_usuario, nome, email, user_type}) {
     return token;
 }
 
-function verifyToken() {
-    const securityKey = process.env.SECURITY_KEY;
+function verifyToken(req, res, next) {
+    const token = req.headers.authorization;
 
-    const token = request.headers.authorization
+    if (!token) {
+        return res.status(401).send({ message: "Token não fornecido." });
+    }
 
-    jwt.verify(token, securityKey, (err, decode) => {
-        if (err){
-            return response.status(401).send({message: "Token inválido", err})
+    const tokenWithoutBearer = token.split(' ')[1];
+
+    jwt.verify(tokenWithoutBearer, securityKey, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({ message: "Token inválido", err });
         }
-        next();
-    })
+
+        req.user = decoded; 
+        next(); 
+    });
 }
+
 
 export default {createTokenJWT, verifyToken};

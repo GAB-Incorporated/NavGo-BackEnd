@@ -1,5 +1,5 @@
 {
-  "name": "campus-connect",
+  "name": "nav-go",
   "version": "1.0.0",
   "description": "Esse é o back end do nosso projeto de TCC que possui o intuito de criar um software para trnasferência de arquivos e localização no Campus. O nome provavelmente ainda vai mudar antes dele estar finalizado.",
   "main": "index.js",
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/AurorinhaBoreal/NavTec-BackEnd#readme",
   "dependencies": {
+    "@google-cloud/storage": "^7.13.0",
     "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -35,6 +36,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.0",
     "nodemon": "^3.1.4"
   },

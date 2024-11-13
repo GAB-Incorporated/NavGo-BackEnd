@@ -35,13 +35,34 @@ async function createCourse(courseName, coordinatorId){
 }
 
 async function listCourse(){
-    const sql = "select * from courses where soft_delete = false";
+    const sql = `
+        SELECT 
+            c.course_id, 
+            c.course_name, 
+            u.first_name AS coordinator_first_name, 
+            u.last_name AS coordinator_last_name, 
+            u.email AS coordinator_email
+        FROM courses c
+        JOIN users u ON c.coordinator_id = u.user_id
+        WHERE c.soft_delete = false;
+    `;
 
     const conn = await database.connect();
-    const [rows] = await conn.query(sql);
+
+    try {
+        const [rows] = await conn.query(sql);
+
+        if (rows.length === 0){
+            throw new Error('Não há cursos registrados'); 
+        }
+
+        return rows;
+
+    } catch (error) {
+        throw new Error(error)
+    }
     conn.end();
 
-    return rows;
 }
 
 async function updateCourse(courseId, courseName, coordinatorId){
@@ -109,4 +130,51 @@ async function validateCoordinator(userId) {
     }
 }
 
-export default {createCourse, listCourse, validateCoordinator, updateCourse, deleteCourse}
+async function getCourseModule(courseId) {
+    const sql = 'SELECT * FROM modules WHERE course_id = ?';
+
+    const conn = await database.connect();
+
+    try {
+        const [rows] = await conn.query(sql, [courseId]);
+
+        if (rows.length === 0) {
+            throw new Error('Curso não possui módulos registrados');
+        }
+
+        return rows; 
+
+    } catch (error) {
+        throw new Error(error.message || "Erro ao buscar módulo");
+    } finally {
+        conn.end();
+    }   
+}
+
+async function getTeachersByCourse(courseId) {
+    const sql = `
+        SELECT u.user_id, u.first_name, u.last_name, u.email, c.course_name
+        FROM users u
+        JOIN class_info ci ON u.user_id = ci.teacher_id
+        JOIN courses c ON ci.course_id = c.course_id
+        WHERE c.course_id = ? AND u.user_type = 'TEACHER';
+    `;
+
+    const conn = await database.connect();
+
+    try {
+        const [rows] = await conn.query(sql, [courseId]);
+
+        if (rows.length === 0) {
+            throw new Error('Nenhum professor atualmente com aulas nesse curso.');
+        }
+
+        return rows;
+    } catch (error) {
+        throw new Error(error.message || 'Erro ao buscar professores.');
+    } finally {
+        conn.end();
+    }
+}
+
+export default {createCourse, listCourse, validateCoordinator, updateCourse, deleteCourse, getCourseModule, getTeachersByCourse}

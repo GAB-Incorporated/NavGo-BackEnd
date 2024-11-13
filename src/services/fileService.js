@@ -1,17 +1,15 @@
 import { Storage } from '@google-cloud/storage';
 import dotenv from 'dotenv';
-import path from 'path';
 
 dotenv.config();
 
 const BUCKET_NAME = 'navgo-etec-bucket'; 
 
-const keyFilename = path.resolve(process.env.GOOGLE_APPLICATION_CREDENTIALS_PATH);
-
 const storage = new Storage({
     projectId: process.env.PROJECT_ID,
-    keyFilename: keyFilename
+    keyFilename: 'gcp-credentials.json'
 });
+
 
 async function uploadFile(classDirectory, file) {
     const bucket = storage.bucket(BUCKET_NAME);

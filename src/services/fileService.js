@@ -5,9 +5,15 @@ dotenv.config();
 
 const BUCKET_NAME = 'navgo-etec-bucket'; 
 
+const credentials = JSON.parse(process.env.GCP_CREDENTIALS_JSON);
+
+// Verificando as credenciais no console (opcional)
+console.log(credentials);
+
+// Configurando o cliente do Google Cloud Storage com as credenciais
 const storage = new Storage({
     projectId: process.env.PROJECT_ID,
-    keyFilename: 'gcp-credentials.json'
+    credentials: credentials // Passando o JSON parseado
 });
 
 

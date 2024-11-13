@@ -22,7 +22,7 @@ jobs:
         run: echo "IMAGE_TAG=$REGION-docker.pkg.dev/$PROJECT/$REPO/$IMAGE:latest" >> $GITHUB_ENV
       
       - name: Create gcp-credentials.json env file
-        run: echo "${{ secrets.GCP_CREDENTIALS_JSON }}" > ./app/gcp-credentials.json
+        run: echo "${{ secrets.GCP_CREDENTIALS_JSON }}" > ./gcp-credentials.json
 
       - name: Google Cloud Auth
         uses: google-github-actions/auth@v1

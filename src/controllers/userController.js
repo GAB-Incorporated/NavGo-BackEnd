@@ -29,12 +29,14 @@ routes.get('/students/:student_id', async (req, res) => {
 })
 
 routes.post('/students', async (req, res) => {
-    const { course_id, user_id, module_id } = req.body;
+    const { course_id, email, module_id } = req.body;
 
     try {
-        await userService.createStudent (course_id, user_id, module_id);
+        const user = await userService.findUserByEmail(email);
 
-        res.status(200).send({message: "Usuário criado com sucesso"});
+        await userService.createStudent (course_id, user.user_id, module_id);
+
+        res.status(200).send({message: "Estudante criado com sucesso"});
     } catch (error) {
         res.status(400).send(error.message);
     }

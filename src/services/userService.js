@@ -155,16 +155,35 @@ async function getOneUser(user_id) {
     }
 }
 
+async function findUserByEmail(email) {
+    const conn = await database.connect();
+    const sql = "select * from users where email = ?"
+
+    try {
+        const [users] = await conn.query(sql, email);
+
+        console.log("O Usuário: "+users[0].user_id)
+        if (users.length === 0) {
+            throw new Error("Usuário não encontrado");
+        }
+        return users[0]
+    } catch (error) {
+        throw new Error(error);
+    } finally {
+        if (conn) {
+            conn.end();
+        }
+    }
+}
 async function createStudent(course_id, user_id, module_id) {
     const conn = await database.connect();
     const sql = "insert into students (course_id, user_id, module_id) values (?, ?, ?)";
     const data = [course_id, user_id, module_id];
 
     try {
+        const [users] = await conn.query("select * from students where user_id = ?", user_id);
 
-        const [user] = await conn.query("select * from students where user_id = ?", user_id);
-
-        if(user.length > 0) {
+        if(users.length > 0) {
             throw new Error("Usuário já foi cadastrado como estudante");
         }
         await conn.query(sql, data);
@@ -286,4 +305,4 @@ async function verifyClass(userId, classId, user_type) {
     }
 }
 
-export default { createUser, getCoordinators, loginUser, getUsers, getOneUser, createStudent, getStudents, getOneStudent, verifyClass };
+export default { createUser, findUserByEmail, getCoordinators, loginUser, getUsers, getOneUser, createStudent, getStudents, getOneStudent, verifyClass };

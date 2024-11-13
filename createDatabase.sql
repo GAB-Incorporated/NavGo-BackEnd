@@ -174,12 +174,8 @@ insert into location_types (type_name, description) values
 --     JSON_ARRAY(JSON_ARRAY(0,0), JSON_ARRAY(72, 0), JSON_ARRAY(72, 20), JSON_ARRAY(0, 20)));
 
 INSERT INTO locations (campus, building_id, floor_number, location_type_id, location_name, description, coordinates) VALUES
-('Main Campus', 1, 0, 3, 'Térreo', 'Térreo da Instituição', 
-    JSON_ARRAY(JSON_ARRAY(0,0), JSON_ARRAY(72, 0), JSON_ARRAY(72, 20), JSON_ARRAY(0, 20))),
-('Main Campus', 1, 0, 3, 'Escada 1º Andar', 'Escada para o térreo e para o segundo andar.', 
+('Main Campus', 1, 0, 3, 'Térreo', 'Térreo da Instituição',
     JSON_ARRAY(JSON_ARRAY(55, 2), JSON_ARRAY(59, 2), JSON_ARRAY(59, 8), JSON_ARRAY(55, 8))),
-('Main Campus', 1, 0, 3, 'Linha Escada 1º Andar', 'Linha da escada para o térreo e para o segundo andar.', 
-    JSON_ARRAY(JSON_ARRAY(57, 8), JSON_ARRAY(57, 2))),
 ('Main Campus', 1, 0, 3, 'Biblioteca', 'Informações sobre a biblioteca e como chegar lá.', 
     JSON_ARRAY(JSON_ARRAY(72, 8), JSON_ARRAY(72, 20), JSON_ARRAY(64, 20), JSON_ARRAY(64, 8))),
 ('Main Campus', 1, 0, 3, 'CPD', 'Informações sobre o CPD.', 
@@ -202,12 +198,6 @@ INSERT INTO locations (campus, building_id, floor_number, location_type_id, loca
     JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(12, 0), JSON_ARRAY(12, 8), JSON_ARRAY(0, 8))),
 ('Main Campus', 1, 1, 3, 'Second Floor', '1º Andar da Instituição', 
     JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(72, 0), JSON_ARRAY(72, 20), JSON_ARRAY(0, 20))),
-('Main Campus', 1, 1, 3, 'Escada 2º Andar', 'Escada para o térreo e para o segundo andar.', 
-    JSON_ARRAY(JSON_ARRAY(55, 2), JSON_ARRAY(59, 2), JSON_ARRAY(59, 8), JSON_ARRAY(55, 8))),
-('Main Campus', 1, 1, 3, 'Linha Escada 2º Andar', 'Linha da escada para o térreo e para o segundo andar.', 
-    JSON_ARRAY(JSON_ARRAY(57, 8), JSON_ARRAY(57, 2))),
-('Main Campus', 1, 1, 2, 'Laboratório 6', 'Informações sobre o Laboratório 6.', 
-    JSON_ARRAY(JSON_ARRAY(2, 0), JSON_ARRAY(10, 0), JSON_ARRAY(10, 6), JSON_ARRAY(2, 6))),
 ('Main Campus', 1, 1, 2, 'Laboratório 1', 'O melhor lab.', 
     JSON_ARRAY(JSON_ARRAY(67, 8), JSON_ARRAY(65, 8), JSON_ARRAY(65, 10), JSON_ARRAY(72, 10), JSON_ARRAY(72, 0), JSON_ARRAY(67, 0))),
 ('Main Campus', 1, 1, 2, 'Laboratório 4', 'Laboratório 4.', 
@@ -219,7 +209,25 @@ INSERT INTO locations (campus, building_id, floor_number, location_type_id, loca
 ('Main Campus', 1, 1, 2, 'Lab 07', 'Laboratório 07.', 
     JSON_ARRAY(JSON_ARRAY(59, 12), JSON_ARRAY(59, 20), JSON_ARRAY(52, 20), JSON_ARRAY(52, 12))),
 ('Main Campus', 1, 1, 2, 'Lab 07 Corner', 'Quarto de círculo do Laboratório 07.', 
-    JSON_ARRAY(JSON_ARRAY(54, 16), JSON_ARRAY(54, 20), JSON_ARRAY(52, 20), JSON_ARRAY(52, 16)));
+    JSON_ARRAY(JSON_ARRAY(54, 16), JSON_ARRAY(54, 20), JSON_ARRAY(52, 20), JSON_ARRAY(52, 16))),
+    ('Main Campus', 2, 1, 3, 'Sala dos professores', 'Sala dos professores', 
+    JSON_ARRAY(JSON_ARRAY(52, 12), JSON_ARRAY(52, 20), JSON_ARRAY(45, 20), JSON_ARRAY(45, 12))),
+('Main Campus', 2, 1, 3, 'Laboratório de Redes de Computadores', 'Laboratório destinado aos alunos de Redes de Computadores.', 
+    JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(7, 0), JSON_ARRAY(7, 10), JSON_ARRAY(0, 10))),
+('Main Campus', 2, 1, 3, 'Laboratório de Química', 'Laboratório destinado às aulas de Química.', 
+    JSON_ARRAY(JSON_ARRAY(7, 10), JSON_ARRAY(7, 20), JSON_ARRAY(0, 20), JSON_ARRAY(0, 10))),
+('Main Campus', 2, 1, 3, 'Laboratório 5', 'Laboratório destinado a diversas aulas de diversos cursos.', 
+    JSON_ARRAY(JSON_ARRAY(14, 12), JSON_ARRAY(14, 20), JSON_ARRAY(7, 20), JSON_ARRAY(7, 12))),
+('Main Campus', 2, 1, 3, 'Laboratório 2', 'Laboratório 2', 
+    JSON_ARRAY(JSON_ARRAY(7, 0), JSON_ARRAY(7, 8), JSON_ARRAY(14, 8), JSON_ARRAY(14, 0))),
+('Main Campus', 2, 1, 3, 'Escada 1º Andar', 'Escada para o térreo e para o segundo andar.', 
+    JSON_ARRAY(JSON_ARRAY(57, 4), JSON_ARRAY(59, 4), JSON_ARRAY(59, 8), JSON_ARRAY(57, 8))),
+('Main Campus', 2, 1, 3, 'Escada 1º Andar', 'Escada para o térreo e para o segundo andar.', 
+    JSON_ARRAY(JSON_ARRAY(56, 4), JSON_ARRAY(54, 4), JSON_ARRAY(54, 8), JSON_ARRAY(56, 8))),
+('Main Campus', 2, 1, 3, 'Escada 1º Andar', 'Escada para o térreo e para o segundo andar.', 
+    JSON_ARRAY(JSON_ARRAY(54, 2), JSON_ARRAY(59, 2), JSON_ARRAY(59, 4), JSON_ARRAY(54, 4))),
+('Main Campus', 2, 1, 3, 'Degraus da Escada', 'Degraus de acesso para o próximo andar.', 
+    JSON_ARRAY(JSON_ARRAY(54, 5), JSON_ARRAY(56, 5), JSON_ARRAY(56, 4), JSON_ARRAY(57, 4), JSON_ARRAY(57, 5), JSON_ARRAY(59, 5), JSON_ARRAY(57, 5), JSON_ARRAY(57, 6), JSON_ARRAY(59, 6), JSON_ARRAY(59, 7), JSON_ARRAY(57, 7), JSON_ARRAY(57, 7), JSON_ARRAY(57, 4), JSON_ARRAY(56, 4), JSON_ARRAY(56, 6), JSON_ARRAY(54, 6), JSON_ARRAY(55, 6), JSON_ARRAY(56, 6), JSON_ARRAY(56, 7), JSON_ARRAY(54, 7)));
 
 INSERT INTO nodes (building_id, floor_number, x, y, description, node_type) VALUES
 (1, 0, 26, 2, 'Entrada Principal', 'regular'),

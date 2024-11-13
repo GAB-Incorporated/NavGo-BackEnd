@@ -24,7 +24,18 @@ routes.get('/', async (req, res) => {
     }
 });
 
+routes.get('/fromBuilding/:id', async (req, res) => {
+    const buildingId = parseInt(req.params.id, 10)
 
+    console.log("BUILDING ID "+buildingId)
+    try {
+        const locations = await locationService.getLocationsFromBuilding(buildingId);
+
+        res.status(200).json(locations);
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Erro interno ao buscar as localizações.' });
+    }
+})
 
 routes.get('/:id', async (req, res) => {
     const locationId = parseInt(req.params.id, 10);

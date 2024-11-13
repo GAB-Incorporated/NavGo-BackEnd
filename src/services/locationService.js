@@ -128,6 +128,22 @@ async function getLocation(location_id){
     }
 }
 
+async function getLocationsFromBuilding(building_id){
+    const conn = await database.connect();
+    const sql = `SELECT * FROM locations where building_id = ?;`
+
+    try {
+        const [rows] = await conn.query(sql, building_id)
+
+        console.log((rows))
+        return rows;
+    } catch (error) {
+        return { success: false, message: error.message}
+    } finally {
+        conn.end()
+    }
+}
+
 async function getAllLocation(){
     const conn = await database.connect();
 
@@ -153,4 +169,4 @@ async function getAllLocation(){
     return rows;
 }
 
-export default {createLocation, deleteLocation, updateLocation, getLocation, getAllLocation}
+export default {createLocation, deleteLocation, updateLocation, getLocation, getLocationsFromBuilding, getAllLocation}

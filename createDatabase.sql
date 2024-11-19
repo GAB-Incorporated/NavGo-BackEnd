@@ -332,7 +332,9 @@ insert into students (course_id, user_id, module_id) values
 (3, 20, 9),  -- Marie Curie (repetido)
 (3, 22, 7),  -- Galileo Galilei (repetido)
 (3, 27, 8), -- Nelson Mandela (repetido)
-(3, 29, 9);  -- Ada Lovelace (repetido)
+(3, 29, 9),  -- Ada Lovelace (repetido)
+
+(1, 6, 2); -- Usuário teste (estudante@gmail.com)
 
 insert into verification_codes (code, user_id) values 
 ('ABC123SP', 1),

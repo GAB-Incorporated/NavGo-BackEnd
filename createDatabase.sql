@@ -1,4 +1,3 @@
--- Active: 1726496730791@@127.0.0.1@3306@navgo_db
 create database if not exists navgo_db;
 
 use navgo_db;
@@ -183,7 +182,7 @@ INSERT INTO locations (campus, building_id, floor_number, location_type_id, loca
     JSON_ARRAY(JSON_ARRAY(59, 12), JSON_ARRAY(59, 20), JSON_ARRAY(52, 20), JSON_ARRAY(52, 12))),
 ('Main Campus', 1, 1, 2, 'Lab 07 Corner', 'Quarto de círculo do Laboratório 07.', 
     JSON_ARRAY(JSON_ARRAY(54, 16), JSON_ARRAY(54, 20), JSON_ARRAY(52, 20), JSON_ARRAY(52, 16))),
-('Main Campus', 1, 1, 3, 'Sala dos professores', 'Sala dos professores', 
+    ('Main Campus', 1, 1, 3, 'Sala dos professores', 'Sala dos professores', 
     JSON_ARRAY(JSON_ARRAY(52, 12), JSON_ARRAY(52, 20), JSON_ARRAY(45, 20), JSON_ARRAY(45, 12))),
 ('Main Campus', 1, 1, 3, 'Laboratório de Redes de Computadores', 'Laboratório destinado aos alunos de Redes de Computadores.', 
     JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(7, 0), JSON_ARRAY(7, 10), JSON_ARRAY(0, 10))),
@@ -241,26 +240,58 @@ INSERT INTO nodes (building_id, floor_number, x, y, description, node_type) VALU
 insert into users (first_name, last_name, nick_name, email, password_hash, user_type, photo_id) values 
 ('John', 'Doe', 'Dudo', 'johndoe@example.com', 'HASHPASS', 'STUDENT', 'link-photo_1'),
 ('Jane', 'Smith', 'Jsmith', 'janesmith@example.com', 'HASHPASS', 'TEACHER', 'link-photo_2'),
-('Marcos', 'Costa', 'Marcao', 'marcos@example.com', 'HASHPASS', 'ADMINISTRATOR', 'link-photo_3'),
+('Marcos', 'Costa', 'Marcão', 'marcos@example.com', 'HASHPASS', 'ADMINISTRATOR', 'link-photo_3'),
 ('Albert', 'Einstein', 'Beto', 'albert@example.com', 'HASHPASS', 'STUDENT', 'link-photo_4'),
 ('Nikola', 'Tesla', 'Nicolas', 'nikolas@example.com', 'HASHPASS', 'STUDENT', 'link-photo_5'),
 ('José', 'da Silva', 'Zé', 'estudante@gmail.com', 'HASHPASS', 'STUDENT', 'link232'),
-('João', 'da Silva', 'Jão', 'professor@gmail.com', 'HASHPASS', 'TEACHER', 'link232');
+('João', 'da Silva', 'Jão', 'professor@gmail.com', 'HASHPASS', 'TEACHER', 'link232'),
+('Irineu', 'dos Santos', 'Iri', 'irineu@gmail.com', 'HASHPASS', 'STUDENT', 'link232'),
+('Roberto', 'Carlos', 'Betinho', 'robertao@gmail.com', 'HASHPASS', 'STUDENT', 'link232'),
+('Valesca', 'Popozuda', 'Valéria', 'valesca@gmail.com', 'HASHPASS', 'STUDENT', 'link232'),
+('Rodrigo', 'Faro', 'Gatinho', 'dancagatinho@gmail.com', 'HASHPASS', 'STUDENT', 'link232'),
+('Rodolfo', 'Tavares', 'Rolfinho', 'rodolfinho@gmail.com', 'HASHPASS', 'STUDENT', 'link232'),
+('Mario', 'Bros', 'Mario', 'mario@gmail.com', 'HASHPASS', 'STUDENT', 'link232'),
+('Prof', 'Linguiça', 'Girafales', 'linguicaexample.com', 'HASHPASS', 'TEACHER', 'link-photo_2'),
+('Maestro', 'Linguiço', 'Girafales', 'linguico@example.com', 'HASHPASS', 'TEACHER', 'link-photo_2'),
+('Pau', 'de Sebo', 'Girafales', 'paudesebo@example.com', 'HASHPASS', 'TEACHER', 'link-photo_2'),
+('Mangueira', 'de Bombeiro', 'Girafales', 'bombeira@example.com', 'HASHPASS', 'TEACHER', 'link-photo_2'),
+('Espaguete', 'Cru', 'Girafales', 'espaguetao@example.com', 'HASHPASS', 'TEACHER', 'link-photo_2'),
+('Padastro', 'do Kiko', 'Girafales', 'paidoano@example.com', 'HASHPASS', 'TEACHER', 'link-photo_2'),
+('Marie', 'Curie', 'MarieC', 'mariecurie@example.com', 'HASHPASS', 'STUDENT', 'link-photo_6'),
+('Leonardo', 'da Vinci', 'Leo', 'leonardo@example.com', 'HASHPASS', 'STUDENT', 'link-photo_7'),
+('Galileo', 'Galilei', 'Gal', 'galileo@example.com', 'HASHPASS', 'STUDENT', 'link-photo_8'),
+('Ada', 'Lovelace', 'Ada', 'adalovelace@example.com', 'HASHPASS', 'STUDENT', 'link-photo_9'),
+('Isaac', 'Newton', 'Newt', 'isaacnewton@example.com', 'HASHPASS', 'STUDENT', 'link-photo_10'),
+('Rosa', 'Parks', 'Rosa', 'rosaparks@example.com', 'HASHPASS', 'STUDENT', 'link-photo_11'),
+('Mahatma', 'Gandhi', 'Mahatma', 'gandhi@example.com', 'HASHPASS', 'STUDENT', 'link-photo_12'),
+('Nelson', 'Mandela', 'Nelson', 'nelsonmandela@example.com', 'HASHPASS', 'STUDENT', 'link-photo_13'),
+('Joan', 'of Arc', 'Joan', 'joanofarc@example.com', 'HASHPASS', 'STUDENT', 'link-photo_14'),
+('Florence', 'Nightingale', 'Flo', 'florence@example.com', 'HASHPASS', 'STUDENT', 'link-photo_15');
 
 insert into courses (course_name, coordinator_id) values 
-('Computer Science', 3),
-('Business Administration', 3),
-('Mechanical Engineering', 3);
+('Desenvolvimento de sistemas', 3),
+('Administração', 7),
+('Eletroeletrônica', 2);
 
 insert into modules (course_id, module_number, module_name) values 
 (1, 1, 'M1'),
 (1, 2, 'M2'),
-(2, 1, 'M1');
+(1, 3, 'M3'),
+(2, 4, 'M1'),
+(2, 5, 'M2'),
+(2, 6, 'M3'),
+(3, 7, 'M1'),
+(3, 8, 'M2'),
+(3, 9, 'M3');
 
 insert into subjects (subject_name, course_id) values 
-('Programming 101', 1),
-('Business Law', 2),
-('Thermodynamics', 3);
+('Programação Web', 1),
+('Algoritmos', 1),
+('Design', 1),
+('Logistica Empresárial', 2),
+('Matemática Financeira', 2),
+('Sistemas Embarcados', 3),
+('Desenho Técnico', 3);
 
 insert into periods (start_hour, end_hour, day_time) values 
 ('08:00:00', '12:00:00', 'Morning'),
@@ -275,14 +306,35 @@ insert into course_periods (course_id, period_id) values
 insert into class_info (subject_id, period_id, week_day, teacher_id, course_id, module_id, location_id, bucket) values
 (2, 1, 2, 2, 1, 1, 2, 'class/1/1/1728335520514'),
 (3, 1, 2, 1, 1, 1, 2, 'class/2/1/1729377180853'),
-(1, 3, 1, 3, 1, 1, 2, 'class/1/1/1729607863992');
+(1, 3, 1, 3, 1, 1, 2, 'class/1/1/1729607863992'),
+(4, 1, 2, 14, 2, 1, 2, 'class/4/2/1731950417734'),
+(5, 1, 2, 15, 2, 1, 2, 'class/4/2/1731950579937'),
+(6, 1, 2, 15, 3, 1, 2, 'class/6/2/1731950682513'),
+(7, 1, 2, 16, 3, 1, 2, 'class/7/2/1731950750611');
 
-insert into students (course_id ,user_id ,module_id) values 
-(1, 1, 1),
-(2, 2, 2),
-(3, 3, 3),
-(1, 6, 2),
-(1, 7, 2);
+insert into students (course_id, user_id, module_id) values 
+(1, 1, 1), -- John Doe
+(1, 4, 2), -- Albert Einstein
+(1, 20, 3), -- Marie Curie
+(1, 21, 1), -- Leonardo da Vinci
+(1, 22, 2), -- Galileo Galilei
+(1, 23, 3), -- Ada Lovelace
+
+(2, 5, 4), -- Nikola Tesla
+(2, 26, 5), -- Isaac Newton
+(2, 27, 6), -- Rosa Parks
+(2, 28, 5), -- Mahatma Gandhi
+(2, 27, 4), -- Nelson Mandela
+(2, 28, 6), -- Joan of Arc
+
+(3, 15, 7), -- Florence Nightingale
+(3, 4, 8),  -- Albert Einstein (repetido)
+(3, 20, 9),  -- Marie Curie (repetido)
+(3, 22, 7),  -- Galileo Galilei (repetido)
+(3, 27, 8), -- Nelson Mandela (repetido)
+(3, 29, 9),  -- Ada Lovelace (repetido)
+
+(1, 6, 2); -- Usuário teste (estudante@gmail.com)
 
 insert into verification_codes (code, user_id) values 
 ('ABC123SP', 1),

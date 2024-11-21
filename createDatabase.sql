@@ -148,66 +148,126 @@ insert into location_types (type_name, description) values
 INSERT INTO locations (campus, building_id, floor_number, location_type_id, location_name, description, coordinates) VALUES
 ('Main Campus', 1, 0, 3, 'Térreo', 'Térreo da Instituição',
     JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(72, 0), JSON_ARRAY(72, 20), JSON_ARRAY(0, 20))),
-('Main Campus', 1, 0, 3, 'Biblioteca', 'Informações sobre a biblioteca e como chegar lá.', 
+
+('Main Campus', 1, 0, 3, 'Biblioteca', 'Informações sobre a biblioteca', 
     JSON_ARRAY(JSON_ARRAY(72, 8), JSON_ARRAY(72, 20), JSON_ARRAY(64, 20), JSON_ARRAY(64, 8))),
+
 ('Main Campus', 1, 0, 3, 'CPD', 'Informações sobre o CPD.', 
     JSON_ARRAY(JSON_ARRAY(72, 0), JSON_ARRAY(72, 8), JSON_ARRAY(59, 8), JSON_ARRAY(59, 0))),
+    
 ('Main Campus', 1, 0, 3, 'Secretaria', 'Informações sobre a secretaria.', 
     JSON_ARRAY(JSON_ARRAY(64, 13), JSON_ARRAY(64, 20), JSON_ARRAY(53, 20), JSON_ARRAY(53, 13))),
+
 ('Main Campus', 1, 0, 3, 'Diretoria', 'Informações sobre a diretoria.', 
     JSON_ARRAY(JSON_ARRAY(53, 13), JSON_ARRAY(53, 20), JSON_ARRAY(44, 20), JSON_ARRAY(44, 13))),
+
 ('Main Campus', 1, 0, 3, 'Cozinha', 'Informações sobre a cozinha.', 
     JSON_ARRAY(JSON_ARRAY(44, 13), JSON_ARRAY(44, 20), JSON_ARRAY(34, 20), JSON_ARRAY(34, 13))),
+
 ('Main Campus', 1, 0, 3, 'Banheiro Masculino', 'Informações sobre o banheiro masculino.', 
     JSON_ARRAY(JSON_ARRAY(34, 13), JSON_ARRAY(34, 20), JSON_ARRAY(27, 20), JSON_ARRAY(27, 13))),
+
 ('Main Campus', 1, 0, 3, 'Banheiro Feminino', 'Informações sobre o banheiro feminino.', 
     JSON_ARRAY(JSON_ARRAY(27, 13), JSON_ARRAY(27, 20), JSON_ARRAY(20, 20), JSON_ARRAY(20, 13))),
+
 ('Main Campus', 1, 0, 3, 'Laboratório Maker', 'Informações sobre o laboratório maker.', 
     JSON_ARRAY(JSON_ARRAY(20, 13), JSON_ARRAY(10, 13), JSON_ARRAY(10, 20), JSON_ARRAY(20, 20))),
+
 ('Main Campus', 1, 0, 3, 'Auditório', 'Informações sobre o auditório.', 
     JSON_ARRAY(JSON_ARRAY(0, 13), JSON_ARRAY(10, 13), JSON_ARRAY(10, 20), JSON_ARRAY(0, 20))),
+
 ('Main Campus', 1, 0, 3, 'Cafeteria', 'Informações sobre a cafeteria.', 
     JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(12, 0), JSON_ARRAY(12, 8), JSON_ARRAY(0, 8))),
-('Main Campus', 1, 1, 3, 'Second Floor', '1º Andar da Instituição', 
+
+('Main Campus', 1, 1, 3, 'Primeiro Andar', '1º Andar da Instituição.', 
     JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(72, 0), JSON_ARRAY(72, 20), JSON_ARRAY(0, 20))),
-('Main Campus', 1, 1, 2, 'Laboratório 1', 'O melhor lab.', 
+
+('Main Campus', 1, 1, 2, 'Laboratório 1', 'Laboratório de informática.', 
     JSON_ARRAY(JSON_ARRAY(67, 8), JSON_ARRAY(65, 8), JSON_ARRAY(65, 10), JSON_ARRAY(72, 10), JSON_ARRAY(72, 0), JSON_ARRAY(67, 0))),
-('Main Campus', 1, 1, 2, 'Laboratório 4', 'Laboratório 4.', 
+
+('Main Campus', 1, 1, 2, 'Laboratório de Gestão', 'Laboratório destinado a alunos do curso de Recursos Humanos.', 
     JSON_ARRAY(JSON_ARRAY(66, 12), JSON_ARRAY(65, 12), JSON_ARRAY(65, 10), JSON_ARRAY(72, 10), JSON_ARRAY(72, 20), JSON_ARRAY(67, 20), JSON_ARRAY(67, 12))),
-('Main Campus', 1, 1, 2, 'Laboratório 5', 'Laboratório 5.', 
+
+('Main Campus', 1, 1, 2, 'Laboratório 4', 'Informações sobre o laboratório 4.', 
     JSON_ARRAY(JSON_ARRAY(67, 12), JSON_ARRAY(67, 20), JSON_ARRAY(59, 20), JSON_ARRAY(59, 12))),
+
 ('Main Campus', 1, 1, 2, 'Laboratório 3', 'Informações sobre o Laboratório 3.', 
     JSON_ARRAY(JSON_ARRAY(59, 0), JSON_ARRAY(67, 0), JSON_ARRAY(67, 8), JSON_ARRAY(59, 8))),
+
 ('Main Campus', 1, 1, 2, 'Lab 07', 'Laboratório 07.', 
     JSON_ARRAY(JSON_ARRAY(59, 12), JSON_ARRAY(59, 20), JSON_ARRAY(52, 20), JSON_ARRAY(52, 12))),
+
 ('Main Campus', 1, 1, 2, 'Lab 07 Corner', 'Quarto de círculo do Laboratório 07.', 
     JSON_ARRAY(JSON_ARRAY(54, 16), JSON_ARRAY(54, 20), JSON_ARRAY(52, 20), JSON_ARRAY(52, 16))),
-    ('Main Campus', 1, 1, 3, 'Sala dos professores', 'Sala dos professores', 
+
+('Main Campus', 1, 1, 3, 'Sala dos professores', 'Sala dos professores', 
     JSON_ARRAY(JSON_ARRAY(52, 12), JSON_ARRAY(52, 20), JSON_ARRAY(45, 20), JSON_ARRAY(45, 12))),
-('Main Campus', 1, 1, 3, 'Laboratório de Redes de Computadores', 'Laboratório destinado aos alunos de Redes de Computadores.', 
-    JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(7, 0), JSON_ARRAY(7, 10), JSON_ARRAY(0, 10))),
-('Main Campus', 1, 1, 3, 'Laboratório de Química', 'Laboratório destinado às aulas de Química.', 
-    JSON_ARRAY(JSON_ARRAY(7, 10), JSON_ARRAY(7, 20), JSON_ARRAY(0, 20), JSON_ARRAY(0, 10))),
-('Main Campus', 1, 1, 3, 'Laboratório 6', 'Laboratório destinado a diversas aulas de diversos cursos.', 
-    JSON_ARRAY(JSON_ARRAY(14, 12), JSON_ARRAY(14, 20), JSON_ARRAY(7, 20), JSON_ARRAY(7, 12))),
-('Main Campus', 1, 1, 3, 'Laboratório 2', 'Laboratório 2', 
-    JSON_ARRAY(JSON_ARRAY(7, 0), JSON_ARRAY(7, 8), JSON_ARRAY(14, 8), JSON_ARRAY(14, 0))),
-('Main Campus', 1, 1, 3, 'Escada 1º Andar', 'Escada para o térreo e para o segundo andar.', 
+
+('Main Campus', 1, 1, 3, 'Escada à esquerda - 1º Andar', 'Escada para o térreo e para o segundo andar.', 
     JSON_ARRAY(JSON_ARRAY(57, 4), JSON_ARRAY(59, 4), JSON_ARRAY(59, 8), JSON_ARRAY(57, 8))),
-('Main Campus', 1, 1, 3, 'Escada 1º Andar', 'Escada para o térreo e para o segundo andar.', 
+
+('Main Campus', 1, 1, 3, 'Escada à esquerda - 1º Andar', 'Escada para o térreo e para o segundo andar.', 
     JSON_ARRAY(JSON_ARRAY(56, 4), JSON_ARRAY(54, 4), JSON_ARRAY(54, 8), JSON_ARRAY(56, 8))),
-('Main Campus', 1, 1, 3, 'Escada 1º Andar', 'Escada para o térreo e para o segundo andar.', 
+
+('Main Campus', 1, 1, 3, 'Escada à esquerda - 1º Andar', 'Escada para o térreo e para o segundo andar.', 
     JSON_ARRAY(JSON_ARRAY(54, 2), JSON_ARRAY(59, 2), JSON_ARRAY(59, 4), JSON_ARRAY(54, 4))),
+
 ('Main Campus', 1, 1, 3, 'Degraus da Escada', 'Degraus de acesso para o próximo andar.', 
     JSON_ARRAY(JSON_ARRAY(54, 5), JSON_ARRAY(56, 5), JSON_ARRAY(56, 4), JSON_ARRAY(57, 4), JSON_ARRAY(57, 5), JSON_ARRAY(59, 5), JSON_ARRAY(57, 5), JSON_ARRAY(57, 6), JSON_ARRAY(59, 6), JSON_ARRAY(59, 7), JSON_ARRAY(57, 7), JSON_ARRAY(57, 7), JSON_ARRAY(57, 4), JSON_ARRAY(56, 4), JSON_ARRAY(56, 6), JSON_ARRAY(54, 6), JSON_ARRAY(55, 6), JSON_ARRAY(56, 6), JSON_ARRAY(56, 7), JSON_ARRAY(54, 7))),
-    ('Main Campus', 1, 0, 3, 'Escada Térreo', 'Escada para o primeiro andar.', 
-    JSON_ARRAY(JSON_ARRAY(57, 4), JSON_ARRAY(59, 4), JSON_ARRAY(59, 8), JSON_ARRAY(57, 8))),
+
+('Main Campus', 1, 0, 3, 'Escada Térreo', 'Escada para o primeiro andar.', 
+JSON_ARRAY(JSON_ARRAY(57, 4), JSON_ARRAY(59, 4), JSON_ARRAY(59, 8), JSON_ARRAY(57, 8))),
+
 ('Main Campus', 1, 0, 3, 'Escada Térreo', 'Escada para o primeiro andar.', 
     JSON_ARRAY(JSON_ARRAY(56, 4), JSON_ARRAY(54, 4), JSON_ARRAY(54, 8), JSON_ARRAY(56, 8))),
+
 ('Main Campus', 1, 0, 3, 'Escada Térreo', 'Escada para o primeiro andar.', 
     JSON_ARRAY(JSON_ARRAY(54, 2), JSON_ARRAY(59, 2), JSON_ARRAY(59, 4), JSON_ARRAY(54, 4))),
-('Main Campus', 1, 0, 3, 'Degraus da Escada', 'Degraus de acesso para o próximo andar.', 
-    JSON_ARRAY(JSON_ARRAY(54, 5), JSON_ARRAY(56, 5), JSON_ARRAY(56, 4), JSON_ARRAY(57, 4), JSON_ARRAY(57, 5), JSON_ARRAY(59, 5), JSON_ARRAY(57, 5), JSON_ARRAY(57, 6), JSON_ARRAY(59, 6), JSON_ARRAY(59, 7), JSON_ARRAY(57, 7), JSON_ARRAY(57, 7), JSON_ARRAY(57, 4), JSON_ARRAY(56, 4), JSON_ARRAY(56, 6), JSON_ARRAY(54, 6), JSON_ARRAY(55, 6), JSON_ARRAY(56, 6), JSON_ARRAY(56, 7), JSON_ARRAY(54, 7)));
+
+('Main Campus', 1, 0, 3, 'Degraus da Escada à esquerda', 'Degraus de acesso para o próximo andar.', 
+JSON_ARRAY(JSON_ARRAY(54, 5), JSON_ARRAY(56, 5), JSON_ARRAY(56, 4), JSON_ARRAY(57, 4), JSON_ARRAY(57, 5), JSON_ARRAY(59, 5), JSON_ARRAY(57, 5), JSON_ARRAY(57, 6), JSON_ARRAY(59, 6), JSON_ARRAY(59, 7), JSON_ARRAY(57, 7), JSON_ARRAY(57, 7), JSON_ARRAY(57, 4), JSON_ARRAY(56, 4), JSON_ARRAY(56, 6), JSON_ARRAY(54, 6), JSON_ARRAY(55, 6), JSON_ARRAY(56, 6), JSON_ARRAY(56, 7), JSON_ARRAY(54, 7))),
+
+('Main Campus', 1, 1, 2, 'Laboratório de Redes de Computadores', 'Laboratório dedicado a estudos e práticas em redes de computadores, equipado com dispositivos e recursos para simulação e configuração de redes.', 
+JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(11.5, 0), JSON_ARRAY(11.5, 8), JSON_ARRAY(0, 8))),
+    
+('Main Campus', 1, 1, 2, 'Laboratório de Análises Microbiológicas', 'Laboratório focado em estudos microbiológicos e práticas científicas, com equipamentos para análises de microrganismos.', 
+JSON_ARRAY(JSON_ARRAY(11.5, 12), JSON_ARRAY(11.5, 20), JSON_ARRAY(0, 20), JSON_ARRAY(0, 12))),
+    
+('Main Campus', 1, 1, 2, 'Laboratório 2', 'Laboratório de Informática', 
+JSON_ARRAY(JSON_ARRAY(23, 12), JSON_ARRAY(23, 20), JSON_ARRAY(11.5, 20), JSON_ARRAY(11.5, 12))),
+    
+('Main Campus', 1, 1, 2, 'Laboratório 6', 'Laboratório de Informática', 
+JSON_ARRAY(JSON_ARRAY(11.5, 0), JSON_ARRAY(11.5, 8), JSON_ARRAY(23, 8), JSON_ARRAY(23, 0))),
+
+('Main Campus', 1, 1, 3, 'Banheiro Masculino', 'Informações sobre o banheiro masculino.', 
+JSON_ARRAY(JSON_ARRAY(33, 12), JSON_ARRAY(33, 20), JSON_ARRAY(28, 20), JSON_ARRAY(28, 12))),
+    
+('Main Campus', 1, 1, 3, 'Banheiro Feminino', 'Informações sobre o banheiro feminino.', 
+JSON_ARRAY(JSON_ARRAY(28, 12), JSON_ARRAY(28, 20), JSON_ARRAY(23, 20), JSON_ARRAY(23, 12))),
+    
+('Main Campus', 1, 1, 2, 'Laboratório de Eletroeletrônica', 'Laboratório de Eletrônica digital e microprocessadores.', 
+JSON_ARRAY(JSON_ARRAY(40, 0), JSON_ARRAY(40, 8), JSON_ARRAY(28, 8), JSON_ARRAY(28, 0))),
+    
+('Main Campus', 1, 1, 2, 'Laboratório 05', 'Laboratório de Informática', 
+JSON_ARRAY(JSON_ARRAY(52, 0), JSON_ARRAY(52, 8), JSON_ARRAY(40, 8), JSON_ARRAY(40, 0))),
+    
+('Main Campus', 1, 1, 2, 'Laboratório de Automação', 'Laboratório de Máquinas Elétricas e Automação.', 
+JSON_ARRAY(JSON_ARRAY(45, 20), JSON_ARRAY(45, 12), JSON_ARRAY(33, 12), JSON_ARRAY(33, 20))),
+    
+('Main Campus', 1, 1, 3, 'Elevador', 'Elevador para todos os andares.', 
+JSON_ARRAY(JSON_ARRAY(54, 3), JSON_ARRAY(54, 7), JSON_ARRAY(52, 7), JSON_ARRAY(52, 3))),
+
+('Main Campus', 1, 1, 3, 'Escada à Direita - Andar 1', 'Escada para o térreo e para o segundo andar.',
+JSON_ARRAY(JSON_ARRAY(23, 4), JSON_ARRAY(25, 4), JSON_ARRAY(25, 8), JSON_ARRAY(23, 8))),
+
+('Main Campus', 1, 1, 3, 'Escada à Direita - Andar 1', 'Escada para o térreo e para o segundo andar.', 
+JSON_ARRAY(JSON_ARRAY(23, 2), JSON_ARRAY(28, 2), JSON_ARRAY(28, 4), JSON_ARRAY(23, 4))),
+
+('Main Campus', 1, 1, 3, 'Escada à Direita - Andar 1', 'Escada para o térreo e para o segundo andar.', 
+JSON_ARRAY(JSON_ARRAY(28, 4), JSON_ARRAY(26, 4), JSON_ARRAY(26, 8), JSON_ARRAY(28, 8))),
+
+('Main Campus', 1, 1, 3, 'Degraus da Escada à Direita', 'Degraus de acesso para o próximo andar.', 
+JSON_ARRAY(JSON_ARRAY(23, 5), JSON_ARRAY(25, 5), JSON_ARRAY(25, 4), JSON_ARRAY(26, 4), JSON_ARRAY(26, 5), JSON_ARRAY(28, 5), JSON_ARRAY(26, 5), JSON_ARRAY(26, 6), JSON_ARRAY(28, 6), JSON_ARRAY(28, 7), JSON_ARRAY(26, 7), JSON_ARRAY(26, 7), JSON_ARRAY(26, 4), JSON_ARRAY(25, 4), JSON_ARRAY(25, 6), JSON_ARRAY(23, 6), JSON_ARRAY(24, 6), JSON_ARRAY(25, 6), JSON_ARRAY(25, 7), JSON_ARRAY(23, 7)));
 
 INSERT INTO nodes (building_id, floor_number, x, y, description, node_type) VALUES
 (1, 0, 26, 2, 'Entrada Principal', 'regular'),

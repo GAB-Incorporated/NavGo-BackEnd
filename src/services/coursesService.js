@@ -39,6 +39,7 @@ async function listCourse(){
         SELECT 
             c.course_id, 
             c.course_name, 
+            c.coordinator_id,
             u.first_name AS coordinator_first_name, 
             u.last_name AS coordinator_last_name, 
             u.email AS coordinator_email
@@ -55,7 +56,7 @@ async function listCourse(){
         if (rows.length === 0){
             throw new Error('Não há cursos registrados'); 
         }
-
+        
         return rows;
 
     } catch (error) {

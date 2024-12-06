@@ -143,6 +143,7 @@ insert into location_types (type_name, description) values
 ('Classroom', 'Room used for teaching classes'),
 ('Laboratory', 'Room equipped for experiments and research'),
 ('Office', 'Room used for administrative purposes');
+
 INSERT INTO locations (campus, building_id, floor_number, location_type_id, location_name, description, coordinates) VALUES
 ('Main Campus', 1, 0, 3, 'Térreo', 'Térreo da Instituição',
     JSON_ARRAY(JSON_ARRAY(0, 0), JSON_ARRAY(72, 0), JSON_ARRAY(72, 20), JSON_ARRAY(0, 20))),
